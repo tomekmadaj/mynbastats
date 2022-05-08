@@ -11,6 +11,16 @@ class Team extends Model
 
     public function players()
     {
-        return $this->hasMany('App\Model\Player', 'teamId', 'teamId' );
+        return $this->hasMany('App\Model\Player', 'teamId', 'teamId');
+    }
+
+    public function player_stats()
+    {
+        return $this->belongsToMany('App\Model\Player_Stat', 'teamId', 'teamId');
+    }
+
+    public function teams_stats_rankings()
+    {
+        return $this->hasOne('App\Model\Teams_Stats_Ranking', 'teamId', 'teamId');
     }
 }

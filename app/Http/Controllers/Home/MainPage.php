@@ -59,10 +59,23 @@ class MainPage extends Controller
 
         $players = $this->nbaRepository->LakersPlayers();
 
+        $standingsWest = $this->nbaRepository->standingsWest();
+
+        $standingsEast = $this->nbaRepository->standingsEast();
+
+        $playerStats = $this->nbaRepository->playerStats('101108', 'last');
+
+        $teamStats = $this->nbaRepository->teamStats('1610612738');
+
+
         return view('home.main', [
             'user' => $user,
             'teams' => $teams,
-            'players' => $players
+            'players' => $players,
+            'standingsWest' => $standingsWest,
+            'standingsEast' => $standingsEast,
+            'playerStats' => $playerStats,
+            'teamStats' => $teamStats
         ]);
     }
 }

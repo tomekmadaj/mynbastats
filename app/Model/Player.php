@@ -14,4 +14,9 @@ class Player extends Model
     {
         return $this->belongsTo('App\Model\Team', 'teamId', 'teamId');
     }
+
+    public function player_stats()
+    {
+        return $this->belongsToMany('App\Model\Player_Stat', 'personId', 'personId');
+    }
 }
