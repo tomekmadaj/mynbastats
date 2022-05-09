@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'avatar'
+        'name', 'email', 'password', 'avatar'
     ];
 
     /**
@@ -45,8 +45,8 @@ class User extends Authenticatable
         //za pomocą tej metody wyciąniemy dane z pivota
         //domyślnie pivot służy to połaczenia użytkoników z grami i żadne dane nie są w ztego pivota wyciągane
         return $this->belongsToMany(Game::class, 'userGames')
-        ->withPivot('rate')
-        ->with('genres');
+            ->withPivot('rate')
+            ->with('genres');
     }
 
     public function addGame(Game $game): void
@@ -60,12 +60,12 @@ class User extends Authenticatable
         $game = $this->games()
             ->where('userGames.game_id', $gameId)
             ->first();
-        
+
         // jak znajdzie gre to rzutujemey na bool true
         return (bool) $game;
     }
 
-    public function removeGame(Game $game) 
+    public function removeGame(Game $game)
     {
         //odpięcie gry od użytkownika podajemy identyfikator których chemy odpiąć
         //

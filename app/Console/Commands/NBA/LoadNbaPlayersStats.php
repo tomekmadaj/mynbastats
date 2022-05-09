@@ -76,7 +76,7 @@ class LoadNbaPlayersStats extends Command
             return;
         }
 
-        $this->info("Truncate player $personId data");
+        $this->info("Delete player $personId data");
         DB::table('player_stats')->where('personId', '=', $personId)->delete();
 
         if (!empty($playerStats['teamId'])) {
@@ -113,7 +113,6 @@ class LoadNbaPlayersStats extends Command
 
     private function create($playerStatsData, $seasonYear, $teamId,  $personId)
     {
-
         $result = DB::transaction(function () use ($playerStatsData, $seasonYear, $teamId, $personId) {
             $stats = [
                 'personId' =>  $personId,

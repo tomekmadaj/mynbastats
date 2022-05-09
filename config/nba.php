@@ -7,6 +7,7 @@ return [
         'standings' => 'https://data.nba.net/prod/v1/current/standings_conference.json',
         'todayData' => 'https://data.nba.net/10s/prod/v1/today.json',
         'playerProfile' => 'https://data.nba.net/prod/v1/2021/players/{{personId}}_profile.json',
-        'teamStatsRanking' => 'http://data.nba.net/prod/v1/2021/team_stats_rankings.json'
+        'teamStatsRanking' => 'https://data.nba.net/prod/v1/2021/team_stats_rankings.json',
+        'teamLeaders' => 'https://data.nba.net/prod/v1/2021/teams/{{teamId}}/leaders.json'
     ]
 ];

@@ -67,6 +67,9 @@ class MainPage extends Controller
 
         $teamStats = $this->nbaRepository->teamStats('1610612738');
 
+        $teamLeaders = $this->nbaRepository->teamLeaders('1610612738');
+        //dd($teamLeaders);
+
 
         return view('home.main', [
             'user' => $user,
@@ -75,7 +78,8 @@ class MainPage extends Controller
             'standingsWest' => $standingsWest,
             'standingsEast' => $standingsEast,
             'playerStats' => $playerStats,
-            'teamStats' => $teamStats
+            'teamStats' => $teamStats,
+            'teamLeaders' => $teamLeaders
         ]);
     }
 }

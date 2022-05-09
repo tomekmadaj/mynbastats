@@ -18,7 +18,7 @@ class UpdateUserProfile extends FormRequest
     {
         //  domyślnie return false;
         //zalogowany użytkonik mam prawo do edycji własnych danych
-        return true; 
+        return true;
     }
 
     /**
@@ -31,11 +31,11 @@ class UpdateUserProfile extends FormRequest
         $userId = Auth::id();
         return [
             'email' => [
-                'required', 
+                'required',
                 //'unique:users',
                 Rule::unique('users')->ignore($userId),
                 'email'
-            ], 
+            ],
             //unique:users - users to nazwa tabeli w którym ma szukać, 
             //kolejnym parametrem powinna być kolumna - jeżli nie ma podanej bieżę nazwę z klucza
             //email - sprawdza czy postać przesłana to rzeczywiście email
@@ -44,9 +44,9 @@ class UpdateUserProfile extends FormRequest
                 'max:50',
                 new AlphaSpaces()
             ],
-            'phone' => [
-                'min:6'
-            ],
+            // 'phone' => [
+            //     'min:6'
+            // ],
             //przykłąd z minimalną wysokością i szerokością
             //'avatar' => 'dimensions:min_width=100,min_height=200,max_width=100,max_height=200'
             //reguła na ratio 3/2

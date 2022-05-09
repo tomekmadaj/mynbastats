@@ -9,6 +9,7 @@ use App\Model\Player;
 use App\Model\Standing;
 use App\Model\Player_Stat;
 use App\Model\Teams_Stats_Ranking;
+use App\Model\Team_Leader;
 
 class NbaRepository
 {
@@ -17,14 +18,16 @@ class NbaRepository
     private Standing $standingModel;
     private Player_stat $playerStatModel;
     private Teams_Stats_Ranking $teamStatsRankingModel;
+    private Team_Leader $teamLeadersModel;
 
-    public function __construct(Team $teamModel, Player $playerModel, Standing $standingModel, Player_Stat $playerStatModel, Teams_Stats_Ranking $teamsStatsRankingModel)
+    public function __construct(Team $teamModel, Player $playerModel, Standing $standingModel, Player_Stat $playerStatModel, Teams_Stats_Ranking $teamsStatsRankingModel, Team_Leader $teamLeadersModel)
     {
         $this->teamModel = $teamModel;
         $this->playerModel = $playerModel;
         $this->standingModel = $standingModel;
         $this->playerStatModel = $playerStatModel;
         $this->teamStatsRankingModel = $teamsStatsRankingModel;
+        $this->teamLeadersModel = $teamLeadersModel;
     }
 
     public function all()
@@ -71,5 +74,12 @@ class NbaRepository
         // dd($teamStats);
 
         return $teamStats;
+    }
+
+    public function teamLeaders($teamId)
+    {
+        $teamLeaders = $this->teamLeadersModel->with('teams')->where('teamId', '=', $teamId)->get();
+
+        return $teamLeaders;
     }
 }

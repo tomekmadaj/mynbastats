@@ -23,4 +23,9 @@ class Team extends Model
     {
         return $this->hasOne('App\Model\Teams_Stats_Ranking', 'teamId', 'teamId');
     }
+
+    public function team_leaders()
+    {
+        return $this->belongsTo('App\Model\Teams_Leader', 'teamId', 'teamId');
+    }
 }
