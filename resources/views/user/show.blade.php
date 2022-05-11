@@ -14,7 +14,9 @@
             <ul>
                 <li>Id: {{ $user->id }}</li>
                 <li>Email: {{ $user->email }}</li>
-                <li>Nazwa: {{ $user->name }}</li>
+                <li>Nick: {{ $user->name }}</li>
+                <li>Favourite Team: {{ $user->teams->fullName }}</li>
+                <li>Favourite Player: {{ $user->players->firstName . ' ' . $user->players->lastName }}</li>
                 {{-- <li>Telefon: {{ $user->phone }}</li> --}}
             </ul>
 

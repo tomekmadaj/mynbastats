@@ -6,10 +6,14 @@ use App\Model\Game;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar'
+        'name', 'email', 'password', 'avatar', 'team', 'player'
     ];
 
     /**
@@ -37,6 +41,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function players()
+    {
+        return $this->hasOne('App\Model\Player', 'personId', 'personId');
+    }
+
+    public function teams()
+    {
+        return $this->hasOne('App\Model\Team', 'teamId', 'teamId');
+    }
 
     public function games()
     {

@@ -28,4 +28,9 @@ class Team extends Model
     {
         return $this->belongsTo('App\Model\Teams_Leader', 'teamId', 'teamId');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Model\User', 'teamId', 'teamId');
+    }
 }

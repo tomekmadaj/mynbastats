@@ -1,28 +1,37 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace App\Repository\Eloquent;
 
+use App\Model\Team;
 use App\Model\User;
+use App\Model\Player;
 use App\Repository\UserRepository as UserRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private User $userModel; 
+    private User $userModel;
+    private Team $teamModel;
+    private Player $playerModel;
 
-    public function __construct(User $userModel)
+    public function __construct(User $userModel, Team $teamModel, Player $playerModel)
     {
         $this->userModel = $userModel;
+        $this->teamModel = $teamModel;
+        $this->playerModel = $playerModel;
     }
 
     public function updateModel(User $user, array $data): void
     {
+        // dd($data['player']);
         $user->email = $data['email'] ?? $user->email;
         $user->name = $data['name'] ?? $user->name;
-        $user->phone = $data['phone'] ?? $user->phone;
+        // $user->phone = $data['phone'] ?? $user->phone;
         $user->avatar = $data['avatar'] ?? null;
+        $user->teamId = $data['team'] ?? null;
+        $user->personId = $data['player'] ?? null;
 
         $user->save();
     }
@@ -32,9 +41,27 @@ class UserRepository implements UserRepositoryInterface
         return $user->avatar;
     }
 
+    public function getUserTeamAndPlayer(User $user)
+    {
+        //$user->load('teams');
+        // $user->load('players');
+
+        return $user;
+    }
+
+    public function getTeams(): Collection
+    {
+        return $this->teamModel->whereNotin('teamId', [0, 1610616833, 1610616834, 1710612762, 1810612762])->get();
+    }
+
+    public function getPlayers(): Collection
+    {
+        return $this->playerModel->all();
+    }
+
     public function all(): Collection
     {
-        return $this->userModel->get();
+        return $this->userModel->with('teams')->with('players')->get();
     }
 
     public function get(int $id): User

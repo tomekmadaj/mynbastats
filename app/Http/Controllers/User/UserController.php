@@ -25,15 +25,27 @@ class UserController extends Controller
 
     public function profile()
     {
+        $user = Auth::user();
+
+        //$user = $this->userRepository->getUserTeamAndPlayer($user);
+
         return view('me.profile', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
         ]);
     }
 
     public function edit()
     {
+        $teams = $this->userRepository->getTeams();
+        $players = $this->userRepository->getPlayers();
+        $teamsJson = json_encode($teams);
+        // dd($players);
+
         return view('me.edit', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'teams' => $teams,
+            'players' => $players,
+            'teamsJson' => $teamsJson
         ]);
     }
 
@@ -42,6 +54,7 @@ class UserController extends Controller
         //logika zapisu
         $user = Auth::user();
         $data = $request->validated();
+        // dd($data);
 
 
         if (!empty($data['avatar'])) {
@@ -62,12 +75,10 @@ class UserController extends Controller
             Auth::user(),
             $data
         );
-        
+
         return redirect()
             ->route('me.profile')
             ->with('success', 'Profil zaktualizowany');
-
-            
     }
 
     public function updateValidationRules(HttpRequest $request)

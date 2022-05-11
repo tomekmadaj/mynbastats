@@ -53,6 +53,8 @@ class UpdateUserProfile extends FormRequest
             //'avatar' => 'nullable|file|image|dimensions:ratio=3/2',
             //podstawowa reguła na image - oczekujemy pliku - obrazku (conent type -roszerzenie)
             'avatar' => 'nullable|file|image',
+            'team' => 'nullable',
+            'player' => 'nullable'
         ];
     }
 
