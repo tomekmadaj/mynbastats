@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\NewController;
-use App\Http\controllers\NbaStats\NbaStatsController;
+use App\Http\controllers\User\NbaStatsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +26,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'Home\MainPage')
     ->name('home.mainPage');
 
-route::get('/nbaStats', [NbaStatsController::class, 'dashboard'])
-    ->name('nbaStats.dashboard');
+// route::get('/nbaStats', 'NbaStatsController@dashboard')
+//     ->name('nbaStats.dashboard');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::group([
+        'prefix' => 'nbaStats',
+        'as' => 'nbaStats.',
+        'namespace' => 'User'
+    ], function () {
+        route::get('/', 'NbaStatsController@dashboard')
+            ->name('dashboard');
+    });
+});
+
+// route::get('/', [NbaStatsController::class, 'dashboard'])
+//     ->name('dashboard');
 
 Route::group(['middleware' => ['auth']], function () {
 

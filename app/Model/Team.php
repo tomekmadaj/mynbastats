@@ -9,6 +9,8 @@ class Team extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'teamId';
+
     public function players()
     {
         return $this->hasMany('App\Model\Player', 'teamId', 'teamId');

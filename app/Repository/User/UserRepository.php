@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository\Eloquent;
+namespace App\Repository\User;
 
 use App\Model\Team;
 use App\Model\User;

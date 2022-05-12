@@ -66,8 +66,7 @@
                             <select class="custom-select mr-sm-2" name="team">
                                 @foreach ($teams as $team)
                                     <option value='{{ $team->teamId }}'
-                                        {{ $user->teams->teamId == $team->teamId ? 'selected' : '' }}
-                                        value="{{ $team->teamId }}">
+                                        {{ $user->teams->teamId == $team->teamId ? 'selected' : '' }}>
                                         {{ $team->fullName }} </option>
                                 @endforeach
                             </select>
@@ -82,8 +81,7 @@
                                     <select class="custom-select mr-sm-2" name="player">
                                         @foreach ($players as $player)
                                             <option class="some" value='{{ $player->personId }}'
-                                                {{ $user->players->personId == $player->personId ? 'selected' : '' }}
-                                                value="{{ $player->personId }}">
+                                                {{ $user->players->personId == $player->personId ? 'selected' : '' }}>
                                                 {{ $player->lastName }} </option>
                                         @endforeach
                                     </select>
@@ -97,6 +95,13 @@
                                 </div>
                             </div>
 
+                            <div class="col-6">
+                                <div>
+                                    <select id="selectCos" class="custom-select mr-sm-2">
+
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="col-6">
                                 <div>
@@ -137,7 +142,7 @@
             option.text = teamsData[i].fullName
             option.value = teamsData[i].teamId
             dropdownTeams.add(option);
-            if (teamsData[i].teamId == 956) {
+            if (teamsData[i].teamId == {{ $user->teamId }}) {
                 dropdownTeams.value = teamsData[i].teamId;
             }
         }
@@ -161,7 +166,7 @@
                 player.text = playersData[i].lastName;
                 player.value = playersData[i].personId;
                 dropdownPlayers.add(player);
-                if (playersData[i].personId == {{ $user->players->personId }}) {
+                if (playersData[i].personId == {{ $user->personId }}) {
                     dropdownPlayers.value = playersData[i].personId;
                 }
             }

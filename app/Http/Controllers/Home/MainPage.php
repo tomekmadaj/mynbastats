@@ -55,31 +55,28 @@ class MainPage extends Controller
 
         // Auth::logout();
 
-        $teams = $this->nbaRepository->all();
-
-        $players = $this->nbaRepository->LakersPlayers();
-
         $standingsWest = $this->nbaRepository->standingsWest();
 
         $standingsEast = $this->nbaRepository->standingsEast();
 
-        $playerStats = $this->nbaRepository->playerStats('101108', 'last');
-
-        $teamStats = $this->nbaRepository->teamStats('1610612738');
-
-        $teamLeaders = $this->nbaRepository->teamLeaders('1610612738');
+        // $teamLeaders = $this->nbaRepository->teamLeaders('1610612738');
         //dd($teamLeaders);
 
+        $pointLeaders = $this->nbaRepository->teamLeaders('all', 'ppg', $this->nbaRepository::CURRENT_SEASON);
+        $reboundsLeaders = $this->nbaRepository->teamLeaders('all', 'rpg', $this->nbaRepository::CURRENT_SEASON);
+        $assistsLeaders = $this->nbaRepository->teamLeaders('all', 'apg', $this->nbaRepository::CURRENT_SEASON);
+        $blocksLeaders = $this->nbaRepository->teamLeaders('all', 'bpg', $this->nbaRepository::CURRENT_SEASON);
+
+        // dd($pointLeaders);
 
         return view('home.main', [
             'user' => $user,
-            'teams' => $teams,
-            'players' => $players,
             'standingsWest' => $standingsWest,
             'standingsEast' => $standingsEast,
-            'playerStats' => $playerStats,
-            'teamStats' => $teamStats,
-            'teamLeaders' => $teamLeaders
+            'pointsLeaders' => $pointLeaders,
+            'reboundsLeaders' => $reboundsLeaders,
+            'assistsLeaders' => $assistsLeaders,
+            'blocksLeaders' => $blocksLeaders,
         ]);
     }
 }

@@ -30,7 +30,7 @@ class UserController extends Controller
         //$user = $this->userRepository->getUserTeamAndPlayer($user);
 
         return view('me.profile', [
-            'user' => Auth::user(),
+            'user' => $user
         ]);
     }
 

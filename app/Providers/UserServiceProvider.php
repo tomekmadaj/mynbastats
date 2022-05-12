@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Model\User;
-use App\Repository\Eloquent\UserRepository;
+use App\Repository\User\UserRepository;
 use App\Repository\UserRepository as UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 

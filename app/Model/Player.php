@@ -10,6 +10,8 @@ class Player extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'personId';
+
     public function teams()
     {
         return $this->belongsTo('App\Model\Team', 'teamId', 'teamId');

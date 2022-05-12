@@ -12,7 +12,7 @@ class LoadNbaPlayersStats extends Command
     private Factory $httpClient;
     private string $nbaPlayerStatsUrl;
     private array $nbaPlayers;
-    private string $teamId;
+    private string $currenTeamId;
     /**
      * The name and signature of the console command.
      *
@@ -94,21 +94,26 @@ class LoadNbaPlayersStats extends Command
 
     private function createRegularSeasonStats($playerStatsData, $personId)
     {
-        $this->teamId = $playerStatsData['teamId'];
+        $currentTeamId = $playerStatsData['teamId'];
         $playerStatsData = $playerStatsData['stats']['regularSeason'];
 
         foreach ($playerStatsData['season'] as $playerSeasonStats) {
             $seasonYear = $playerSeasonStats['seasonYear'];
+
+            $seasonTeamId = $playerSeasonStats['teams'][0]['teamId'];
+            $seasonTeamId ?: $seasonTeamId = $currentTeamId;
+
             $seasonStats = $playerSeasonStats['total'];
-            $this->create($seasonStats, $seasonYear, $this->teamId,  $personId);
+
+            $this->create($seasonStats, $seasonYear, $seasonTeamId,  $personId);
         }
     }
 
     private function createCareerSummaryStats($playerStatsData,  $personId)
     {
-        $this->teamId = $playerStatsData['teamId'];
+        $currentTeamId = $playerStatsData['teamId'];
         $playerStatsData = $playerStatsData['stats']['careerSummary'];
-        $this->create($playerStatsData, 'careerSummary', $this->teamId,  $personId);
+        $this->create($playerStatsData, 'careerSummary', $currentTeamId,  $personId);
     }
 
     private function create($playerStatsData, $seasonYear, $teamId,  $personId)
