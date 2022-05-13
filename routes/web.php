@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
     ], function () {
         route::get('/', 'NbaStatsController@dashboard')
             ->name('dashboard');
+        Route::get('teamNews', 'NewsController@teamNews')
+            ->name('teamNews');
     });
 });
 

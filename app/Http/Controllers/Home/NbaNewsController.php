@@ -17,10 +17,10 @@ class NbaNewsController extends Controller
 
     public function __invoke()
     {
-        $newsData = $this->nbaNewsRepository->getNbaNews();
-        // dd($newsData);
+        $newsData = $this->nbaNewsRepository->getTeamsNews();
+
         return view('home.news', [
-            'news' => $newsData
+            'teamNews' => $newsData
         ]);
     }
 }

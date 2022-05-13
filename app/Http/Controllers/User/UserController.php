@@ -38,14 +38,11 @@ class UserController extends Controller
     {
         $teams = $this->userRepository->getTeams();
         $players = $this->userRepository->getPlayers();
-        $teamsJson = json_encode($teams);
-        // dd($players);
 
         return view('me.edit', [
             'user' => Auth::user(),
             'teams' => $teams,
             'players' => $players,
-            'teamsJson' => $teamsJson
         ]);
     }
 

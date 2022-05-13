@@ -11,9 +11,13 @@ class NbaNewsRepository
 {
     const ALL_NEWS = '';
 
-    public function getNbaNews($teamNews = self::ALL_NEWS)
+    public function getTeamsNews($teamId = self::ALL_NEWS)
     {
-        $newsUrl = 'https://fantasydata.com/nba-news';
+        $teamNewsData = config('teamnews');
+
+        array_key_exists($teamId, $teamNewsData) ? $teamId = $teamNewsData[$teamId] : $teamId = self::ALL_NEWS;
+
+        $newsUrl = "https://fantasydata.com/nba-news?team=$teamId";
 
         $dom = new DOMDocument();
         @$dom->loadHTMLfile($newsUrl);

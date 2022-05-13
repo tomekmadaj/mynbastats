@@ -51,7 +51,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getTeams(): Collection
     {
-        return $this->teamModel->whereNotin('teamId', [0, 1610616833, 1610616834, 1710612762, 1810612762])->get();
+        return $this->teamModel->currentTeams()->get();
     }
 
     public function getPlayers(): Collection

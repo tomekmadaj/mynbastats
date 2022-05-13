@@ -2,8 +2,9 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Team extends Model
 {
@@ -34,5 +35,9 @@ class Team extends Model
     public function user()
     {
         return $this->belongsTo('App\Model\User', 'teamId', 'teamId');
+    }
+    public function scopeCurrentTeams(Builder $query)
+    {
+        return $query->whereNotin('teamId', [0, 1610616833, 1610616834, 1710612762, 1810612762]);
     }
 }

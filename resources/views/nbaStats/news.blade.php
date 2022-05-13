@@ -2,7 +2,7 @@
 
 @section('content')
     <h5 class="mb-4">
-        <b> Latest NBA News</b>
+        <b> {{ $team->fullName }} latest News</b>
     </h5>
 
     @foreach ($teamNews as $news)

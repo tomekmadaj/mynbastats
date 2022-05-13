@@ -12,6 +12,11 @@
     <div class="sb-nav-link-icon"><i class="fa fa-star"></i></div>
     My Nba Stats
 </a>
+<a class="nav-link" href="{{ route('nbaStats.teamNews') }}">
+    <div class="sb-nav-link-icon"><i class="fa fa-newspaper"></i></div>
+    My Team News
+</a>
+
 
 @auth
     <a class="nav-link" href="#">
