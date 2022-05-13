@@ -34,20 +34,6 @@ class NbaRepository
         $this->teamLeadersModel = $teamLeadersModel;
     }
 
-    public function all()
-    {
-        return $this->teamModel->where('id', '<>', 0)->get();
-    }
-
-    public function LakersPlayers()
-    {
-        $lakersPlayers = $this->playerModel->with('teams')->whereHas('teams', function ($query) {
-            return $query->where('tricode', '=', 'LAL');
-        })->get();
-
-        return $lakersPlayers;
-    }
-
     public function standingsWest()
     {
         $standings = $this->standingModel->with('teams')->where('conference', '=', 'west')->get();
@@ -127,45 +113,46 @@ class NbaRepository
         $wikiPlayerUrl = str_replace(['firstName', 'lastName'], [$playerFirstName, $playerlastName], $wikiPlayerUrl);
 
         $dom = new DOMDocument();
-        @$dom->loadHTMLFile("$wikiPlayerUrl");
+        @$dom->loadHTMLFile($wikiPlayerUrl);
 
         if (empty($dom->documentURI)) {
             return '/images/michael-jordan.jpg';
         }
 
-        $playerImageFileUrl = '';
+        $playerImageUrl = [];
         $className = 'image';
         $xpath = new \DOMXPath($dom);
         $results = $xpath->query("//*[@class='" . $className . "']");
-
         if ($results->length > 0) {
             foreach ($results as $result) {
-                $playerImageFileUrl = $result->getAttribute('href');
+                $playerImageUrl[] = $result->getAttribute('href');
             }
         } else {
             return '/images/michael-jordan.jpg';
         }
 
-        $playerImageFileUrl = 'https://pl.wikipedia.org' . $playerImageFileUrl;
+        $playerImageUrl = $playerImageUrl[0];
+        $playerImageUrl = 'https://pl.wikipedia.org' . $playerImageUrl;
 
-        @$dom->loadHTMLFile($playerImageFileUrl);
+
+        @$dom->loadHTMLFile($playerImageUrl);
 
         $fileId = $dom->getElementById('file');
         $imagesTag = $fileId->getElementsByTagName('a');
 
         // dd($imagesTag);
-        $playerImgUrl = '';
+        $playerImgFileUrl = '';
 
         foreach ($imagesTag as $image) {
-            $playerImgUrl = $image->getAttribute('href');
+            $playerImgFileUrl = $image->getAttribute('href');
         }
 
-        if ($playerImgUrl == '') {
+        if ($playerImgFileUrl == '') {
             return '/images/michael-jordan.jpg';
         }
 
-        $playerImgUrl = 'https:' . $playerImgUrl;
+        $playerImgFileUrl = 'https:' . $playerImgFileUrl;
 
-        return $playerImgUrl;
+        return $playerImgFileUrl;
     }
 }

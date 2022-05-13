@@ -82,7 +82,7 @@
                                         @foreach ($players as $player)
                                             <option class="some" value='{{ $player->personId }}'
                                                 {{ $user->players->personId == $player->personId ? 'selected' : '' }}>
-                                                {{ $player->lastName }} </option>
+                                                {{ $player->firstName . ' ' . $player->lastName }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -128,7 +128,7 @@
         dropdownTeams.length = 0;
 
         let defaultOption = document.createElement('option');
-        defaultOption.value = 99;
+        defaultOption.value = 0;
         defaultOption.text = 'Choose Your Favourite Team';
 
         dropdownTeams.add(defaultOption);
@@ -163,7 +163,7 @@
         for (let i = 0; i < playersData.length; i++) {
             if (playersData[i].teamId == teamId) {
                 player = document.createElement('option');
-                player.text = playersData[i].lastName;
+                player.text = playersData[i].firstName + ' ' + playersData[i].lastName;
                 player.value = playersData[i].personId;
                 dropdownPlayers.add(player);
                 if (playersData[i].personId == {{ $user->personId }}) {

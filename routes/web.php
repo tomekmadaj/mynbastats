@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'Home\MainPage')
     ->name('home.mainPage');
 
+Route::get('/news', 'Home\NbaNewsController')
+    ->name('home.news');
+
 // route::get('/nbaStats', 'NbaStatsController@dashboard')
 //     ->name('nbaStats.dashboard');
 

@@ -56,7 +56,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getPlayers(): Collection
     {
-        return $this->playerModel->all();
+        return $this->playerModel->activePlayers()->get();
     }
 
     public function all(): Collection

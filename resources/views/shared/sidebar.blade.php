@@ -2,6 +2,10 @@
     <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
     Main Page
 </a>
+<a class="nav-link" href="{{ route('home.news') }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-newspaper"></i></div>
+    NBA News
+</a>
 
 <div class="sb-sidenav-menu-heading">My Nba</div>
 <a class="nav-link" href="{{ route('nbaStats.dashboard') }}">
