@@ -32,4 +32,20 @@ class NewsController extends Controller
             'team' => $userTeam
         ]);
     }
+
+
+    public function teamHighlights()
+    {
+        $user = Auth::user();
+        $teamId = $user->teamId;
+        $userTeamName = $this->nbaRepository->getUserTeam($teamId);
+
+        $userTeamName = $userTeamName->fullName;
+        $highlightsVideos = $this->nbaNewsRepository->getVideos($userTeamName);
+
+        return view('nbaStats.highlights', [
+            'videos' => $highlightsVideos,
+            'team' => $userTeamName
+        ]);
+    }
 }

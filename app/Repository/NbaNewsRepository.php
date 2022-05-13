@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use DOMComment;
 use DOMDocument;
 
 class NbaNewsRepository
 {
     const ALL_NEWS = '';
+    const All_VIDEOS = '';
+    const YT_CHANNEL = 'UCMurFWpRhMHUAC-0nqrrfbg';
+
 
     public function getTeamsNews($teamId = self::ALL_NEWS)
     {
@@ -73,5 +75,34 @@ class NbaNewsRepository
         }
 
         return $newsFeed;
+    }
+
+    public function getVideos($teamId = self::All_VIDEOS)
+    {
+        $apiKey = env('YT_API_KEY');
+        $chanelId = self::YT_CHANNEL;
+        $maxResults = 10;
+
+        if ($teamId != '') {
+            $maxResults = 40;
+        }
+
+        $apiData = @file_get_contents("https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=$chanelId&maxResults=$maxResults&key=$apiKey");
+
+        $videoList = json_decode($apiData);
+
+
+        foreach ($videoList->items as $key => $video) {
+            if (!$teamId == '') {
+                if (!str_contains($video->snippet->title, $teamId)) {
+                    unset($videoList->items[$key]);
+                    continue;
+                }
+            }
+            if (!str_contains($video->snippet->title, 'Highlights')) {
+                unset($videoList->items[$key]);
+            }
+        }
+        return $videoList;
     }
 }

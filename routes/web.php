@@ -22,12 +22,18 @@ use Illuminate\Support\Facades\Route;
 
 // Route::middleware(['auth', 'second'])->group(function () {
 // });
+Route::group([
+    'as' => 'home.',
+    'namespace' => 'Home'
+], function () {
+    Route::get('/', 'MainPage')
+        ->name('mainPage');
+    Route::get('/news', 'NbaNewsController@news')
+        ->name('news');
+    Route::get('/highlights', 'NbaNewsController@highlights')
+        ->name('highlights');
+});
 
-Route::get('/', 'Home\MainPage')
-    ->name('home.mainPage');
-
-Route::get('/news', 'Home\NbaNewsController')
-    ->name('home.news');
 
 // route::get('/nbaStats', 'NbaStatsController@dashboard')
 //     ->name('nbaStats.dashboard');
@@ -43,6 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('dashboard');
         Route::get('teamNews', 'NewsController@teamNews')
             ->name('teamNews');
+        Route::get('teamHighlights', 'NewsController@teamHighlights')
+            ->name('highlights');
     });
 });
 

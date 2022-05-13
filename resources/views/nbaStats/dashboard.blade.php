@@ -14,8 +14,8 @@
     </div>
 
 
-    <div class="d-flex flex-row">
-        <div class="col-4">
+    <div class="d-flex flex-row align-items-center">
+        <div class="col-4 ">
             {{-- User Player --}}
             <div class="card mb-5" style="width: 18rem;">
                 <p class="text-center"><b>{{ $player->firstName . ' ' . $player->lastName }}</b></p>
@@ -228,7 +228,7 @@
         <div class="col-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                    <b> Points per game </b>
+                    <b> Points </b>(per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($pointsLeaders as $leader)
@@ -243,7 +243,7 @@
         <div class="col-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                    <b> Rebounds per game </b>
+                    <b> Rebounds </b>(per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($reboundsLeaders as $leader)
@@ -258,7 +258,7 @@
         <div class="col-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                    <b> Assists per game </b>
+                    <b> Assists </b>(per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($assistsLeaders as $leader)
@@ -273,7 +273,7 @@
         <div class="col-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                    <b> Blocks per game </b>
+                    <b> Blocks </b> (per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($blocksLeaders as $leader)

@@ -4,7 +4,6 @@
     <h5 class="mb-4">
         <b> Latest NBA News</b>
     </h5>
-
     @foreach ($teamNews as $news)
         <div class="card mb-5">
             <div class="card-header d-flex flex-row justify-content-between">

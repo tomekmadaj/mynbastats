@@ -67,8 +67,7 @@ class MainPage extends Controller
         $assistsLeaders = $this->nbaRepository->teamLeaders('all', 'apg', $this->nbaRepository::CURRENT_SEASON);
         $blocksLeaders = $this->nbaRepository->teamLeaders('all', 'bpg', $this->nbaRepository::CURRENT_SEASON);
 
-        // dd($pointLeaders);
-
+        // dd($user);
         return view('home.main', [
             'user' => $user,
             'standingsWest' => $standingsWest,

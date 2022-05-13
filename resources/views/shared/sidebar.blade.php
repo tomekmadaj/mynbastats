@@ -6,6 +6,10 @@
     <div class="sb-nav-link-icon"><i class="fas fa-newspaper"></i></div>
     NBA News
 </a>
+<a class="nav-link" href="{{ route('home.highlights') }}">
+    <div class="sb-nav-link-icon"><i class="fa fa-film"></i></div>
+    Game Highlights
+</a>
 
 <div class="sb-sidenav-menu-heading">My Nba</div>
 <a class="nav-link" href="{{ route('nbaStats.dashboard') }}">
@@ -15,6 +19,10 @@
 <a class="nav-link" href="{{ route('nbaStats.teamNews') }}">
     <div class="sb-nav-link-icon"><i class="fa fa-newspaper"></i></div>
     My Team News
+</a>
+<a class="nav-link" href="{{ route('nbaStats.highlights') }}">
+    <div class="sb-nav-link-icon"><i class="fa fa-film"></i></div>
+    My Team Highlights
 </a>
 
 
