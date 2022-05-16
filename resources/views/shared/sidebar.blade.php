@@ -16,17 +16,15 @@
     <div class="sb-nav-link-icon"><i class="fa fa-star"></i></div>
     My Nba Stats
 </a>
-<a class="nav-link" href="{{ route('nbaStats.teamNews') }}">
-    <div class="sb-nav-link-icon"><i class="fa fa-newspaper"></i></div>
-    My Team News
-</a>
-<a class="nav-link" href="{{ route('nbaStats.highlights') }}">
-    <div class="sb-nav-link-icon"><i class="fa fa-film"></i></div>
-    My Team Highlights
-</a>
-
-
 @auth
+    <a class="nav-link" href="{{ route('nbaStats.teamNews') }}">
+        <div class="sb-nav-link-icon"><i class="fa fa-newspaper"></i></div>
+        My Team News
+    </a>
+    <a class="nav-link" href="{{ route('nbaStats.highlights') }}">
+        <div class="sb-nav-link-icon"><i class="fa fa-film"></i></div>
+        My Team Highlights
+    </a>
     <a class="nav-link" href="#">
         <div class="sb-nav-link-icon"><i class="fa fa-wrench"></i></div>
         Settings

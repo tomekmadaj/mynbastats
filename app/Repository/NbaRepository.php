@@ -62,6 +62,15 @@ class NbaRepository
         return $teamStats;
     }
 
+    public function teamPlayersStats($teamId)
+    {
+        $teamPlayersStats = $this->playerModel->with('playerStats')->where('teamId', '=', $teamId)->get();
+
+        $teamPlayersStats = $this->playerStatModel->with('players')->where('teamId', '=', $teamId)->where('seasonYear', '=', '2021')->orderBy('ppg', 'DESC')->get();
+
+        return $teamPlayersStats;
+    }
+
     // public function teamLeaders($teamId)
     // {
     //     $teamLeaders = $this->teamLeadersModel->with('teams')->where('teamId', '=', $teamId)->get();
@@ -86,7 +95,7 @@ class NbaRepository
         return $userTeam;
     }
 
-    public function teamLeaders($teamId, $stat, $seasonYear = '2021')
+    public function teamLeaders($teamId, $stat, $seasonYear = self::CURRENT_SEASON)
     {
         $teamLeaders = $this->playerStatModel->with(['players', 'teams'])->bestStats($teamId, $stat, $seasonYear)->get();
 

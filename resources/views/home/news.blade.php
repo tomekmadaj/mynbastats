@@ -2,6 +2,7 @@
 
 @section('content')
     <h5 class="mb-4">
+        <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> Latest NBA News</b>
     </h5>
     @foreach ($teamNews as $news)

@@ -12,6 +12,8 @@ class Player_Stat extends Model
 
     protected $table = 'player_stats';
 
+    protected $primaryKey = 'personId';
+
     public function players()
     {
         return $this->hasMany('App\Model\Player', 'personId', 'personId');

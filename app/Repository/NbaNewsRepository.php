@@ -11,6 +11,7 @@ class NbaNewsRepository
     const ALL_NEWS = '';
     const All_VIDEOS = '';
     const YT_CHANNEL = 'UCMurFWpRhMHUAC-0nqrrfbg';
+    const VIDOS_TO_SHOW = 6;
 
 
     public function getTeamsNews($teamId = self::ALL_NEWS)
@@ -84,7 +85,7 @@ class NbaNewsRepository
         $maxResults = 10;
 
         if ($teamId != '') {
-            $maxResults = 40;
+            $maxResults = 100;
         }
 
         $apiData = @file_get_contents("https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=$chanelId&maxResults=$maxResults&key=$apiKey");
@@ -103,6 +104,8 @@ class NbaNewsRepository
                 unset($videoList->items[$key]);
             }
         }
+        $videoList = array_slice($videoList->items, 0, self::VIDOS_TO_SHOW);
+
         return $videoList;
     }
 }

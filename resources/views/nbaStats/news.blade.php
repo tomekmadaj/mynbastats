@@ -2,9 +2,9 @@
 
 @section('content')
     <h5 class="mb-4">
+        <img style="height: 30px" src="/images/NbaLogos/{{ $team->teamId }}.png" class="mx-auto rounded">
         <b> {{ $team->fullName }} latest News</b>
     </h5>
-
     @foreach ($teamNews as $news)
         <div class="card mb-5">
             <div class="card-header d-flex flex-row justify-content-between">

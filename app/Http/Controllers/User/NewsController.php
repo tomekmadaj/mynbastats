@@ -38,14 +38,14 @@ class NewsController extends Controller
     {
         $user = Auth::user();
         $teamId = $user->teamId;
-        $userTeamName = $this->nbaRepository->getUserTeam($teamId);
+        $userTeam = $this->nbaRepository->getUserTeam($teamId);
 
-        $userTeamName = $userTeamName->fullName;
+        $userTeamName = $userTeam->fullName;
         $highlightsVideos = $this->nbaNewsRepository->getVideos($userTeamName);
 
         return view('nbaStats.highlights', [
             'videos' => $highlightsVideos,
-            'team' => $userTeamName
+            'team' => $userTeam
         ]);
     }
 }

@@ -11,6 +11,8 @@ class Player extends Model
 {
     use HasFactory;
 
+    protected $table = 'players';
+
     protected $primaryKey = 'personId';
 
     public function teams()
@@ -18,9 +20,9 @@ class Player extends Model
         return $this->belongsTo('App\Model\Team', 'teamId', 'teamId');
     }
 
-    public function player_stats()
+    public function playerStats()
     {
-        return $this->belongsToMany('App\Model\Player_Stat', 'personId', 'personId');
+        return $this->hasMany('App\Model\Player_Stat', 'personId', 'personId');
     }
 
     public function scopeActivePlayers(Builder $query)

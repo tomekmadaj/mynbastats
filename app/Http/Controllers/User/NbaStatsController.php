@@ -34,9 +34,11 @@ class NbaStatsController extends Controller
         })->toArray();
         $seasonsData = array_column($seasonsData, 'seasonYear');
 
-        $seasonYear = $request->get('seasonYear') ?? $this->nbaRepository::CURRENT_SEASON;
+        $seasonYear = $seasonsData[0];
 
-        in_array($seasonYear, $seasonsData) ?: $seasonYear = $this->nbaRepository::CURRENT_SEASON;
+        $seasonYear = $request->get('seasonYear') ?? $seasonYear;
+
+        in_array($seasonYear, $seasonsData) ?: $seasonYear = $seasonsData[0];
 
         $playerData = $this->nbaRepository->getUserPlayer($personId);
         $teamData = $this->nbaRepository->getUserTeam($teamId);
@@ -54,6 +56,8 @@ class NbaStatsController extends Controller
 
         $playerImageUrl = $this->nbaRepository->getPlayerImageUrl($personId);
 
+        $teamPlayersStats = $this->nbaRepository->teamPlayersStats($teamId);
+
         return view('nbaStats.dashboard', [
             'user' => $user,
             'player' => $playerData,
@@ -66,7 +70,8 @@ class NbaStatsController extends Controller
             'assistsLeaders' => $assistsLeaders,
             'blocksLeaders' => $blocksLeaders,
             'playerSeasons' => $playerSeasons,
-            'playerImageUrl' => $playerImageUrl
+            'playerImageUrl' => $playerImageUrl,
+            'teamPlayersStats' => $teamPlayersStats
         ]);
     }
 }

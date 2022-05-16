@@ -8,6 +8,7 @@
 
     {{-- standings --}}
     <h5 class="mt-5">
+        <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> 2021-2022 NBA Regular Season Standings</b>
     </h5>
     <div class="row">
@@ -91,6 +92,7 @@
 
     {{-- Nba leaders --}}
     <h5 class="mt-5 mb-4">
+        <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> 2021-2022 Regular Season Leaders</b>
     </h5>
 

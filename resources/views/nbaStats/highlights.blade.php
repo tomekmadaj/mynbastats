@@ -2,19 +2,25 @@
 
 @section('content')
     <h5 class="mb-4">
-        <b> {{ $team }} latest highlights</b>
+        <img style="height: 30px" src="/images/NbaLogos/{{ $team->teamId }}.png" class="mx-auto rounded">
+        <b> {{ $team->fullName }} latest highlights</b>
     </h5>
-    <div class="row">
-        @foreach ($videos->items as $video)
-            <div class="col-4 mb-4 me-5">
-                @if (isset($video->id->videoId))
-                    <div>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ $video->id->videoId }}"
-                            frameborder="0" allowfullscreen></iframe>
+    @if (!empty($videos))
+        <div class="row">
+            @foreach ($videos as $video)
+                <div class="col-6 mb-4 me-5">
+                    @if (isset($video->id->videoId))
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item"
+                                src="https://www.youtube.com/embed/{{ $video->id->videoId }}" frameborder="0"
+                                allowfullscreen></iframe>
+                        </div>
                         <h6 class="mt-2">{{ $video->snippet->title }}</h4>
-                    </div>
-                @endif
-            </div>
-        @endforeach
-    </div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p>There's no recent highlights for {{ $team->fullName }} </p>
+    @endif
 @endsection
