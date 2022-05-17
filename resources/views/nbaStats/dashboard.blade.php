@@ -15,9 +15,9 @@
 
 
     <div class="d-flex flex-row align-items-center">
-        <div class="col-4 ">
+        <div class="col-3 ">
             {{-- User Player --}}
-            <div class="card mb-5" style="width: 18rem;">
+            <div class="card" style="width: 18rem;">
                 <p class="text-center"><b>{{ $player->firstName . ' ' . $player->lastName }}</b></p>
                 <img src="{{ $playerImageUrl }}" class="rounded mx-auto d-block user-avatar">
                 <div class="card-body">
@@ -31,30 +31,32 @@
                 </div>
             </div>
         </div>
-        <div class="col-8 pt-4">
+        <div class="col-9">
             {{-- Player Stats Season --}}
-            <p>Player Season Stats</p>
             @if (isset($playerSeasonStats->first()->players))
                 <div class="card mt-3">
                     <div class="card">
-                        <div class="card-header"><i class="fas fa-table mr-1"></i>
-                            Player stats: <b>
-                                {{ $playerSeasonStats->first()->players->first()->firstName . ' ' . $playerSeasonStats->first()->players->first()->lastName }}
-                            </b>
-                            - Season:
-
-                            <form action="{{ route('nbaStats.dashboard') }}">
-                                <select id="seasonYear" name="seasonYear">
-                                    @foreach ($playerSeasons ?? [] as $season)
-                                        <option
-                                            {{ $playerSeasonStats->first()->seasonYear == $season->seasonYear ? 'selected' : '' }}
-                                            value="{{ $season->seasonYear }}">
-                                            {{ $season->seasonYear }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="btn btn-primary ms-3">Season change</button>
-                            </form>
+                        <div class="card-header container-fluid">
+                            <div class="d-flex d-flex align-items-center">
+                                <i class="fas fa-table mr-1"></i>
+                                Player stats:
+                                <b>
+                                    {{ $playerSeasonStats->first()->players->first()->firstName . ' ' . $playerSeasonStats->first()->players->first()->lastName }}
+                                </b>
+                                - Season:
+                                <form action="{{ route('nbaStats.dashboard') }}" class="mt-3 ms-4">
+                                    <select id="seasonYear" name="seasonYear">
+                                        @foreach ($playerSeasons ?? [] as $season)
+                                            <option
+                                                {{ $playerSeasonStats->first()->seasonYear == $season->seasonYear ? 'selected' : '' }}
+                                                value="{{ $season->seasonYear }}">
+                                                {{ $season->seasonYear }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn-primary">Season change</button>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -65,8 +67,8 @@
                                             <th title='Points per game'>ppg</th>
                                             <th title='Rebounds per game'>rpg</th>
                                             <th title='Assists per game'>apg</th>
-                                            <th title='Turnovers per game'>mpg</th>
                                             <th title='Minutes per game'>mpg</th>
+                                            <th title='Turnovers per game'>mpg</th>
                                             <th title='Steals per game'>spg</th>
                                             <th title='Blocks per game'>bpg</th>
                                             <th title='3-point percentage'>3p%</th>
@@ -138,7 +140,6 @@
                 </div>
             @endif
             {{-- Player Stats Career --}}
-            <p class="mt-3">Player Career Stats</p>
             @if (isset($playerCareerStats->first()->players))
                 <div class="card mt-3">
                     <div class="card">
@@ -306,7 +307,7 @@
     </h5>
     <div class="card mt-3">
         <div class="card">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>Player stats: <b>
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Team stats: <b>
                     {{ $teamStats->first()->teams->fullName }}
                 </b> (totals)
             </div>
@@ -316,20 +317,20 @@
                         <thead>
                             <tr>
                                 <th>Player Name</th>
-                                <th title='Games played'>games</th>
-                                <th title='Minutes'>min</th>
-                                <th title='Field goals made'>fgm</th>
-                                <th title='Field goals attempted'>fga</th>
-                                <th title='Free thorws made'>ftm</th>
-                                <th title='Free thorws attempted'>fta</th>
-                                <th title='3-points made'>3pm</th>
-                                <th title='3-points attempted'>3pa</th>
-                                <th title='Assists'>assists</th>
-                                <th title='Rebounds'>rebounds</th>
-                                <th title='Steals'>steals</th>
-                                <th title='Blocks'>blocks</th>
-                                <th title='Turnovers'>turnovers</th>
-                                <th title='Plus Minus'>plus minus</th>
+                                <th title='Games played'>@sortablelink('gamesPlayed', 'games')</th>
+                                <th title='Minutes'> @sortablelink('min')</th>
+                                <th title='Field goals made'> @sortablelink('fgm')</th>
+                                <th title='Field goals attempted'> @sortablelink('fga')</th>
+                                <th title='Free thorws made'> @sortablelink('ftm')</th>
+                                <th title='Free thorws attempted'> @sortablelink('fta')</th>
+                                <th title='3-points made'> @sortablelink('tpm', '3pm')</th>
+                                <th title='3-points attempted'> @sortablelink('tpa', '3pa')</th>
+                                <th title='Assists'> @sortablelink('assists')</th>
+                                <th title='Rebounds'> @sortablelink('rebounds')</th>
+                                <th title='Steals'> @sortablelink('steals')</th>
+                                <th title='Blocks'> @sortablelink('blocks')</th>
+                                <th title='Turnovers'> @sortablelink('turnovers')</th>
+                                <th title='Plus Minus'>@sortablelink('plusMinus', 'plus minus')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -363,7 +364,7 @@
     {{-- team stats per game --}}
     <div class="card mt-3">
         <div class="card">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>Player stats: <b>
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Team stats: <b>
                     {{ $teamStats->first()->teams->fullName }}
                 </b> (per game)
             </div>
@@ -373,17 +374,17 @@
                         <thead>
                             <tr>
                                 <th>Player Name</th>
-                                <th title='Games played'>games</th>
-                                <th title='Minutes'>min</th>
-                                <th title='Points'>points</th>
-                                <th title='Field goals percentage'>fg%</th>
-                                <th title='Free throws percentage'>ft%</th>
-                                <th title='3-points percentage'>3p%</th>
-                                <th title='Rebouds'>rebounds</th>
-                                <th title='Assists'>assists</th>
-                                <th title='Blocks'>blocks</th>
-                                <th title='Steals'>steals</th>
-                                <th title='Turnovers'>turnovers</th>
+                                <th title='Games played'> @sortablelink('gamesPlayed', 'games')</th>
+                                <th title='Minutes'> @sortablelink('min')</th>
+                                <th title='Points'> @sortablelink('points')</th>
+                                <th title='Field goals percentage'> @sortablelink('fgp', 'fg%')</th>
+                                <th title='Free throws percentage'> @sortablelink('ftp', 'ft%')</th>
+                                <th title='3-points percentage'> @sortablelink('tpp', '3p%')</th>
+                                <th title='Rebouds'> @sortablelink('rebounds')</th>
+                                <th title='Assists'> @sortablelink('assists')</th>
+                                <th title='Blocks'> @sortablelink('blocks')</th>
+                                <th title='Steals'> @sortablelink('steals')</th>
+                                <th title='Turnovers'> @sortablelink('turnovers')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -400,8 +401,8 @@
                                     <td> {{ $stat->rpg }} </td>
                                     <td> {{ $stat->apg }} </td>
                                     <td> {{ $stat->bpg }} </td>
-                                    <td> {{ $stat->stp }} </td>
-                                    <td> {{ $stat->tpg }} </td> 
+                                    <td> {{ $stat->spg }} </td>
+                                    <td> {{ $stat->topg }} </td>
                                 </tr>
                             @endforeach
                         </tbody>

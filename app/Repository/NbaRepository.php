@@ -64,9 +64,9 @@ class NbaRepository
 
     public function teamPlayersStats($teamId)
     {
-        $teamPlayersStats = $this->playerModel->with('playerStats')->where('teamId', '=', $teamId)->get();
+        // $teamPlayersStats = $this->playerModel->with('playerStats')->where('teamId', '=', $teamId)->get();
 
-        $teamPlayersStats = $this->playerStatModel->with('players')->where('teamId', '=', $teamId)->where('seasonYear', '=', '2021')->orderBy('ppg', 'DESC')->get();
+        $teamPlayersStats = $this->playerStatModel->with('players')->where('teamId', '=', $teamId)->where('seasonYear', '=', '2021')->sortable()->orderBy('ppg', 'DESC')->get();
 
         return $teamPlayersStats;
     }
