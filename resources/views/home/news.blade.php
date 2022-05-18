@@ -1,9 +1,7 @@
 @extends('layout.main')
 
 @section('content')
-    {{ date('Y-m-d', strtotime('20220515')) }}
-    {{ date('Y-m-d', strtotime('20220515 00:00:00')) }}
-    {{ date('Y-m-d', strtotime('2022-05-15')) }}
+    {{ date('Ymd', strtotime('2022-05-15')) }}
     <h5 class="mb-4">
         <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> Latest NBA News</b>

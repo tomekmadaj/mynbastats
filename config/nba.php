@@ -9,6 +9,7 @@ return [
         'playerProfile' => 'https://data.nba.net/prod/v1/2021/players/{{personId}}_profile.json',
         'teamStatsRanking' => 'https://data.nba.net/prod/v1/2021/team_stats_rankings.json',
         'teamLeaders' => 'https://data.nba.net/prod/v1/2021/teams/{{teamId}}/leaders.json',
-        'schedule' => 'https://data.nba.net/prod/v1/2021/schedule.json'
+        'schedule' => 'https://data.nba.net/prod/v1/2021/schedule.json',
+        'gameBoxscore' => 'https://data.nba.net/prod/v1/{{gameDate}}/{{gameId}}_boxscore.json',
     ]
 ];

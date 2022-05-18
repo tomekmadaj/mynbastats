@@ -45,7 +45,7 @@ class LoadNbaStandings extends Command
         }
 
         $responseJson = $response->json();
-        $nbaStandings = $response['league']['standard']['conference'];
+        $nbaStandings = $responseJson['league']['standard']['conference'];
 
         $this->info('Loading NBA Standings');
         $this->newLine();

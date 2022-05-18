@@ -52,7 +52,7 @@ class LoadNbaSchedule extends Command
 
         $preogressBar = $this->output->createProgressBar(count($schedule));
 
-        DB::table('schedule')->truncate();
+        // DB::table('schedule')->truncate();
 
         foreach ($schedule as $game) {
             if (!empty($game['gameId'])) {
