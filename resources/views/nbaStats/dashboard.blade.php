@@ -32,6 +32,7 @@
             </div>
         </div>
         <div class="col-9">
+
             {{-- Player Stats Season --}}
             @if (isset($playerSeasonStats->first()->players))
                 <div class="card mt-3">
@@ -229,6 +230,80 @@
         </div>
     </div>
 
+    {{-- Latest 5 player games --}}
+    <div class="card mt-5">
+        <div class="card">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Latest games stats: <b>
+                    {{ $playerCareerStats->first()->players->first()->firstName . ' ' . $playerCareerStats->first()->players->first()->lastName }}
+                </b>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th title='Game date'>date</th>
+                                <th title='Opposing team'>Opposing team</th>
+                                <th title='Points'>points</th>
+                                <th title='Minutes'>min</th>
+                                <th title='Field Goals made'>fgm</th>
+                                <th title='Field Goals attempted'>fga</th>
+                                <th title='Field goal percentage'>fg%</th>
+                                <th title='Free throws made'>ftm</th>
+                                <th title='Free throws attempted'>fta</th>
+                                <th title='Free throw percentage'>ft%</th>
+                                <th title='3-point made'>3pm</th>
+                                <th title='3-point attempted'>3pa</th>
+                                <th title='3-point percentage'>3p%</th>
+                                <th title='Ofensive rebounds'>offReb</th>
+                                <th title='Defensive rebounds'>defReb</th>
+                                <th title='Total rebounds'>totReb</th>
+                                <th title='Assists'>assists</th>
+                                <th title='Steals'>steals</th>
+                                <th title='Blocks'>blocks</th>
+                                <th title='Turnovers'>turnovers</th>
+                                <th title='Personal fouls'>pFouls</th>
+                                <th title='Plus minus'>plus minus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($latestPlayerStats ?? [] as $stat)
+                                <tr>
+                                    <td> {{ $stat->date }} </td>
+                                    @if ($stat->schedule->first()->vTeams->teamId != $stat->teamId)
+                                        <td> {{ $stat->schedule->first()->vTeams->fullName }} </td>
+                                    @elseif ($stat->schedule->first()->hTeams->teamId != $stat->teamId)
+                                        <td> {{ $stat->schedule->first()->hTeams->fullName }} </td>
+                                    @endif
+                                    <td> {{ $stat->points }} </td>
+                                    <td> {{ $stat->min }} </td>
+                                    <td> {{ $stat->fgm }} </td>
+                                    <td> {{ $stat->fga }} </td>
+                                    <td> {{ $stat->fgp }} </td>
+                                    <td> {{ $stat->ftm }} </td>
+                                    <td> {{ $stat->fta }} </td>
+                                    <td> {{ $stat->ftp }} </td>
+                                    <td> {{ $stat->tpm }} </td>
+                                    <td> {{ $stat->tpa }} </td>
+                                    <td> {{ $stat->tpp }} </td>
+                                    <td> {{ $stat->offReb }} </td>
+                                    <td> {{ $stat->defReb }} </td>
+                                    <td> {{ $stat->totReb }} </td>
+                                    <td> {{ $stat->assists }} </td>
+                                    <td> {{ $stat->steals }} </td>
+                                    <td> {{ $stat->blocks }} </td>
+                                    <td> {{ $stat->turnovers }} </td>
+                                    <td> {{ $stat->pFouls }} </td>
+                                    <td> {{ $stat->plusMinus }} </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- User Team Leaders --}}
     <h5 class="mt-5 mb-4">
         <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
@@ -245,7 +320,8 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($pointsLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}</p>
+                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            </p>
                             <p> {{ $leader->ppg }} </p>
                         </li>
                     @endforeach
@@ -260,7 +336,8 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($reboundsLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}</p>
+                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            </p>
                             <p> {{ $leader->rpg }} </p>
                         </li>
                     @endforeach
@@ -275,7 +352,8 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($assistsLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}</p>
+                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            </p>
                             <p> {{ $leader->apg }} </p>
                         </li>
                     @endforeach
@@ -290,7 +368,8 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($blocksLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}</p>
+                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            </p>
                             <p> {{ $leader->bpg }} </p>
                         </li>
                     @endforeach
@@ -307,7 +386,7 @@
     </h5>
     <div class="card mt-3">
         <div class="card">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>Team stats: <b>
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Players stats: <b>
                     {{ $teamStats->first()->teams->fullName }}
                 </b> (totals)
             </div>
@@ -364,7 +443,7 @@
     {{-- team stats per game --}}
     <div class="card mt-3">
         <div class="card">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>Team stats: <b>
+            <div class="card-header"><i class="fas fa-table mr-1"></i>Players stats: <b>
                     {{ $teamStats->first()->teams->fullName }}
                 </b> (per game)
             </div>

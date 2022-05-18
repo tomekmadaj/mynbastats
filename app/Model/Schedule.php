@@ -15,16 +15,26 @@ class Schedule extends Model
 
     public function gameBoxscore()
     {
-        return $this->hasMany('App\Model\GameBoxscore', 'gameId', 'gameID');
+        return $this->hasMany('App\Model\GameBoxscore', 'gameId', 'gameId');
     }
 
     public function gameLeaders()
     {
-        return $this->hasMany('App\Model\GameLeaders', 'gameId', 'gameID');
+        return $this->hasMany('App\Model\GameLeaders', 'gameId', 'gameId');
     }
 
     public function playerBoxscore()
     {
-        return $this->hasMany('App\Model\PlayerBoxscore', 'gameId', 'gameID');
+        return $this->hasMany('App\Model\PlayerBoxscore', 'gameId', 'gameId');
+    }
+
+    public function hTeams()
+    {
+        return $this->belongsTo('App\Model\Team', 'hTeamId', 'teamId');
+    }
+
+    public function vTeams()
+    {
+        return $this->belongsTo('App\Model\Team', 'vTeamId', 'teamId');
     }
 }

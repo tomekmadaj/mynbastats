@@ -36,6 +36,17 @@ class Team extends Model
     {
         return $this->belongsTo('App\Model\User', 'teamId', 'teamId');
     }
+
+    public function gameBoxscore()
+    {
+        return $this->hasMany('App\Model\GameBoxscore', 'teamId', 'teamId');
+    }
+
+    public function schedule()
+    {
+        return $this->hasMany('App\Model\Schedule', 'teamId', 'teamId');
+    }
+
     public function scopeCurrentTeams(Builder $query)
     {
         return $query->whereNotin('teamId', [0, 1610616833, 1610616834, 1710612762, 1810612762]);

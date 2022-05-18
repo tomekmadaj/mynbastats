@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use DOMDocument;
 use App\Model\Team;
 use App\Model\Player;
+use App\Model\Schedule;
 use App\Model\Standing;
+use App\Model\GameLeaders;
 use App\Model\Player_Stat;
 use App\Model\Team_Leader;
+use App\Model\GameBoxscore;
+use App\Model\PlayerBoxscore;
 use App\Model\Teams_Stats_Ranking;
-use DOMDocument;
 use Illuminate\Support\Facades\Auth;
 
 class NbaRepository
@@ -23,15 +27,33 @@ class NbaRepository
     private Player_stat $playerStatModel;
     private Teams_Stats_Ranking $teamStatsRankingModel;
     private Team_Leader $teamLeadersModel;
+    private Schedule $scheduleModel;
+    private GameBoxscore $gameBoxscoreModel;
+    private GameLeaders $gameLeadersModel;
+    private PlayerBoxscore $playerBoxscoreModel;
 
-    public function __construct(Team $teamModel, Player $playerModel, Standing $standingModel, Player_Stat $playerStatModel, Teams_Stats_Ranking $teamsStatsRankingModel, Team_Leader $teamLeadersModel)
-    {
+    public function __construct(
+        Team $teamModel,
+        Player $playerModel,
+        Standing $standingModel,
+        Player_Stat $playerStatModel,
+        Teams_Stats_Ranking $teamsStatsRankingModel,
+        Team_Leader $teamLeadersModel,
+        Schedule $scheduleModel,
+        GameBoxscore $gameBoxscoreModel,
+        GameLeaders $gameLeadersModel,
+        PlayerBoxscore $playerBoxscore
+    ) {
         $this->teamModel = $teamModel;
         $this->playerModel = $playerModel;
         $this->standingModel = $standingModel;
         $this->playerStatModel = $playerStatModel;
         $this->teamStatsRankingModel = $teamsStatsRankingModel;
         $this->teamLeadersModel = $teamLeadersModel;
+        $this->scheduleModel = $scheduleModel;
+        $this->gameBoxscoreModel = $gameBoxscoreModel;
+        $this->gameLeadersModel = $gameLeadersModel;
+        $this->playerBoxscoreModel = $playerBoxscore;
     }
 
     public function standingsWest()
@@ -163,5 +185,13 @@ class NbaRepository
         $playerImgFileUrl = 'https:' . $playerImgFileUrl;
 
         return $playerImgFileUrl;
+    }
+
+    public function getLatestPlayerStats($personId)
+    {
+        $latestPlayerStats = $this->playerBoxscoreModel->with('schedule.hTeams', 'schedule.vTeams')->where('personId', '=', $personId)->limit(5)->orderBy('date', 'DESC')->get();
+
+        // dd($latestPlayerStats);
+        return $latestPlayerStats;
     }
 }
