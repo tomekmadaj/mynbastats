@@ -194,4 +194,11 @@ class NbaRepository
         // dd($latestPlayerStats);
         return $latestPlayerStats;
     }
+
+    public function getLatestGames()
+    {
+        $latestGames = $this->scheduleModel->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')->whereNotNull('hTeamScore')->limit(3)->orderBy('date', 'DESC')->get();
+        // dd($latestGames);
+        return $latestGames;
+    }
 }

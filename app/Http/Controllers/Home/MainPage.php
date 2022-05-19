@@ -67,6 +67,10 @@ class MainPage extends Controller
         $assistsLeaders = $this->nbaRepository->teamLeaders('all', 'apg', $this->nbaRepository::CURRENT_SEASON);
         $blocksLeaders = $this->nbaRepository->teamLeaders('all', 'bpg', $this->nbaRepository::CURRENT_SEASON);
 
+        $latestGames = $this->nbaRepository->getLatestGames();
+
+
+
         // dd($user);
         return view('home.main', [
             'user' => $user,
@@ -76,6 +80,7 @@ class MainPage extends Controller
             'reboundsLeaders' => $reboundsLeaders,
             'assistsLeaders' => $assistsLeaders,
             'blocksLeaders' => $blocksLeaders,
+            'latestGames' => $latestGames
         ]);
     }
 }

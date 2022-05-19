@@ -37,4 +37,24 @@ class Schedule extends Model
     {
         return $this->belongsTo('App\Model\Team', 'vTeamId', 'teamId');
     }
+
+    public function hTeamsLeaders()
+    {
+        return $this->belongsTo('App\Model\GameLeaders', 'hTeamId', 'teamId');
+    }
+
+    public function vTeamsLeaders()
+    {
+        return $this->belongsTo('App\Model\GameLeaders', 'vTeamId', 'teamId');
+    }
+
+    public function hTeamsBoxscore()
+    {
+        return $this->belongsTo('App\Model\GameBoxscore', 'hTeamId', 'teamId');
+    }
+
+    public function vTeamsBoxscore()
+    {
+        return $this->belongsTo('App\Model\GameBoxscore', 'vTeamId', 'teamId');
+    }
 }
