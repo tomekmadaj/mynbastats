@@ -43,12 +43,12 @@ class Player_Stat extends Model
 
     public function players()
     {
-        return $this->hasMany('App\Model\Player', 'personId', 'personId');
+        return $this->hasOne('App\Model\Player', 'personId', 'personId');
     }
 
     public function teams()
     {
-        return $this->hasMany('App\Model\Team', 'teamId', 'teamId');
+        return $this->hasOne('App\Model\Team', 'teamId', 'teamId');
     }
 
     public function scopeBestStats(Builder $query, $teamId, $stat, $seasonYear): Builder
@@ -60,8 +60,11 @@ class Player_Stat extends Model
                 ->limit(5);
         }
 
-        return $query->where('teamId', '=', $teamId)
-            ->where('seasonYear', '=', $seasonYear)
+        return $query
+            ->where([
+                ['teamId', '=', $teamId],
+                ['seasonYear', '=', $seasonYear]
+            ])
             ->orderBy($stat, 'desc')
             ->limit(5);
     }

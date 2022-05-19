@@ -22,6 +22,7 @@
                 <img src="{{ $playerImageUrl }}" class="rounded mx-auto d-block user-avatar">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Team: {{ $player->teams->fullName }}</li>
                         <li class="list-group-item">Position: {{ $player->pos }}</li>
                         <li class="list-group-item">Height: {{ $player->heightMeters }}m</li>
                         <li class="list-group-item">Weight: {{ $player->weightKilograms }}kg</li>
@@ -34,7 +35,7 @@
         <div class="col-9">
 
             {{-- Player Stats Season --}}
-            @if (isset($playerSeasonStats->first()->players))
+            @if (isset($playerSeasonStats->players))
                 <div class="card mt-3">
                     <div class="card">
                         <div class="card-header container-fluid">
@@ -42,14 +43,14 @@
                                 <i class="fas fa-table mr-1"></i>
                                 Player stats:
                                 <b>
-                                    {{ $playerSeasonStats->first()->players->first()->firstName . ' ' . $playerSeasonStats->first()->players->first()->lastName }}
+                                    {{ $playerSeasonStats->players->firstName . ' ' . $playerSeasonStats->players->lastName }}
                                 </b>
                                 - Season:
                                 <form action="{{ route('nbaStats.dashboard') }}" class="mt-3 ms-4">
                                     <select id="seasonYear" name="seasonYear">
                                         @foreach ($playerSeasons ?? [] as $season)
                                             <option
-                                                {{ $playerSeasonStats->first()->seasonYear == $season->seasonYear ? 'selected' : '' }}
+                                                {{ $playerSeasonStats->seasonYear == $season->seasonYear ? 'selected' : '' }}
                                                 value="{{ $season->seasonYear }}">
                                                 {{ $season->seasonYear }}
                                             </option>
@@ -69,7 +70,6 @@
                                             <th title='Rebounds per game'>rpg</th>
                                             <th title='Assists per game'>apg</th>
                                             <th title='Minutes per game'>mpg</th>
-                                            <th title='Turnovers per game'>mpg</th>
                                             <th title='Steals per game'>spg</th>
                                             <th title='Blocks per game'>bpg</th>
                                             <th title='3-point percentage'>3p%</th>
@@ -96,39 +96,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($playerSeasonStats ?? [] as $stat)
-                                            <tr>
-                                                <td> {{ $stat->teams->first()->fullName }} </td>
-                                                <td> {{ $stat->ppg }} </td>
-                                                <td> {{ $stat->rpg }} </td>
-                                                <td> {{ $stat->apg }} </td>
-                                                <td> {{ $stat->mpg }} </td>
-                                                <td> {{ $stat->topg }} </td>
-                                                <td> {{ $stat->spg }} </td>
-                                                <td> {{ $stat->bpg }} </td>
-                                                <td> {{ $stat->tpp }} </td>
-                                                <td> {{ $stat->ftp }} </td>
-                                                <td> {{ $stat->fgp }} </td>
-                                                <td> {{ $stat->assists }} </td>
-                                                <td> {{ $stat->blocks }} </td>
-                                                <td> {{ $stat->steals }} </td>
-                                                <td> {{ $stat->turnovers }} </td>
-                                                <td> {{ $stat->offReb }} </td>
-                                                <td> {{ $stat->defReb }} </td>
-                                                <td> {{ $stat->totReb }} </td>
-                                                <td> {{ $stat->fgm }} </td>
-                                                <td> {{ $stat->fga }} </td>
-                                                <td> {{ $stat->tpm }} </td>
-                                                <td> {{ $stat->tpa }} </td>
-                                                <td> {{ $stat->ftm }} </td>
-                                                <td> {{ $stat->fta }} </td>
-                                                <td> {{ $stat->pFouls }} </td>
-                                                <td> {{ $stat->points }} </td>
-                                                <td> {{ $stat->gamesPlayed }} </td>
-                                                <td> {{ $stat->gamesStarted }} </td>
-                                                <td> {{ $stat->plusMinus }} </td>
-                                            </tr>
-                                        @endforeach
+                                        <tr>
+                                            <td> {{ $playerSeasonStats->teams->fullName }} </td>
+                                            <td> {{ $playerSeasonStats->ppg }} </td>
+                                            <td> {{ $playerSeasonStats->rpg }} </td>
+                                            <td> {{ $playerSeasonStats->apg }} </td>
+                                            <td> {{ $playerSeasonStats->mpg }} </td>
+                                            <td> {{ $playerSeasonStats->spg }} </td>
+                                            <td> {{ $playerSeasonStats->bpg }} </td>
+                                            <td> {{ $playerSeasonStats->tpp }} </td>
+                                            <td> {{ $playerSeasonStats->ftp }} </td>
+                                            <td> {{ $playerSeasonStats->fgp }} </td>
+                                            <td> {{ $playerSeasonStats->assists }} </td>
+                                            <td> {{ $playerSeasonStats->blocks }} </td>
+                                            <td> {{ $playerSeasonStats->steals }} </td>
+                                            <td> {{ $playerSeasonStats->turnovers }} </td>
+                                            <td> {{ $playerSeasonStats->offReb }} </td>
+                                            <td> {{ $playerSeasonStats->defReb }} </td>
+                                            <td> {{ $playerSeasonStats->totReb }} </td>
+                                            <td> {{ $playerSeasonStats->fgm }} </td>
+                                            <td> {{ $playerSeasonStats->fga }} </td>
+                                            <td> {{ $playerSeasonStats->tpm }} </td>
+                                            <td> {{ $playerSeasonStats->tpa }} </td>
+                                            <td> {{ $playerSeasonStats->ftm }} </td>
+                                            <td> {{ $playerSeasonStats->fta }} </td>
+                                            <td> {{ $playerSeasonStats->pFouls }} </td>
+                                            <td> {{ $playerSeasonStats->points }} </td>
+                                            <td> {{ $playerSeasonStats->gamesPlayed }} </td>
+                                            <td> {{ $playerSeasonStats->gamesStarted }} </td>
+                                            <td> {{ $playerSeasonStats->plusMinus }} </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -145,7 +142,7 @@
                 <div class="card mt-3">
                     <div class="card">
                         <div class="card-header"><i class="fas fa-table mr-1"></i>Player stats: <b>
-                                {{ $playerCareerStats->first()->players->first()->firstName . ' ' . $playerCareerStats->first()->players->first()->lastName }}
+                                {{ $playerCareerStats->players->firstName . ' ' . $playerCareerStats->players->lastName }}
                             </b>
                             - Career summary </div>
                         <div class="card-body">
@@ -184,38 +181,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($playerCareerStats ?? [] as $stat)
-                                            <tr>
-                                                <td> {{ $stat->teams->first()->fullName }} </td>
-                                                <td> {{ $stat->ppg }} </td>
-                                                <td> {{ $stat->rpg }} </td>
-                                                <td> {{ $stat->apg }} </td>
-                                                <td> {{ $stat->spg }} </td>
-                                                <td> {{ $stat->bpg }} </td>
-                                                <td> {{ $stat->tpp }} </td>
-                                                <td> {{ $stat->ftp }} </td>
-                                                <td> {{ $stat->mpg }} </td>
-                                                <td> {{ $stat->fgp }} </td>
-                                                <td> {{ $stat->assists }} </td>
-                                                <td> {{ $stat->blocks }} </td>
-                                                <td> {{ $stat->steals }} </td>
-                                                <td> {{ $stat->turnovers }} </td>
-                                                <td> {{ $stat->offReb }} </td>
-                                                <td> {{ $stat->defReb }} </td>
-                                                <td> {{ $stat->totReb }} </td>
-                                                <td> {{ $stat->fgm }} </td>
-                                                <td> {{ $stat->fga }} </td>
-                                                <td> {{ $stat->tpm }} </td>
-                                                <td> {{ $stat->tpa }} </td>
-                                                <td> {{ $stat->ftm }} </td>
-                                                <td> {{ $stat->fta }} </td>
-                                                <td> {{ $stat->pFouls }} </td>
-                                                <td> {{ $stat->points }} </td>
-                                                <td> {{ $stat->gamesPlayed }} </td>
-                                                <td> {{ $stat->gamesStarted }} </td>
-                                                <td> {{ $stat->plusMinus }} </td>
-                                            </tr>
-                                        @endforeach
+                                        <tr>
+                                            <td> {{ $playerCareerStats->teams->fullName }} </td>
+                                            <td> {{ $playerCareerStats->ppg }} </td>
+                                            <td> {{ $playerCareerStats->rpg }} </td>
+                                            <td> {{ $playerCareerStats->apg }} </td>
+                                            <td> {{ $playerCareerStats->mpg }} </td>
+                                            <td> {{ $playerCareerStats->spg }} </td>
+                                            <td> {{ $playerCareerStats->bpg }} </td>
+                                            <td> {{ $playerCareerStats->tpp }} </td>
+                                            <td> {{ $playerCareerStats->ftp }} </td>
+                                            <td> {{ $playerCareerStats->fgp }} </td>
+                                            <td> {{ $playerCareerStats->assists }} </td>
+                                            <td> {{ $playerCareerStats->blocks }} </td>
+                                            <td> {{ $playerCareerStats->steals }} </td>
+                                            <td> {{ $playerCareerStats->turnovers }} </td>
+                                            <td> {{ $playerCareerStats->offReb }} </td>
+                                            <td> {{ $playerCareerStats->defReb }} </td>
+                                            <td> {{ $playerCareerStats->totReb }} </td>
+                                            <td> {{ $playerCareerStats->fgm }} </td>
+                                            <td> {{ $playerCareerStats->fga }} </td>
+                                            <td> {{ $playerCareerStats->tpm }} </td>
+                                            <td> {{ $playerCareerStats->tpa }} </td>
+                                            <td> {{ $playerCareerStats->ftm }} </td>
+                                            <td> {{ $playerCareerStats->fta }} </td>
+                                            <td> {{ $playerCareerStats->pFouls }} </td>
+                                            <td> {{ $playerCareerStats->points }} </td>
+                                            <td> {{ $playerCareerStats->gamesPlayed }} </td>
+                                            <td> {{ $playerCareerStats->gamesStarted }} </td>
+                                            <td> {{ $playerCareerStats->plusMinus }} </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -234,7 +229,7 @@
     <div class="card mt-5">
         <div class="card">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Latest games stats: <b>
-                    {{ $playerCareerStats->first()->players->first()->firstName . ' ' . $playerCareerStats->first()->players->first()->lastName }}
+                    {{ $player->firstName . ' ' . $player->lastName }}
                 </b>
             </div>
             <div class="card-body">
@@ -270,10 +265,10 @@
                             @foreach ($latestPlayerStats ?? [] as $stat)
                                 <tr>
                                     <td> {{ $stat->date }} </td>
-                                    @if ($stat->schedule->first()->vTeams->teamId != $stat->teamId)
-                                        <td> {{ $stat->schedule->first()->vTeams->fullName }} </td>
-                                    @elseif ($stat->schedule->first()->hTeams->teamId != $stat->teamId)
-                                        <td> {{ $stat->schedule->first()->hTeams->fullName }} </td>
+                                    @if ($stat->schedule->vTeams->teamId != $stat->teamId)
+                                        <td> {{ $stat->schedule->vTeams->fullName }} </td>
+                                    @elseif ($stat->schedule->hTeams->teamId != $stat->teamId)
+                                        <td> {{ $stat->schedule->hTeams->fullName }} </td>
                                     @endif
                                     <td> {{ $stat->points }} </td>
                                     <td> {{ $stat->min }} </td>
@@ -320,7 +315,7 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($pointsLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            <p>{{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                             </p>
                             <p> {{ $leader->ppg }} </p>
                         </li>
@@ -336,7 +331,7 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($reboundsLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            <p>{{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                             </p>
                             <p> {{ $leader->rpg }} </p>
                         </li>
@@ -352,7 +347,7 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($assistsLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            <p>{{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                             </p>
                             <p> {{ $leader->apg }} </p>
                         </li>
@@ -368,7 +363,7 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($blocksLeaders as $leader)
                         <li class="list-group-item d-flex justify-content-between">
-                            <p>{{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                            <p>{{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                             </p>
                             <p> {{ $leader->bpg }} </p>
                         </li>
@@ -387,7 +382,7 @@
     <div class="card mt-3">
         <div class="card">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Players stats: <b>
-                    {{ $teamStats->first()->teams->fullName }}
+                    {{ $team->fullName }}
                 </b> (totals)
             </div>
             <div class="card-body">
@@ -415,7 +410,7 @@
                         <tbody>
                             @foreach ($teamPlayersStats ?? [] as $stat)
                                 <tr>
-                                    <td> {{ $stat->players->first()->firstName . ' ' . $stat->players->first()->lastName }}
+                                    <td> {{ $stat->players->firstName . ' ' . $stat->players->lastName }}
                                     </td>
                                     <td> {{ $stat->gamesPlayed }} </td>
                                     <td> {{ $stat->min }} </td>
@@ -444,7 +439,7 @@
     <div class="card mt-3">
         <div class="card">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Players stats: <b>
-                    {{ $teamStats->first()->teams->fullName }}
+                    {{ $team->fullName }}
                 </b> (per game)
             </div>
             <div class="card-body">
@@ -469,8 +464,7 @@
                         <tbody>
                             @foreach ($teamPlayersStats ?? [] as $stat)
                                 <tr>
-                                    <td> {{ $stat->players->first()->firstName . ' ' . $stat->players->first()->lastName }}
-                                    </td>
+                                    <td> {{ $stat->players->firstName . ' ' . $stat->players->lastName }} </td>
                                     <td> {{ $stat->gamesPlayed }} </td>
                                     <td> {{ $stat->mpg }} </td>
                                     <td> {{ $stat->ppg }} </td>
@@ -492,12 +486,16 @@
     </div>
 
     {{-- Total team stats --}}
-    <p class="mt-5">Team Stats</p>
+    <h5 class="mt-5 mb-4">
+        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+            class="mx-auto rounded">
+        <b> 2021-2022 {{ $team->fullName }} Team Stats</b>
+    </h5>
     <div class="card mt-3">
         <div class="card">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Team stats: <b>
-                    {{ $teamStats->first()->teams->fullName }}
-                </b>
+                    {{ $teamStats->teams->fullName }}
+                </b> (averages)
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -505,74 +503,42 @@
                         <thead>
                             <tr>
                                 <th>Team Name</th>
-                                <th>min_avg</th>
-                                <th>min_rank</th>
-                                <th>fgp_avg</th>
-                                <th>fgp_rank</th>
-                                <th>tpp_avg</th>
-                                <th>tpp_rank</th>
-                                <th>ftp_avg</th>
-                                <th>ftp_rank</th>
-                                <th>orpg_avg</th>
-                                <th>orpg_rank</th>
-                                <th>drpg_avg</th>
-                                <th>drpg_rank</th>
-                                <th>trpg_avg</th>
-                                <th>trpg_rank</th>
-                                <th>apg_avg</th>
-                                <th>apg_rank</th>
-                                <th>tpg_avg</th>
-                                <th>tpg_rank</th>
-                                <th>spg_avg</th>
-                                <th>spg_rank</th>
-                                <th>bpg_avg</th>
-                                <th>bpg_rank</th>
-                                <th>pfpg_avg</th>
-                                <th>pfpg_rank</th>
-                                <th>ppg_avg</th>
-                                <th>ppg_rank</th>
-                                <th>oppg_avg</th>
-                                <th>oppg_rank</th>
-                                <th>eff_avg</th>
-                                <th>eff_rank</th>
+                                <th title='Points'>ppg</th>
+                                <th title='Minutes'>min</th>
+                                <th title='Field goals percentage'>fgp</th>
+                                <th title='3-points percentage'>tpp</th>
+                                <th title='Free throws percentage'>ftp</th>
+                                <th title='Offensive Rebouds'>orpg</th>
+                                <th title='Defensive Rebouds'>drpg</th>
+                                <th title='Total Rebouds'>trpg</th>
+                                <th title='Assists'>apg</th>
+                                <th title='Turnovers'>tpg</th>
+                                <th title='Steals'>spg</th>
+                                <th title='Blocks'>bpg</th>
+                                <th>pfpg</th>
+                                <th>oppg</th>
+                                <th>eff</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($teamStats ?? [] as $stat)
-                                <tr>
-                                    <td> {{ $stat->teams->fullName }} </td>
-                                    <td> {{ $stat->min_avg }} </td>
-                                    <td> {{ $stat->min_rank }} </td>
-                                    <td> {{ $stat->fgp_avg }} </td>
-                                    <td> {{ $stat->fgp_rank }} </td>
-                                    <td> {{ $stat->tpp_avg }} </td>
-                                    <td> {{ $stat->tpp_rank }} </td>
-                                    <td> {{ $stat->ftp_avg }} </td>
-                                    <td> {{ $stat->ftp_rank }} </td>
-                                    <td> {{ $stat->orpg_avg }} </td>
-                                    <td> {{ $stat->orpg_rank }} </td>
-                                    <td> {{ $stat->drpg_avg }} </td>
-                                    <td> {{ $stat->drpg_rank }} </td>
-                                    <td> {{ $stat->trpg_avg }} </td>
-                                    <td> {{ $stat->trpg_rank }} </td>
-                                    <td> {{ $stat->apg_avg }} </td>
-                                    <td> {{ $stat->apg_rank }} </td>
-                                    <td> {{ $stat->tpg_avg }} </td>
-                                    <td> {{ $stat->tpg_rank }} </td>
-                                    <td> {{ $stat->spg_avg }} </td>
-                                    <td> {{ $stat->spg_rank }} </td>
-                                    <td> {{ $stat->bpg_avg }} </td>
-                                    <td> {{ $stat->bpg_rank }} </td>
-                                    <td> {{ $stat->pfpg_avg }} </td>
-                                    <td> {{ $stat->pfpg_rank }} </td>
-                                    <td> {{ $stat->ppg_avg }} </td>
-                                    <td> {{ $stat->ppg_rank }} </td>
-                                    <td> {{ $stat->oppg_avg }} </td>
-                                    <td> {{ $stat->oppg_rank }} </td>
-                                    <td> {{ $stat->eff_avg }} </td>
-                                    <td> {{ $stat->eff_rank }} </td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <td> {{ $teamStats->teams->fullName }} </td>
+                                <td> {{ $teamStats->ppg_avg }} </td>
+                                <td> {{ $teamStats->min_avg }} </td>
+                                <td> {{ $teamStats->fgp_avg }} </td>
+                                <td> {{ $teamStats->tpp_avg }} </td>
+                                <td> {{ $teamStats->ftp_avg }} </td>
+                                <td> {{ $teamStats->orpg_avg }} </td>
+                                <td> {{ $teamStats->drpg_avg }} </td>
+                                <td> {{ $teamStats->trpg_avg }} </td>
+                                <td> {{ $teamStats->apg_avg }} </td>
+                                <td> {{ $teamStats->tpg_avg }} </td>
+                                <td> {{ $teamStats->spg_avg }} </td>
+                                <td> {{ $teamStats->bpg_avg }} </td>
+                                <td> {{ $teamStats->pfpg_avg }} </td>
+                                <td> {{ $teamStats->oppg_avg }} </td>
+                                <td> {{ $teamStats->eff_avg }} </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

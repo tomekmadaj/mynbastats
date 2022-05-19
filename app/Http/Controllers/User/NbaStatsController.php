@@ -47,6 +47,7 @@ class NbaStatsController extends Controller
 
         $playerCareerStatsData = $this->nbaRepository->playerStats($personId, 'careerSummary');
 
+
         $teamStatsData = $this->nbaRepository->teamStats($teamId);
 
         $pointLeaders = $this->nbaRepository->teamLeaders($teamId, 'ppg');
@@ -59,6 +60,8 @@ class NbaStatsController extends Controller
         $teamPlayersStats = $this->nbaRepository->teamPlayersStats($teamId);
 
         $latestPlayerStats = $this->nbaRepository->getLatestPlayerStats($personId);
+
+        // dd($playerData);
 
         return view('nbaStats.dashboard', [
             'user' => $user,

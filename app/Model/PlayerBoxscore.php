@@ -15,7 +15,7 @@ class PlayerBoxscore extends Model
 
     public function schedule()
     {
-        return $this->hasMany('App\Model\Schedule', 'gameId', 'gameId');
+        return $this->belongsTo('App\Model\Schedule', 'gameId', 'gameId');
     }
 
     public function teams()

@@ -69,9 +69,6 @@ class MainPage extends Controller
 
         $latestGames = $this->nbaRepository->getLatestGames();
 
-
-
-        // dd($user);
         return view('home.main', [
             'user' => $user,
             'standingsWest' => $standingsWest,

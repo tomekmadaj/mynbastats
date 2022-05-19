@@ -17,7 +17,7 @@ class Player extends Model
 
     public function teams()
     {
-        return $this->belongsTo('App\Model\Team', 'teamId', 'teamId');
+        return $this->hasOne('App\Model\Team', 'teamId', 'teamId');
     }
 
     public function playerStats()

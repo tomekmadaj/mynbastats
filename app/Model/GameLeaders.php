@@ -15,6 +15,6 @@ class GameLeaders extends Model
 
     public function schedule()
     {
-        return $this->belongsToMany('App\Model\Schedule', 'gameId', 'gameId');
+        return $this->belongsTo('App\Model\Schedule', 'gameId', 'gameId');
     }
 }

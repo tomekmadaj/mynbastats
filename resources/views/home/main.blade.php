@@ -270,10 +270,10 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <div>
                                 <p class="mb-0">
-                                    {{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                                    {{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                                 </p>
                                 <p class="mb-0" style="font-size: 12px;">
-                                    ({{ $leader->teams->first()->fullName }})
+                                    ({{ $leader->teams->fullName }})
                                 </p>
                             </div>
                             <div>
@@ -294,10 +294,10 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <div>
                                 <p class="mb-0">
-                                    {{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                                    {{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                                 </p>
                                 <p class="mb-0" style="font-size: 12px;">
-                                    ({{ $leader->teams->first()->fullName }})
+                                    ({{ $leader->teams->fullName }})
                                 </p>
                             </div>
                             <div>
@@ -318,10 +318,10 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <div>
                                 <p class="mb-0">
-                                    {{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                                    {{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                                 </p>
                                 <p class="mb-0" style="font-size: 12px;">
-                                    ({{ $leader->teams->first()->fullName }})
+                                    ({{ $leader->teams->fullName }})
                                 </p>
                             </div>
                             <div>
@@ -342,10 +342,10 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <div>
                                 <p class="mb-0">
-                                    {{ $leader->players->first()->firstName . ' ' . $leader->players->first()->lastName }}
+                                    {{ $leader->players->firstName . ' ' . $leader->players->lastName }}
                                 </p>
                                 <p class="mb-0" style="font-size: 12px;">
-                                    ({{ $leader->teams->first()->fullName }})
+                                    ({{ $leader->teams->fullName }})
                                 </p>
                             </div>
                             <div>
