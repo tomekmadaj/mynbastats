@@ -5,12 +5,12 @@
         <h2>
             Hello {{ $user->name }}
         </h2>
-        @if ($user->avatar)
+        {{-- @if ($user->avatar)
             <!-- <img src="{{ Storage::url($user->avatar) }}" class="rounded mx-auto d-block user-avatar"> -->
             <img style="height: 40px" src="{{ asset('storage/' . $user->avatar) }}" class="rounded user-avatar">
         @else
             <img src="/images/avatar.png" class="rounded mx-auto d-block">
-        @endif
+        @endif --}}
     </div>
 
 
