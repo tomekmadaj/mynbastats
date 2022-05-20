@@ -178,8 +178,9 @@ class NbaRepository
         $latestGames = $this->scheduleModel
             ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
             ->whereNotNull('hTeamScore')
+            ->orderBy('date', 'DESC')
             ->limit(3)
-            ->orderBy('date', 'DESC')->get();
+            ->get();
 
         return $latestGames;
     }
