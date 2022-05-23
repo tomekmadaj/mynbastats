@@ -76,7 +76,7 @@
                     <div class="div col-6">
                         <label for="favouriteTeam">Favourite Player</label>
                         <div class="div row">
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <div>
                                     <select class="custom-select mr-sm-2" name="player">
                                         @foreach ($players as $player)
@@ -86,26 +86,19 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-6">
                                 <div>
-                                    <select id="selectElementPlayerId" class="custom-select mr-sm-2">
+                                    <select id="selectPlayerId" name="player" class="custom-select mr-sm-2">
 
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="col-6">
-                                <div>
-                                    <select id="selectCos" class="custom-select mr-sm-2">
-
-                                    </select>
-                                </div>
-                            </div>
 
                             <div class="col-6">
                                 <div>
-                                    <select id="selectElementTeamId" class="custom-select mr-sm-2" onchange="val()">
+                                    <select id="selectTeamId" class="custom-select mr-sm-2">
 
                                     </select>
                                 </div>
@@ -124,33 +117,27 @@
     </div>
 
     <script type="text/javascript">
-        let dropdownTeams = document.getElementById('selectElementTeamId');
+        const dropdownTeams = document.getElementById('selectTeamId');
         dropdownTeams.length = 0;
 
-        let defaultOption = document.createElement('option');
-        defaultOption.value = 0;
-        defaultOption.text = 'Choose Your Favourite Team';
+        var defaultOptionTeams = document.createElement('option');
+        defaultOptionTeams.value = 0;
+        defaultOptionTeams.text = 'Choose Your Favourite Player Team';
 
-        dropdownTeams.add(defaultOption);
+        dropdownTeams.add(defaultOptionTeams);
         dropdownTeams.selectedIndex = 0;
 
         var teamsData = <?= json_encode($teams) ?>;
-        let option;
+        let team;
 
-        for (let i = 0; i < teamsData.length; i++) {
-            option = document.createElement('option');
-            option.text = teamsData[i].fullName
-            option.value = teamsData[i].teamId
-            dropdownTeams.add(option);
-            if (teamsData[i].teamId == {{ $user->teamId }}) {
-                dropdownTeams.value = teamsData[i].teamId;
-            }
-        }
+        addTeams(teamsData);
 
-        let dropdownPlayers = document.getElementById('selectElementPlayerId');
+
+        const dropdownPlayers = document.getElementById('selectPlayerId');
         dropdownPlayers.length = 0;
 
-        let defaultOptionPlayers = document.createElement('option');
+        var defaultOptionPlayers = document.createElement('option');
+        defaultOptionPlayers.value = 0;
         defaultOptionPlayers.text = 'Choose Your Favourite Player';
 
         dropdownPlayers.add(defaultOptionPlayers);
@@ -158,23 +145,50 @@
 
         var playersData = <?= json_encode($players) ?>;
         let player;
-        let teamId = dropdownTeams.value;
+        var teamId = dropdownTeams.value;
 
-        for (let i = 0; i < playersData.length; i++) {
+        addPlayers(playersData);
+
+        dropdownTeams.addEventListener('change', function() {
+
+
+            let i, L = dropdownPlayers.options.length -1;
+            for (i = L; i >= 0; i--) {
+                dropdownPlayers.remove(i);
+            }
+            dropdownPlayers.length = 0;
+
+            dropdownPlayers.add(defaultOptionPlayers);
+            dropdownPlayers.selectedIndex = 0
+
+            teamId =  dropdownTeams.value;
+            addPlayers(playersData);
+        });
+
+        function addPlayers(playersData) {
+            for (let i = 0; i < playersData.length; i++) {
             if (playersData[i].teamId == teamId) {
                 player = document.createElement('option');
                 player.text = playersData[i].firstName + ' ' + playersData[i].lastName;
                 player.value = playersData[i].personId;
                 dropdownPlayers.add(player);
-                if (playersData[i].personId == {{ $user->personId }}) {
-                    dropdownPlayers.value = playersData[i].personId;
+                    if (playersData[i].personId == {{ $user->personId }}) {
+                       dropdownPlayers.value = playersData[i].personId;
+                    }
                 }
             }
         }
 
-        dropdown.addEventListener('change', function() {
-            var value = dropdown.value;
-            // alert(value);
-        });
+        function addTeams(teamsData) {
+            for (let i = 0; i < teamsData.length; i++) {
+            team = document.createElement('option');
+            team.text = teamsData[i].fullName;
+            team.value = teamsData[i].teamId;
+            dropdownTeams.add(team);
+                if (teamsData[i].teamId == {{ $userPlayerTeam->teamId }}) {
+                    dropdownTeams.value = teamsData[i].teamId;
+                }
+            }
+        }
     </script>
 @endsection

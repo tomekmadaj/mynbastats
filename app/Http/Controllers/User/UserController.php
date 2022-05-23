@@ -36,11 +36,15 @@ class UserController extends Controller
 
     public function edit()
     {
+        $user = Auth::user();
+        $userPlayerTeam = $this->userRepository->getUserPlayerTeam($user->personId);
+
         $teams = $this->userRepository->getTeams();
         $players = $this->userRepository->getPlayers();
 
         return view('me.edit', [
-            'user' => Auth::user(),
+            'user' => $user,
+            'userPlayerTeam' => $userPlayerTeam,
             'teams' => $teams,
             'players' => $players,
         ]);
@@ -51,7 +55,12 @@ class UserController extends Controller
         //logika zapisu
         $user = Auth::user();
         $data = $request->validated();
-        // dd($data);
+
+        if ($data['player'] == 0) {
+            return redirect()
+                ->route('me.edit')
+                ->with('error', 'Please select your favourite player');
+        }
 
 
         if (!empty($data['avatar'])) {
@@ -86,7 +95,7 @@ class UserController extends Controller
         //phone
         //reguły walidacji są wbudowane w laravela - dokumentacja
         $request->validate([
-            'email' => 'required|unique:users|email', //unique:users - users to nazwa tabeli w którym ma szukać, 
+            'email' => 'required|unique:users|email', //unique:users - users to nazwa tabeli w którym ma szukać,
             //kolejnym parametrem powinna być kolumna - jeżli nie ma podanej bieżę nazwę z klucza
             //email - sprawdza czy postać przesłana to rzeczywiście email
             'name' => 'required|max:2'

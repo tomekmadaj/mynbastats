@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -67,8 +68,10 @@
                             @include('shared.sidebar')
                         </div>
                     </div>
-                    <div class="sb-sidenav-footer">
-                        Sidenav Footer
+                    <div class="sb-sidenav-footer text-muted small">
+                        ©mynbastats.com
+                        <br/>
+                        All rights reserved
                     </div>
                 @show
             </nav>
@@ -83,7 +86,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Fluid footer</div>
+                        <div class="text-muted"></div>
                         <div>
                         </div>
                     </div>

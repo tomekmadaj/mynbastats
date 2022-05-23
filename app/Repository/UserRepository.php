@@ -22,4 +22,6 @@ interface UserRepository
     public function all(): Collection;
 
     public function get(int $id): User;
+
+    public function getUserPlayerTeam($personId);
 }
