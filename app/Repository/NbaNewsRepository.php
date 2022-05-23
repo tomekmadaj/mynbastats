@@ -82,16 +82,15 @@ class NbaNewsRepository
     {
         $apiKey = env('YT_API_KEY');
         $chanelId = self::YT_CHANNEL;
-        $maxResults = 10;
+        $maxResults = 50;
 
         if ($teamId != '') {
-            $maxResults = 100;
+            $maxResults = 1000;
         }
 
         $apiData = @file_get_contents("https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=$chanelId&maxResults=$maxResults&key=$apiKey");
 
         $videoList = json_decode($apiData);
-
 
         foreach ($videoList->items as $key => $video) {
             if (!$teamId == '') {
@@ -100,10 +99,11 @@ class NbaNewsRepository
                     continue;
                 }
             }
-            if (!str_contains($video->snippet->title, 'Highlights')) {
+            if (!str_contains($video->snippet->title, 'Full Game')) {
                 unset($videoList->items[$key]);
             }
         }
+
         $videoList = array_slice($videoList->items, 0, self::VIDOS_TO_SHOW);
 
         return $videoList;

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Model\Team;
 use App\Model\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Model\Player;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -41,6 +43,17 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $teams = Team::currentTeams()->get();
+        $players = Player::activePlayers()->get();
+
+        return view("auth.register", [
+            'teams' => $teams,
+            'players' => $players
+        ]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -50,10 +63,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            //'phone' => ['string', 'min:9']
+            'team' => ['required', 'string', 'not_in:0'],
+            'player' => ['required', 'string', 'not_in:0']
         ]);
     }
 
@@ -69,7 +83,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-           // 'phone' => $data['phone']
+            'teamId' => $data['team'],
+            'personId' => $data['player']
         ]);
     }
 }

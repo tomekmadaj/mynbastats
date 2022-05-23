@@ -76,37 +76,19 @@
                     <div class="div col-6">
                         <label for="favouriteTeam">Favourite Player</label>
                         <div class="div row">
-                            {{-- <div class="col-6">
-                                <div>
-                                    <select class="custom-select mr-sm-2" name="player">
-                                        @foreach ($players as $player)
-                                            <option class="some" value='{{ $player->personId }}'
-                                                {{ $user->players->personId == $player->personId ? 'selected' : '' }}>
-                                                {{ $player->firstName . ' ' . $player->lastName }} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div> --}}
                             <div class="col-6">
                                 <div>
                                     <select id="selectPlayerId" name="player" class="custom-select mr-sm-2">
-
                                     </select>
                                 </div>
                             </div>
-
-
                             <div class="col-6">
                                 <div>
                                     <select id="selectTeamId" class="custom-select mr-sm-2">
-
                                     </select>
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
 

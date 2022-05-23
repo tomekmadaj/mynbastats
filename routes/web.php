@@ -75,14 +75,14 @@ Route::group(['middleware' => ['auth']], function () {
 
         //dodanie routingu dla użytkonika dające możliwość działania na włąsnych grach
         // listing, dodanie gry, usunięcie gry, ocena
-        Route::get('games', 'GameController@list')
-            ->name('games.list');
-        Route::post('games', 'GameController@add')
-            ->name('games.add');
-        Route::delete('games', 'GameController@remove')
-            ->name('games.remove');
-        Route::post('games/rate', 'GameController@rate')
-            ->name('games.rate');
+        // Route::get('games', 'GameController@list')
+        //     ->name('games.list');
+        // Route::post('games', 'GameController@add')
+        //     ->name('games.add');
+        // Route::delete('games', 'GameController@remove')
+        //     ->name('games.remove');
+        // Route::post('games/rate', 'GameController@rate')
+        //     ->name('games.rate');
     });
 
     //USERS FAKER
