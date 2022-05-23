@@ -373,6 +373,90 @@
         </div>
     </div>
 
+    {{-- last games stats --}}
+    <h5 class="mt-5 mb-4">
+        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+        class="mx-auto rounded">
+        <b> Latest {{ $team->fullName }} games stats</b>
+    </h5>
+    @foreach ($latestUserTeamGames as $game)
+        <div class="card mt-3">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-table mr-1"></i>
+                    <b> {{ $game->hTeams->fullName }} vs {{ $game->vTeams->fullName }} </b>
+                    ({{ $game->date }})
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th title='Team' style="width:230px">Team</th>
+                                    <th title='Score'>points</th>
+                                    <th title='Field goals made'>fgm</th>
+                                    <th title='Field goals attempted'>fga</th>
+                                    <th title='Field goals percentage'>fgp</th>
+                                    <th title='Free thorws made'>ftm</th>
+                                    <th title='Free thorws attempted'>fta</th>
+                                    <th title='Free throws percentage'>ftp</th>
+                                    <th title='3-points made'>3pm</th>
+                                    <th title='3-points attempted'>3pa</th>
+                                    <th title='3-points percentage'>3pp</th>
+                                    <th title='Ofensive rebounds'>offReb</th>
+                                    <th title='Defensive rebounds'>defReb</th>
+                                    <th title='Total rebounds'>totReb</th>
+                                    <th title='Assists'>assists</th>
+                                    <th title='Personal fouls'>pFouls</th>
+                                    <th title='Steals'>steals</th>
+                                    <th title='Turnovers'>turnovers</th>
+                                    <th title='Blocks'>blocks</th>
+                                    <th title='Plus Minus'>plus minus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for ($i = 0; $i < 2; $i++)
+                                    @if ($i == 0)
+                                        @php
+                                            $teamBoxscore = 'hTeamsBoxscore';
+                                            $teamId = 'hTeams';
+                                        @endphp
+                                    @elseif ($i == 1)
+                                        @php
+                                            $teamBoxscore = 'vTeamsBoxscore';
+                                            $teamId = 'vTeams';
+                                        @endphp
+                                    @endif
+                                    <tr>
+                                        <td> {{ $game->$teamId->fullName }}</td>
+                                        <td> {{ $game->$teamBoxscore->points }} </td>
+                                        <td> {{ $game->$teamBoxscore->fgm }} </td>
+                                        <td> {{ $game->$teamBoxscore->fga }} </td>
+                                        <td> {{ $game->$teamBoxscore->fgp }} </td>
+                                        <td> {{ $game->$teamBoxscore->ftm }} </td>
+                                        <td> {{ $game->$teamBoxscore->fta }} </td>
+                                        <td> {{ $game->$teamBoxscore->ftp }} </td>
+                                        <td> {{ $game->$teamBoxscore->tpm }} </td>
+                                        <td> {{ $game->$teamBoxscore->tpa }} </td>
+                                        <td> {{ $game->$teamBoxscore->tpp }} </td>
+                                        <td> {{ $game->$teamBoxscore->offReb }} </td>
+                                        <td> {{ $game->$teamBoxscore->defReb }} </td>
+                                        <td> {{ $game->$teamBoxscore->totReb }} </td>
+                                        <td> {{ $game->$teamBoxscore->assists }} </td>
+                                        <td> {{ $game->$teamBoxscore->pFouls }} </td>
+                                        <td> {{ $game->$teamBoxscore->steals }} </td>
+                                        <td> {{ $game->$teamBoxscore->turnovers }} </td>
+                                        <td> {{ $game->$teamBoxscore->blocks }} </td>
+                                        <td> {{ $game->$teamBoxscore->plusMinus }} </td>
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
     {{-- team stats totals --}}
     <h5 class="mt-5 mb-4">
         <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"

@@ -61,7 +61,9 @@ class NbaStatsController extends Controller
 
         $latestPlayerStats = $this->nbaRepository->getLatestPlayerStats($personId);
 
-        // dd($playerData);
+        $latestUserTeamGames = $this->nbaRepository->getLatestGames($teamId);
+
+        // dd($teamData);
 
         return view('nbaStats.dashboard', [
             'user' => $user,
@@ -77,7 +79,8 @@ class NbaStatsController extends Controller
             'playerSeasons' => $playerSeasons,
             'playerImageUrl' => $playerImageUrl,
             'teamPlayersStats' => $teamPlayersStats,
-            'latestPlayerStats' => $latestPlayerStats
+            'latestPlayerStats' => $latestPlayerStats,
+            'latestUserTeamGames' => $latestUserTeamGames
         ]);
     }
 }

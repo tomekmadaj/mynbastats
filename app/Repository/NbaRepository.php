@@ -26,7 +26,6 @@ class NbaRepository
     private Standing $standingModel;
     private Player_stat $playerStatModel;
     private Teams_Stats_Ranking $teamStatsRankingModel;
-    private Team_Leader $teamLeadersModel;
     private Schedule $scheduleModel;
     private GameBoxscore $gameBoxscoreModel;
     private GameLeaders $gameLeadersModel;
@@ -113,15 +112,6 @@ class NbaRepository
         return $teamPlayersStats;
     }
 
-    // public function teamLeaders($teamId)
-    // {
-    //     $teamLeaders = $this->teamLeadersModel->with('teams')->where('teamId', '=', $teamId)->get();
-
-    //     return $teamLeaders;
-    // }
-
-    //User Dashboard
-
     public function getUserPlayer($personId)
     {
         $userPlayer = $this->playerModel
@@ -173,14 +163,24 @@ class NbaRepository
         return $latestPlayerStats;
     }
 
-    public function getLatestGames()
+    public function getLatestGames($teamId = null)
     {
-        $latestGames = $this->scheduleModel
-            ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
-            ->whereNotNull('hTeamScore')
-            ->orderBy('date', 'DESC')
-            ->limit(3)
-            ->get();
+        if ($teamId) {
+            $latestGames = $this->scheduleModel
+                ->userTeamSchedule($teamId)
+                ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
+                ->whereNotNull('hTeamScore')
+                ->orderBy('date', 'DESC')
+                ->limit(3)
+                ->get();
+        } else {
+            $latestGames = $this->scheduleModel
+                ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
+                ->whereNotNull('hTeamScore')
+                ->orderBy('date', 'DESC')
+                ->limit(3)
+                ->get();
+        }
 
         return $latestGames;
     }

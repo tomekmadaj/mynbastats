@@ -2,8 +2,9 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Schedule extends Model
 {
@@ -56,5 +57,10 @@ class Schedule extends Model
     public function vTeamsBoxscore()
     {
         return $this->belongsTo('App\Model\GameBoxscore', 'vTeamId', 'teamId');
+    }
+
+    public function scopeUserTeamSchedule(Builder $query, $teamId)
+    {
+        return $query->whereIn('hTeamId', [$teamId])->orWherein('vTeamId', [$teamId]);
     }
 }
