@@ -25,10 +25,8 @@ class UserRepository implements UserRepositoryInterface
 
     public function updateModel(User $user, array $data): void
     {
-        // dd($data['player']);
         $user->email = $data['email'] ?? $user->email;
         $user->name = $data['name'] ?? $user->name;
-        // $user->phone = $data['phone'] ?? $user->phone;
         $user->avatar = $data['avatar'] ?? null;
         $user->teamId = $data['team'] ?? null;
         $user->personId = $data['player'] ?? null;
@@ -36,15 +34,10 @@ class UserRepository implements UserRepositoryInterface
         $user->save();
     }
 
-    public function getUserAvatar(User $user)
-    {
-        return $user->avatar;
-    }
-
     public function getUserTeamAndPlayer(User $user)
     {
-        //$user->load('teams');
-        // $user->load('players');
+        $user->load('teams');
+        $user->load('players');
 
         return $user;
     }
@@ -57,11 +50,6 @@ class UserRepository implements UserRepositoryInterface
     public function getPlayers(): Collection
     {
         return $this->playerModel->activePlayers()->get();
-    }
-
-    public function getUserPlayerTeam($personId)
-    {
-        return $this->playerModel->select('teamId')->find($personId);
     }
 
     public function all(): Collection

@@ -49,6 +49,6 @@ class Team extends Model
 
     public function scopeCurrentTeams(Builder $query)
     {
-        return $query->whereNotin('teamId', [0, 1610616833, 1610616834, 1710612762, 1810612762]);
+        return $query->whereNotin('teamId', [0, 1610616833, 1610616834, 1710612762, 1810612762])->orderBy('fullName');
     }
 }

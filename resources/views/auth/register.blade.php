@@ -78,10 +78,10 @@
                                         @endforeach
                                     </select>
                                     @error('team')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -92,15 +92,15 @@
                                     <select id="selectPlayerId" name="player" class="custom-select mr-sm-2 form-control @error('player') is-invalid @enderror" required autocomplete="player">
                                     </select>
                                     @error('player')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <label
                                 class="col-md-4 col-form-label text-md-right"> </label>
                                 <div class="col-md-6">
-                                    <select id="selectTeamId" class="custom-select mr-sm-2">
+                                    <select id="selectPlayerTeamId" class="custom-select mr-sm-2">
                                     </select>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
     </div>
 
     <script type="text/javascript">
-        const dropdownTeams = document.getElementById('selectTeamId');
+        const dropdownTeams = document.getElementById('selectPlayerTeamId');
         dropdownTeams.length = 0;
 
         var defaultOptionTeams = document.createElement('option');

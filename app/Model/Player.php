@@ -27,6 +27,6 @@ class Player extends Model
 
     public function scopeActivePlayers(Builder $query)
     {
-        return $query->where('isActive', '=', 1);
+        return $query->where('isActive', '=', 1)->orderBy('firstName');
     }
 }

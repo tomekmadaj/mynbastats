@@ -11,8 +11,6 @@ interface UserRepository
 {
     public function updateModel(User $user, array $data): void;
 
-    public function getUserAvatar(User $user);
-
     public function getUserTeamAndPlayer(User $user);
 
     public function getTeams(): Collection;
@@ -22,6 +20,4 @@ interface UserRepository
     public function all(): Collection;
 
     public function get(int $id): User;
-
-    public function getUserPlayerTeam($personId);
 }

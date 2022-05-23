@@ -11,6 +11,7 @@
                             <th>Lp</th>
                             <th>Id</th>
                             <th>Nick</th>
+                            <th>Email</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -20,6 +21,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $user['id'] }}</td>
                                 <td>{{ $user['name'] }}</td>
+                                <td>{{ $user['email'] }}</td>
                                 <td>
                                     @can('view', $user)
                                         <!-- jeżeli nie mamy modelu a chcemy coś uwarunkować np. t

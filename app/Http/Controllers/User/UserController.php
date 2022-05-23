@@ -37,14 +37,13 @@ class UserController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $userPlayerTeam = $this->userRepository->getUserPlayerTeam($user->personId);
+        $user = $this->userRepository->getUserTeamAndPlayer($user);
 
         $teams = $this->userRepository->getTeams();
         $players = $this->userRepository->getPlayers();
 
         return view('me.edit', [
             'user' => $user,
-            'userPlayerTeam' => $userPlayerTeam,
             'teams' => $teams,
             'players' => $players,
         ]);
@@ -60,6 +59,10 @@ class UserController extends Controller
             return redirect()
                 ->route('me.edit')
                 ->with('error', 'Please select your favourite player');
+        } elseif ($data['team'] == 0) {
+            return redirect()
+                ->route('me.edit')
+                ->with('error', 'Please select your favourite team');
         }
 
 
@@ -73,7 +76,7 @@ class UserController extends Controller
                 $data['avatar'] = $path;
             }
         } else {
-            $data['avatar'] = $this->userRepository->getUserAvatar($user);
+            $data['avatar'] = $user->avatar;
         }
 
 
@@ -98,7 +101,10 @@ class UserController extends Controller
             'email' => 'required|unique:users|email', //unique:users - users to nazwa tabeli w którym ma szukać,
             //kolejnym parametrem powinna być kolumna - jeżli nie ma podanej bieżę nazwę z klucza
             //email - sprawdza czy postać przesłana to rzeczywiście email
-            'name' => 'required|max:2'
+            'name' => 'required|max:2',
+            'team' => 'required|not_in:0',
+            'player' => 'required|not_in:0',
+
         ]);
 
         //alternatywny zapis

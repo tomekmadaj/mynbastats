@@ -63,13 +63,18 @@
                     <div class="div col-6">
                         <label for="favouriteTeam">Favourite Team</label>
                         <div>
-                            <select class="custom-select mr-sm-2" name="team">
+                            <select name="team" class="custom-select mr-sm-2 form-control @error('team') is-invalid @enderror" required autocomplete="team" name="team">
                                 @foreach ($teams as $team)
                                     <option value='{{ $team->teamId }}'
                                         {{ $user->teams->teamId == $team->teamId ? 'selected' : '' }}>
                                         {{ $team->fullName }} </option>
                                 @endforeach
                             </select>
+                            @error('team')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
 
@@ -78,13 +83,18 @@
                         <div class="div row">
                             <div class="col-6">
                                 <div>
-                                    <select id="selectPlayerId" name="player" class="custom-select mr-sm-2">
+                                    <select id="selectPlayerId" name="player" class="custom-select mr-sm-2 form-control @error('player') is-invalid @enderror" required autocomplete="player">
                                     </select>
+                                    @error('player')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div>
-                                    <select id="selectTeamId" class="custom-select mr-sm-2">
+                                    <select id="selectPlayerTeamId" class="custom-select mr-sm-2">
                                     </select>
                                 </div>
                             </div>
@@ -99,7 +109,7 @@
     </div>
 
     <script type="text/javascript">
-        const dropdownTeams = document.getElementById('selectTeamId');
+        const dropdownTeams = document.getElementById('selectPlayerTeamId');
         dropdownTeams.length = 0;
 
         var defaultOptionTeams = document.createElement('option');
@@ -167,7 +177,7 @@
             team.text = teamsData[i].fullName;
             team.value = teamsData[i].teamId;
             dropdownTeams.add(team);
-                if (teamsData[i].teamId == {{ $userPlayerTeam->teamId }}) {
+                if (teamsData[i].teamId == {{ $user->players->teamId }}) {
                     dropdownTeams.value = teamsData[i].teamId;
                 }
             }
