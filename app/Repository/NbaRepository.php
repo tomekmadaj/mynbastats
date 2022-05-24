@@ -224,19 +224,25 @@ class NbaRepository
         $fileId = $dom->getElementById('file');
         $imagesTag = $fileId->getElementsByTagName('a');
 
-        // dd($imagesTag);
         $playerImgFileUrl = '';
-
         foreach ($imagesTag as $image) {
             $playerImgFileUrl = $image->getAttribute('href');
         }
 
-        if ($playerImgFileUrl == '') {
-            return '/images/michael-jordan.jpg';
-        }
-
         $playerImgFileUrl = 'https:' . $playerImgFileUrl;
 
-        return $playerImgFileUrl;
+
+        $fileSrc = $dom->getElementById('fileinfotpl_src');
+        $fileSrcTag = $fileSrc->nextElementSibling->getElementsByTagName('a');
+
+        $imgFileSrc = '';
+        foreach ($fileSrcTag as $src) {
+            $imgFileSrc = $src->getAttribute('href');
+        }
+
+        return [
+            'playerImgFileUrl' => $playerImgFileUrl,
+            'imgFileSrc' => $imgFileSrc
+        ];
     }
 }

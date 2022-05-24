@@ -13,7 +13,7 @@ class NbaNewsRepository
     const YT_CHANNEL = 'UCMurFWpRhMHUAC-0nqrrfbg';
     // Nba YT chanel - 'Game Recap' - blocking
     // const YT_CHANNEL = 'UCLd4dSmXdrJykO_hgOzbfPw';
-    const VIDOS_TO_SHOW = 6;
+    const VIDOS_TO_SHOW = 4;
 
 
     public function getTeamsNews($teamId = self::ALL_NEWS)

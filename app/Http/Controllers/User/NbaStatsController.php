@@ -86,6 +86,8 @@ class NbaStatsController extends Controller
 
         $latestPlayerStats = $this->nbaRepository->getLatestPlayerStats($personId);
 
+        // dd($playerImageUrl);
+
         return view('nbaStats.player', [
             'user' => $user,
             'player' => $playerData,

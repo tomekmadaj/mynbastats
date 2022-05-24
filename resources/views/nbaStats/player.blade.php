@@ -6,8 +6,9 @@
         {{-- User Player --}}
         <div class="card" style="width: 18rem;">
             <p class="text-center"><b>{{ $player->firstName . ' ' . $player->lastName }}</b></p>
-            <img src="{{ $playerImageUrl }}" class="rounded mx-auto d-block user-avatar">
-            <span class="text-center" style="font-size: 10px">(img source: https://pl.wikipedia.org)</span>
+            <img src="{{ $playerImageUrl['playerImgFileUrl'] }}" class="rounded mx-auto d-block user-avatar">
+            <a href="{{ $playerImageUrl['imgFileSrc'] }}" target="_blank" class="text-center" style="font-size: 10px">
+                (img source)</a>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Team: {{ $player->teams->fullName }}</li>
