@@ -5,18 +5,18 @@
     <div class="col-3 ">
         {{-- User Player --}}
         <div class="card" style="width: 18rem;">
-            <p class="text-center"><b>{{ $player->firstName . ' ' . $player->lastName }}</b></p>
+            <p class="text-center"><b>{{ $user->players->firstName . ' ' . $user->players->lastName }}</b></p>
             <img src="{{ $playerImageUrl['playerImgFileUrl'] }}" class="rounded mx-auto d-block user-avatar">
             <a href="{{ $playerImageUrl['imgFileSrc'] }}" target="_blank" class="text-center" style="font-size: 10px">
                 (img source)</a>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Team: {{ $player->teams->fullName }}</li>
-                    <li class="list-group-item">Position: {{ $player->pos }}</li>
-                    <li class="list-group-item">Height: {{ $player->heightMeters }}m</li>
-                    <li class="list-group-item">Weight: {{ $player->weightKilograms }}kg</li>
-                    <li class="list-group-item">Nba debut: {{ $player->nbaDebutYear }}</li>
-                    <li class="list-group-item">Years pro: {{ $player->yearsPro }}</li>
+                    <li class="list-group-item">Team: {{ $user->teams->fullName }}</li>
+                    <li class="list-group-item">Position: {{ $user->players->pos }}</li>
+                    <li class="list-group-item">Height: {{ $user->players->heightMeters }}m</li>
+                    <li class="list-group-item">Weight: {{ $user->players->weightKilograms }}kg</li>
+                    <li class="list-group-item">Nba debut: {{ $user->players->nbaDebutYear }}</li>
+                    <li class="list-group-item">Years pro: {{ $user->players->yearsPro }}</li>
                 </ul>
             </div>
         </div>
@@ -125,7 +125,7 @@
         </div>
         @endif
         {{-- Player Stats Career --}}
-        @if (isset($playerCareerStats->first()->players))
+        @if (isset($playerCareerStats->players))
         <div class="card mt-3">
             <div class="card">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>Player stats: <b>
@@ -206,7 +206,7 @@
         </div>
         @else
         <div>
-            There's no career stats for player: {{ $player->firstName . ' ' . $player->lastName }}
+            There's no career stats for player: {{ $user->players->firstName . ' ' . $user->players->lastName }}
         </div>
         @endif
     </div>
@@ -216,7 +216,7 @@
 <div class="card mt-5">
     <div class="card">
         <div class="card-header"><i class="fas fa-table mr-1"></i><b>
-                {{ $player->firstName . ' ' . $player->lastName }}
+                {{ $user->players->firstName . ' ' . $user->players->lastName }}
             </b> - latest games stats:
         </div>
         <div class="card-body">

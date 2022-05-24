@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request as HttpRequest;
 use App\Repository\NbaRepository;
 
-class MainPage extends Controller
+class MainController extends Controller
 {
     private NbaRepository $nbaRepository;
 
@@ -57,7 +57,7 @@ class MainPage extends Controller
 
         $user = Auth::user();
 
-        $latestGames = $this->nbaRepository->getLatestGames();
+        $latestGames = $this->nbaRepository->latestGames();
 
         return view('home.main', [
             'user' => $user,

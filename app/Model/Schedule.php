@@ -11,7 +11,6 @@ class Schedule extends Model
     use HasFactory;
 
     protected $table = 'schedule';
-
     protected $primaryKey = 'gameId';
 
     public function gameBoxscore()
@@ -59,7 +58,7 @@ class Schedule extends Model
         return $this->belongsTo('App\Model\GameBoxscore', 'vTeamId', 'teamId');
     }
 
-    public function scopeUserTeamSchedule(Builder $query, $teamId)
+    public function scopeTeamSchedule(Builder $query, $teamId)
     {
         return $query->whereIn('hTeamId', [$teamId])->orWherein('vTeamId', [$teamId]);
     }

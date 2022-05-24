@@ -2,8 +2,8 @@
 
 @section('content')
     <h5 class="mb-4">
-        <img style="height: 30px" src="/images/NbaLogos/{{ $team->teamId }}.png" class="mx-auto rounded">
-        <b> {{ $team->fullName }} latest highlights</b>
+        <img style="height: 30px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png" class="mx-auto rounded">
+        <b> {{ $user->teams->fullName }} latest highlights</b>
     </h5>
     @if (!empty($videos))
         <div class="row">
@@ -21,6 +21,6 @@
             @endforeach
         </div>
     @else
-        <p>There's no recent highlights for {{ $team->fullName }} </p>
+        <p>There's no recent highlights for {{ $user->teams->fullName }} </p>
     @endif
 @endsection

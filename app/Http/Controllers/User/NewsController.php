@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Repository\NbaNewsRepository;
-use App\Repository\NbaRepository;
+use App\Repository\User\UserRepository;
 
 class NewsController extends Controller
 {
-    private NbaNewsRepository $nbaNewsRepository;
-    private NbaRepository $nbaRepository;
+    private UserRepository $userRepository;
 
-    public function __construct(NbaNewsRepository $nbaNewsRepository, NbaRepository $nbaRepository)
+    public function __construct(NbaNewsRepository $nbaNewsRepository, UserRepository $userRepository)
     {
         $this->nbaNewsRepository = $nbaNewsRepository;
-        $this->nbaRepository = $nbaRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function teamNews()
@@ -25,11 +23,11 @@ class NewsController extends Controller
         $teamId = $user->teamId;
 
         $teamNewsData = $this->nbaNewsRepository->getTeamsNews($teamId);
-        $userTeam = $this->nbaRepository->getUserTeam($teamId);
+        $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
         return view('nbaStats.news', [
             'teamNews' => $teamNewsData,
-            'team' => $userTeam
+            'user' => $userData
         ]);
     }
 
@@ -37,15 +35,14 @@ class NewsController extends Controller
     public function teamHighlights()
     {
         $user = Auth::user();
-        $teamId = $user->teamId;
-        $userTeam = $this->nbaRepository->getUserTeam($teamId);
+        $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
-        $userTeamName = $userTeam->fullName;
+        $userTeamName = $userData->teams->fullName;
         $highlightsVideos = $this->nbaNewsRepository->getVideos($userTeamName);
 
         return view('nbaStats.highlights', [
             'videos' => $highlightsVideos,
-            'team' => $userTeam
+            'user' => $userData
         ]);
     }
 }

@@ -41,7 +41,6 @@ class NbaNewsRepository
             }
         }
 
-
         $newsTitle = [];
         $newsResults = $xpath->query("//*[@class='" . 'news-item-title' . "']");
 
@@ -87,7 +86,7 @@ class NbaNewsRepository
         $maxResults = 50;
 
         if ($teamId != '') {
-            $maxResults = 1000;
+            $maxResults = 500;
         }
 
         $apiData = @file_get_contents("https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=$chanelId&maxResults=$maxResults&key=$apiKey");

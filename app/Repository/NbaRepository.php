@@ -15,11 +15,12 @@ use App\Model\Team_Leader;
 use App\Model\GameBoxscore;
 use App\Model\PlayerBoxscore;
 use App\Model\Teams_Stats_Ranking;
-use Illuminate\Support\Facades\Auth;
 
 class NbaRepository
 {
     const CURRENT_SEASON = '2021';
+    const LATEST_PLAYER_GAMES = 5;
+    const LATEST_TEAM_GAMES = 3;
 
     private Team $teamModel;
     private Player $playerModel;
@@ -27,15 +28,13 @@ class NbaRepository
     private Player_stat $playerStatModel;
     private Teams_Stats_Ranking $teamStatsRankingModel;
     private Schedule $scheduleModel;
-    private GameBoxscore $gameBoxscoreModel;
-    private GameLeaders $gameLeadersModel;
     private PlayerBoxscore $playerBoxscoreModel;
 
     public function __construct(
         Team $teamModel,
         Player $playerModel,
-        Standing $standingModel,
         Player_Stat $playerStatModel,
+        Standing $standingModel,
         Teams_Stats_Ranking $teamsStatsRankingModel,
         Team_Leader $teamLeadersModel,
         Schedule $scheduleModel,
@@ -45,71 +44,14 @@ class NbaRepository
     ) {
         $this->teamModel = $teamModel;
         $this->playerModel = $playerModel;
-        $this->standingModel = $standingModel;
         $this->playerStatModel = $playerStatModel;
+        $this->standingModel = $standingModel;
         $this->teamStatsRankingModel = $teamsStatsRankingModel;
         $this->teamLeadersModel = $teamLeadersModel;
         $this->scheduleModel = $scheduleModel;
         $this->gameBoxscoreModel = $gameBoxscoreModel;
         $this->gameLeadersModel = $gameLeadersModel;
         $this->playerBoxscoreModel = $playerBoxscore;
-    }
-
-    public function standingsWest()
-    {
-        $standings = $this->standingModel
-            ->with('teams')
-            ->where('conference', '=', 'west')
-            ->get();
-
-        return $standings;
-    }
-
-    public function standingsEast()
-    {
-        $standings = $this->standingModel
-            ->with('teams')
-            ->where('conference', '=', 'east')
-            ->get();
-
-        return $standings;
-    }
-
-    public function playerStats($personId, $seasonYear = self::CURRENT_SEASON)
-    {
-        $playerStats = $this->playerStatModel
-            ->with('players', 'teams')
-            ->where([
-                ['personId', '=', $personId],
-                ['seasonYear', '=', $seasonYear]
-            ])->first();
-
-        return $playerStats;
-    }
-
-    public function teamStats($teamId)
-    {
-        $teamStats = $this->teamStatsRankingModel
-            ->with('teams')
-            ->where('teamId', '=', $teamId)
-            ->first();
-
-        return $teamStats;
-    }
-
-    public function teamPlayersStats($teamId, $seasonYear = self::CURRENT_SEASON)
-    {
-        $teamPlayersStats = $this->playerStatModel
-            ->with('players')
-            ->where([
-                ['teamId', '=', $teamId],
-                ['seasonYear', '=', $seasonYear]
-            ])
-            ->sortable()
-            ->orderBy('ppg', 'DESC')
-            ->get();
-
-        return $teamPlayersStats;
     }
 
     public function getUserPlayer($personId)
@@ -129,14 +71,46 @@ class NbaRepository
         return $userTeam;
     }
 
-    public function teamLeaders($stat, $seasonYear = self::CURRENT_SEASON, $teamId = null)
+    public function standingsWest()
     {
-        $teamLeaders = $this->playerStatModel
-            ->with(['players', 'teams'])
-            ->bestStats($stat, $seasonYear, $teamId)
+        $standings = $this->standingModel
+            ->with('teams')
+            ->west()
             ->get();
 
-        return $teamLeaders;
+        return $standings;
+    }
+
+    public function standingsEast()
+    {
+        $standings = $this->standingModel
+            ->with('teams')
+            ->east()
+            ->get();
+
+        return $standings;
+    }
+
+    public function teamStats($teamId)
+    {
+        $teamStats = $this->teamStatsRankingModel
+            ->with('teams')
+            ->where('teamId', '=', $teamId)
+            ->first();
+
+        return $teamStats;
+    }
+
+    public function playerStats($personId, $seasonYear = self::CURRENT_SEASON)
+    {
+        $playerStats = $this->playerStatModel
+            ->with('players', 'teams')
+            ->where([
+                ['personId', '=', $personId],
+                ['seasonYear', '=', $seasonYear]
+            ])->first();
+
+        return $playerStats;
     }
 
     public function playerSeasons($personId)
@@ -151,37 +125,61 @@ class NbaRepository
         return $playerSeasons;
     }
 
-    public function getLatestPlayerStats($personId)
+    public function latestPlayerStats($personId)
     {
         $latestPlayerStats = $this->playerBoxscoreModel
             ->with('schedule.hTeams', 'schedule.vTeams')
             ->where('personId', '=', $personId)
-            ->limit(5)
+            ->limit(self::LATEST_PLAYER_GAMES)
             ->orderBy('date', 'DESC')
             ->get();
 
         return $latestPlayerStats;
     }
 
-    public function getLatestGames($teamId = null)
+    public function teamPlayersStats($teamId, $seasonYear = self::CURRENT_SEASON)
+    {
+        $teamPlayersStats = $this->playerStatModel
+            ->with('players')
+            ->where([
+                ['teamId', '=', $teamId],
+                ['seasonYear', '=', $seasonYear]
+            ])
+            ->sortable()
+            ->orderBy('ppg', 'DESC')
+            ->get();
+
+        return $teamPlayersStats;
+    }
+
+    public function teamLeaders($stat, $seasonYear = self::CURRENT_SEASON, $teamId = null)
+    {
+        $teamLeaders = $this->playerStatModel
+            ->with(['players', 'teams'])
+            ->bestStats($stat, $seasonYear, $teamId)
+            ->get();
+
+        return $teamLeaders;
+    }
+
+    public function latestGames($teamId = null)
     {
         if ($teamId) {
             $latestGames = $this->scheduleModel
-                ->userTeamSchedule($teamId)
+                ->teamSchedule($teamId)
                 ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
                 ->whereNotNull('hTeamScore')
                 ->orderBy('date', 'DESC')
-                ->limit(3)
+                ->limit(self::LATEST_TEAM_GAMES)
                 ->get();
         } else {
             $latestGames = $this->scheduleModel
                 ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
                 ->whereNotNull('hTeamScore')
                 ->orderBy('date', 'DESC')
-                ->limit(3)
+                ->limit(self::LATEST_TEAM_GAMES)
                 ->get();
         }
-
         return $latestGames;
     }
 

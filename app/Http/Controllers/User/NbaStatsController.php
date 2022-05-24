@@ -10,15 +10,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Repository\NbaRepository;
+use App\Repository\User\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
 class NbaStatsController extends Controller
 {
-    private  NbaRepository $nbaRepository;
+    private NbaRepository $nbaRepository;
+    private UserRepository $userRepository;
 
-    public function __construct(NbaRepository $nbaRepository)
+    public function __construct(NbaRepository $nbaRepository, UserRepository $userRepository)
     {
         $this->nbaRepository = $nbaRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function team(Request $request): View
@@ -39,7 +42,7 @@ class NbaStatsController extends Controller
 
         $teamPlayersStats = $this->nbaRepository->teamPlayersStats($teamId);
 
-        $latestUserTeamGames = $this->nbaRepository->getLatestGames($teamId);
+        $latestUserTeamGames = $this->nbaRepository->latestGames($teamId);
 
 
         return view('nbaStats.team', [
@@ -75,8 +78,7 @@ class NbaStatsController extends Controller
 
         in_array($seasonYear, $seasonsData) ?: $seasonYear = $seasonsData[0];
 
-        $playerData = $this->nbaRepository->getUserPlayer($personId);
-        $teamData = $this->nbaRepository->getUserTeam($teamId);
+        $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
         $playerSeasonStatsData = $this->nbaRepository->playerStats($personId, $seasonYear);
 
@@ -84,14 +86,10 @@ class NbaStatsController extends Controller
 
         $playerImageUrl = $this->nbaRepository->getPlayerImageUrl($personId);
 
-        $latestPlayerStats = $this->nbaRepository->getLatestPlayerStats($personId);
-
-        // dd($playerImageUrl);
+        $latestPlayerStats = $this->nbaRepository->latestPlayerStats($personId);
 
         return view('nbaStats.player', [
-            'user' => $user,
-            'player' => $playerData,
-            'team' => $teamData,
+            'user' => $userData,
             'playerSeasonStats' => $playerSeasonStatsData,
             'playerCareerStats' => $playerCareerStatsData,
             'playerSeasons' => $playerSeasons,

@@ -37,15 +37,15 @@ class UserController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $user = $this->userRepository->getUserTeamAndPlayer($user);
+        $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
-        $teams = $this->userRepository->getTeams();
-        $players = $this->userRepository->getPlayers();
+        $teamsData = $this->userRepository->getTeams();
+        $playersData = $this->userRepository->getPlayers();
 
         return view('me.edit', [
-            'user' => $user,
-            'teams' => $teams,
-            'players' => $players,
+            'user' => $userData,
+            'teams' => $teamsData,
+            'players' => $playersData,
         ]);
     }
 

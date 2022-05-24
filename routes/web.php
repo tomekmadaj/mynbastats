@@ -26,9 +26,9 @@ Route::group([
     'as' => 'home.',
     'namespace' => 'Home'
 ], function () {
-    Route::get('/', 'MainPage@home')
+    Route::get('/', 'MainController@home')
         ->name('mainPage');
-    Route::get('/standings', 'MainPage@standings')
+    Route::get('/standings', 'MainController@standings')
         ->name('standings');
     Route::get('/news', 'NbaNewsController@news')
         ->name('news');
