@@ -26,8 +26,10 @@ Route::group([
     'as' => 'home.',
     'namespace' => 'Home'
 ], function () {
-    Route::get('/', 'MainPage')
+    Route::get('/', 'MainPage@home')
         ->name('mainPage');
+    Route::get('/standings', 'MainPage@standings')
+        ->name('standings');
     Route::get('/news', 'NbaNewsController@news')
         ->name('news');
     Route::get('/highlights', 'NbaNewsController@highlights')
@@ -45,8 +47,10 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'nbaStats.',
         'namespace' => 'User'
     ], function () {
-        route::get('/', 'NbaStatsController@dashboard')
-            ->name('dashboard');
+        route::get('team', 'NbaStatsController@team')
+            ->name('teamDashboard');
+        route::get('player', 'NbaStatsController@player')
+            ->name('playerDashboard');
         Route::get('teamNews', 'NewsController@teamNews')
             ->name('teamNews');
         Route::get('teamHighlights', 'NewsController@teamHighlights')

@@ -101,8 +101,6 @@ class AddNewGamesBoxscore extends Command
         $this->info('Loading finished games leaders');
         $progressbar = $this->output->createProgressBar(count($gamesUrl));
 
-        DB::table('games_leaders')->truncate();
-
         foreach ($gamesUrl as $gameUrl) {
             $url = $gameUrl;
 
@@ -137,8 +135,6 @@ class AddNewGamesBoxscore extends Command
     {
         $this->info('Loading finished games players boxscores');
         $progressbar = $this->output->createProgressBar(count($gamesUrl));
-
-        DB::table('games_players_boxscore')->truncate();
 
         foreach ($gamesUrl as $gameUrl) {
             $url = $gameUrl;

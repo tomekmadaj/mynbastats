@@ -129,11 +129,11 @@ class NbaRepository
         return $userTeam;
     }
 
-    public function teamLeaders($teamId, $stat, $seasonYear = self::CURRENT_SEASON)
+    public function teamLeaders($stat, $seasonYear = self::CURRENT_SEASON, $teamId = null)
     {
         $teamLeaders = $this->playerStatModel
             ->with(['players', 'teams'])
-            ->bestStats($teamId, $stat, $seasonYear)
+            ->bestStats($stat, $seasonYear, $teamId)
             ->get();
 
         return $teamLeaders;

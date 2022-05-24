@@ -1,6 +1,10 @@
 <a class="nav-link" href="{{ route('home.mainPage') }}">
     <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-    Main Page
+    NBA Home
+</a>
+<a class="nav-link" href="{{ route('home.standings') }}">
+    <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
+    NBA Standings
 </a>
 <a class="nav-link" href="{{ route('home.news') }}">
     <div class="sb-nav-link-icon"><i class="fas fa-newspaper"></i></div>
@@ -12,11 +16,17 @@
 </a>
 
 <div class="sb-sidenav-menu-heading">My Nba</div>
-<a class="nav-link" href="{{ route('nbaStats.dashboard') }}">
-    <div class="sb-nav-link-icon"><i class="fa fa-star"></i></div>
-    My Nba Stats
-</a>
+@guest
+    <a class="nav-link" href="{{ route('login') }}">
+        <div class="sb-nav-link-icon"><i class="fa fa-star"></i></div>
+        My Nba Stats
+    </a>
+@endguest
 @auth
+    <a class="nav-link" href="{{ route('nbaStats.teamDashboard') }}">
+        <div class="sb-nav-link-icon"><i class="fa fa-star"></i></div>
+        My Team Stats
+    </a>
     <a class="nav-link" href="{{ route('nbaStats.teamNews') }}">
         <div class="sb-nav-link-icon"><i class="fa fa-newspaper"></i></div>
         My Team News
@@ -24,6 +34,10 @@
     <a class="nav-link" href="{{ route('nbaStats.highlights') }}">
         <div class="sb-nav-link-icon"><i class="fa fa-film"></i></div>
         My Team Highlights
+    </a>
+    <a class="nav-link" href="{{ route('nbaStats.playerDashboard') }}">
+        <div class="sb-nav-link-icon"><i class="fa fa-street-view"></i></div>
+        My Player Stats
     </a>
     <a class="nav-link" href="#">
         <div class="sb-nav-link-icon"><i class="fa fa-wrench"></i></div>

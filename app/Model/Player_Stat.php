@@ -51,21 +51,21 @@ class Player_Stat extends Model
         return $this->hasOne('App\Model\Team', 'teamId', 'teamId');
     }
 
-    public function scopeBestStats(Builder $query, $teamId, $stat, $seasonYear): Builder
+    public function scopeBestStats(Builder $query, $stat, $seasonYear, $teamId = null): Builder
     {
-        if ($teamId == 'all') {
+        if ($teamId) {
+            return $query
+                ->where([
+                    ['teamId', '=', $teamId],
+                    ['seasonYear', '=', $seasonYear]
+                ])
+                ->orderBy($stat, 'desc')
+                ->limit(5);
+        } else {
             return $query
                 ->where('seasonYear', '=', $seasonYear)
                 ->orderBy($stat, 'desc')
                 ->limit(5);
         }
-
-        return $query
-            ->where([
-                ['teamId', '=', $teamId],
-                ['seasonYear', '=', $seasonYear]
-            ])
-            ->orderBy($stat, 'desc')
-            ->limit(5);
     }
 }

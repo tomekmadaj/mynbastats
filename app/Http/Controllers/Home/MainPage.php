@@ -19,7 +19,7 @@ class MainPage extends Controller
         $this->nbaRepository = $nbaRepository;
     }
 
-    public function __invoke(HttpRequest $request)
+    public function home()
     {
         //generowanie adresów url
         //$gameId = 44;
@@ -44,7 +44,7 @@ class MainPage extends Controller
 
         // dd('end');
 
-        $user = Auth::user();
+
 
         // $user = $request->user();
 
@@ -55,21 +55,30 @@ class MainPage extends Controller
 
         // Auth::logout();
 
-        $standingsWest = $this->nbaRepository->standingsWest();
-
-        $standingsEast = $this->nbaRepository->standingsEast();
-
-        // $teamLeaders = $this->nbaRepository->teamLeaders('1610612738');
-        //dd($teamLeaders);
-
-        $pointLeaders = $this->nbaRepository->teamLeaders('all', 'ppg', $this->nbaRepository::CURRENT_SEASON);
-        $reboundsLeaders = $this->nbaRepository->teamLeaders('all', 'rpg', $this->nbaRepository::CURRENT_SEASON);
-        $assistsLeaders = $this->nbaRepository->teamLeaders('all', 'apg', $this->nbaRepository::CURRENT_SEASON);
-        $blocksLeaders = $this->nbaRepository->teamLeaders('all', 'bpg', $this->nbaRepository::CURRENT_SEASON);
+        $user = Auth::user();
 
         $latestGames = $this->nbaRepository->getLatestGames();
 
         return view('home.main', [
+            'user' => $user,
+            'latestGames' => $latestGames
+        ]);
+    }
+
+    public function standings()
+    {
+        $user = Auth::user();
+
+        $standingsWest = $this->nbaRepository->standingsWest();
+
+        $standingsEast = $this->nbaRepository->standingsEast();
+
+        $pointLeaders = $this->nbaRepository->teamLeaders('ppg');
+        $reboundsLeaders = $this->nbaRepository->teamLeaders('rpg');
+        $assistsLeaders = $this->nbaRepository->teamLeaders('apg');
+        $blocksLeaders = $this->nbaRepository->teamLeaders('bpg');
+
+        return view('home.standings', [
             'user' => $user,
             'standingsWest' => $standingsWest,
             'standingsEast' => $standingsEast,
@@ -77,7 +86,6 @@ class MainPage extends Controller
             'reboundsLeaders' => $reboundsLeaders,
             'assistsLeaders' => $assistsLeaders,
             'blocksLeaders' => $blocksLeaders,
-            'latestGames' => $latestGames
         ]);
     }
 }

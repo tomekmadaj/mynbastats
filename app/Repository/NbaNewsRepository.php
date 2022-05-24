@@ -11,6 +11,8 @@ class NbaNewsRepository
     const ALL_NEWS = '';
     const All_VIDEOS = '';
     const YT_CHANNEL = 'UCMurFWpRhMHUAC-0nqrrfbg';
+    // Nba YT chanel - 'Game Recap' - blocking
+    // const YT_CHANNEL = 'UCLd4dSmXdrJykO_hgOzbfPw';
     const VIDOS_TO_SHOW = 6;
 
 

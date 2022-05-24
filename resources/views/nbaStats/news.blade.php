@@ -3,7 +3,7 @@
 @section('content')
     <h5 class="mb-4">
         <img style="height: 30px" src="/images/NbaLogos/{{ $team->teamId }}.png" class="mx-auto rounded">
-        <b> {{ $team->fullName }} latest News</b>
+        <b> {{ $team->fullName }} latest news</b>
     </h5>
     @foreach ($teamNews as $news)
         <div class="card mb-5">

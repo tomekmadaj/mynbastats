@@ -21,7 +21,42 @@ class NbaStatsController extends Controller
         $this->nbaRepository = $nbaRepository;
     }
 
-    public function dashboard(Request $request): View
+    public function team(Request $request): View
+    {
+        $user = Auth::user();
+        $personId = $user->personId;
+        $teamId = $user->teamId;
+
+        $playerData = $this->nbaRepository->getUserPlayer($personId);
+        $teamData = $this->nbaRepository->getUserTeam($teamId);
+
+        $teamStatsData = $this->nbaRepository->teamStats($teamId);
+
+        $pointLeaders = $this->nbaRepository->teamLeaders(stat: 'ppg', teamId: $teamId);
+        $reboundsLeaders = $this->nbaRepository->teamLeaders(stat: 'rpg', teamId: $teamId);
+        $assistsLeaders = $this->nbaRepository->teamLeaders(stat: 'apg', teamId: $teamId);
+        $blocksLeaders = $this->nbaRepository->teamLeaders(stat: 'bpg', teamId: $teamId);
+
+        $teamPlayersStats = $this->nbaRepository->teamPlayersStats($teamId);
+
+        $latestUserTeamGames = $this->nbaRepository->getLatestGames($teamId);
+
+
+        return view('nbaStats.team', [
+            'user' => $user,
+            'player' => $playerData,
+            'team' => $teamData,
+            'teamStats' => $teamStatsData,
+            'pointsLeaders' => $pointLeaders,
+            'reboundsLeaders' => $reboundsLeaders,
+            'assistsLeaders' => $assistsLeaders,
+            'blocksLeaders' => $blocksLeaders,
+            'teamPlayersStats' => $teamPlayersStats,
+            'latestUserTeamGames' => $latestUserTeamGames
+        ]);
+    }
+
+    public function player(Request $request): View
     {
         $user = Auth::user();
         $personId = $user->personId;
@@ -47,40 +82,19 @@ class NbaStatsController extends Controller
 
         $playerCareerStatsData = $this->nbaRepository->playerStats($personId, 'careerSummary');
 
-
-        $teamStatsData = $this->nbaRepository->teamStats($teamId);
-
-        $pointLeaders = $this->nbaRepository->teamLeaders($teamId, 'ppg');
-        $reboundsLeaders = $this->nbaRepository->teamLeaders($teamId, 'rpg');
-        $assistsLeaders = $this->nbaRepository->teamLeaders($teamId, 'apg');
-        $blocksLeaders = $this->nbaRepository->teamLeaders($teamId, 'bpg');
-
         $playerImageUrl = $this->nbaRepository->getPlayerImageUrl($personId);
-
-        $teamPlayersStats = $this->nbaRepository->teamPlayersStats($teamId);
 
         $latestPlayerStats = $this->nbaRepository->getLatestPlayerStats($personId);
 
-        $latestUserTeamGames = $this->nbaRepository->getLatestGames($teamId);
-
-        // dd($teamData);
-
-        return view('nbaStats.dashboard', [
+        return view('nbaStats.player', [
             'user' => $user,
             'player' => $playerData,
             'team' => $teamData,
             'playerSeasonStats' => $playerSeasonStatsData,
             'playerCareerStats' => $playerCareerStatsData,
-            'teamStats' => $teamStatsData,
-            'pointsLeaders' => $pointLeaders,
-            'reboundsLeaders' => $reboundsLeaders,
-            'assistsLeaders' => $assistsLeaders,
-            'blocksLeaders' => $blocksLeaders,
             'playerSeasons' => $playerSeasons,
             'playerImageUrl' => $playerImageUrl,
-            'teamPlayersStats' => $teamPlayersStats,
             'latestPlayerStats' => $latestPlayerStats,
-            'latestUserTeamGames' => $latestUserTeamGames
         ]);
     }
 }
