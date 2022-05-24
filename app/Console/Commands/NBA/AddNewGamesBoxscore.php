@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Client\Factory;
 
-class LoadGamesBoxscore extends Command
+class AddNewGamesBoxscore extends Command
 {
     private Factory $httpClient;
     /**
@@ -15,14 +15,14 @@ class LoadGamesBoxscore extends Command
      *
      * @var string
      */
-    protected $signature = 'nba:load-games-boxscore';
+    protected $signature = 'nba:update-games-boxscore';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Load Nba games boxscore';
+    protected $description = 'Add new games boxscore';
 
     /**
      * Create a new command instance.
@@ -37,9 +37,20 @@ class LoadGamesBoxscore extends Command
 
     private function getFinishedGames()
     {
-        $finishedGamed = DB::table('schedule')->whereNotNull(['hTeamScore', 'vTeamScore'])->get(['gameId', 'date']);
-
+        $finishedGamed = DB::table('schedule')
+            ->whereNotNull(['hTeamScore', 'vTeamScore'])
+            ->get(['gameId', 'date']);
         $finishedGamed = json_decode($finishedGamed, true);
+
+        $boxscore = DB::table('games_boxscore')->get();
+        $boxscore = json_decode($boxscore, true);
+        $boxscore = array_column($boxscore, 'gameId');
+
+        foreach ($finishedGamed as $key => $game) {
+            if (in_array($game['gameId'], $boxscore)) {
+                unset($finishedGamed[$key]);
+            }
+        }
 
         $gameBoxscoreUrl = config('nba.api.gameBoxscore');
 
@@ -47,27 +58,13 @@ class LoadGamesBoxscore extends Command
         foreach ($finishedGamed as $game) {
             $gamesUrls[] = str_replace(['{{gameDate}}', '{{gameId}}'], [date('Ymd', strtotime($game['date'])), $game['gameId']], $gameBoxscoreUrl);
         }
-
         return $gamesUrls;
-    }
-
-    public function loadBoxscores()
-    {
-        $gamesUrl = $this->getFinishedGames();
-
-        $this->loadGamesBoxScore($gamesUrl);
-
-        $this->loadGamesLeaders($gamesUrl);
-
-        $this->loadPlayersBoxscore($gamesUrl);
     }
 
     private function loadGamesBoxScore($gamesUrl)
     {
         $this->info('Loading finished games boxscores');
         $progressbar = $this->output->createProgressBar(count($gamesUrl));
-
-        DB::table('games_boxscore')->truncate();
 
         foreach ($gamesUrl as $gameUrl) {
             $url = $gameUrl;
@@ -279,6 +276,18 @@ class LoadGamesBoxscore extends Command
         });
     }
 
+
+    public function addBoxscores()
+    {
+        $gamesUrl = $this->getFinishedGames();
+
+        $this->loadGamesBoxScore($gamesUrl);
+
+        $this->loadGamesLeaders($gamesUrl);
+
+        $this->loadPlayersBoxscore($gamesUrl);
+    }
+
     /**
      * Execute the console command.
      *
@@ -286,7 +295,7 @@ class LoadGamesBoxscore extends Command
      */
     public function handle()
     {
-        $this->loadBoxscores();
+        $this->addBoxscores();
         return 0;
     }
 }
