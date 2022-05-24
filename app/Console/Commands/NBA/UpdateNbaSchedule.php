@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Client\Factory;
 
-class LoadNbaSchedule extends Command
+class UpdateNbaSchedule extends Command
 {
     private Factory $httpClient;
     /**
@@ -15,14 +15,14 @@ class LoadNbaSchedule extends Command
      *
      * @var string
      */
-    protected $signature = 'nba:load-schedule';
+    protected $signature = 'nba:update-schedule';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Load current NBA schedule';
+    protected $description = 'Update current NBA schedule';
 
     /**
      * Create a new command instance.
@@ -35,8 +35,10 @@ class LoadNbaSchedule extends Command
         parent::__construct();
     }
 
-    public function loadNbaSchedule()
+    public function updateNbaSchedul()
     {
+        $gamesToUpdate = $this->loadEmptyGames()->toArray();
+
         $nbaScheduleUrl = config('nba.api.schedule');
 
         $response = $this->httpClient->get($nbaScheduleUrl);
@@ -50,32 +52,33 @@ class LoadNbaSchedule extends Command
 
         $this->info('Loading NBA Schedule');
 
-        $preogressBar = $this->output->createProgressBar(count($schedule));
+        $scheduleToUpdate = array_slice($schedule, -count($gamesToUpdate));
 
-        // DB::table('schedule')->truncate();
-
-        foreach ($schedule as $game) {
+        foreach ($scheduleToUpdate as $game) {
             if (!empty($game['gameId'])) {
                 try {
-                    $this->create($game);
+                    $this->update($game);
                 } catch (\Throwable $e) {
                     dump($game);
                     dump($e);
                     continue;
                 }
             }
-            $preogressBar->advance();
         }
-        $preogressBar->finish();
-        $this->newLine();
         $this->info('NBA Schedule load succesfull');
     }
 
-    public function create($gameData)
+    private function loadEmptyGames()
+    {
+        $schedule = DB::table('schedule')->whereNull(['hTeamScore', 'vTeamScore'])->get();
+
+        return $schedule;
+    }
+
+    private function update($gameData)
     {
         $result = DB::transaction(function () use ($gameData) {
             $gameSchedule = [
-                'gameId' => $gameData['gameId'],
                 'date' => $gameData['startDateEastern'],
                 'gameUrlCode' => $gameData['gameUrlCode'] ?? null,
                 'startTimeEastern' => $gameData['startTimeEastern'] ?? null,
@@ -83,10 +86,9 @@ class LoadNbaSchedule extends Command
                 'hTeamScore' => $gameData['hTeam']['score'] != '' ? $gameData['hTeam']['score'] ?? null : null,
                 'vTeamId' => $gameData['vTeam']['teamId'] ?? null,
                 'vTeamScore' => $gameData['vTeam']['score'] != '' ? $gameData['vTeam']['score'] ?? null : null,
-                'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
-            DB::table('schedule')->insert($gameSchedule);
+            DB::table('schedule')->where('gameId', $gameData['gameId'])->update($gameSchedule);
         });
     }
 
@@ -97,7 +99,7 @@ class LoadNbaSchedule extends Command
      */
     public function handle()
     {
-        $this->loadNbaSchedule();
+        $this->updateNbaSchedul();
         return 0;
     }
 }
