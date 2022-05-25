@@ -22,7 +22,7 @@
                 {{-- <li>Telefon: {{ $user->phone }}</li> --}}
             </ul>
 
-            <a href="{{ route('me.edit') }}" class="btn btn-light">Edytuj dane</a>
+            <a href="{{ route('me.edit') }}" class="btn btn-primary">Edit account</a>
         </div>
     </div>
 @endsection

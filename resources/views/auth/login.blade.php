@@ -64,6 +64,17 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group mb-0 mt-5 px-3">
+                                <div class="d-flex flex-row justify-content-center">
+                                <label class="text-md-left">Don't have an account yet? Please </label>
+                                    <a class="btn-link px-1" href="{{ route('register') }}">
+                                        {{ __('Register') }}
+                                    </a>
+                                    <label class="text-md-left">and have fun with mynbastat.com</label>
+                                </div>
+
+                        </div>
                     </form>
                 </div>
             </div>

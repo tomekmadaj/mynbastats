@@ -16126,6 +16126,13 @@ body {
   padding-right: 1.5rem;
 }
 
+.headcol {
+  position: absolute;
+  left: 0;
+  /*only relevant for first row*/
+  /*compensate for top border*/
+}
+
 #layoutAuthentication {
   display: flex;
   flex-direction: column;

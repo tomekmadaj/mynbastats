@@ -32,7 +32,7 @@ Route::group([
         ->name('standings');
     Route::get('/news', 'NewsController@news')
         ->name('news');
-    Route::get('/highlights', 'NbaNewsController@highlights')
+    Route::get('/highlights', 'NewsController@highlights')
         ->name('highlights');
 });
 

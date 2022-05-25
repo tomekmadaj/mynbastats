@@ -73,14 +73,14 @@ class NbaNewsRepository implements NbaNewsRepositoryInterface
 
     public function getVideos($teamId = self::All_VIDEOS)
     {
-        $apiKey = env('YT_API_KEY');
+        $apiKey = config('app.yt_api_key');
         $chanelId = self::YT_CHANNEL;
         $maxResults = 50;
 
         if ($teamId != '') {
             $maxResults = 500;
         }
-        dd($apiKey);
+
         $apiData = @file_get_contents("https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=$chanelId&maxResults=$maxResults&key=$apiKey");
 
         $videoList = json_decode($apiData);

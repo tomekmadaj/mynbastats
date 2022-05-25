@@ -60,7 +60,7 @@
 
 
                 <div class="div row mb-4">
-                    <div class="div col-6">
+                    <div class="div col-xl-6 col-sm-12">
                         <label for="favouriteTeam">Favourite Team</label>
                         <div>
                             <select name="team" class="custom-select mr-sm-2 form-control @error('team') is-invalid @enderror" required autocomplete="team" name="team">
@@ -78,10 +78,10 @@
                         </div>
                     </div>
 
-                    <div class="div col-6">
+                    <div class="div col-xl-6 col-sm-12 mt-xl-0 mt-3">
                         <label for="favouriteTeam">Favourite Player</label>
                         <div class="div row">
-                            <div class="col-6">
+                            <div class="col-xl-6 col-md-6 col-xs-12">
                                 <div>
                                     <select id="selectPlayerId" name="player" class="custom-select mr-sm-2 form-control @error('player') is-invalid @enderror" required autocomplete="player">
                                     </select>
@@ -92,7 +92,7 @@
                                 @enderror
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-xl-6 col-md-6 col-xs-12">
                                 <div>
                                     <select id="selectPlayerTeamId" class="custom-select mr-sm-2">
                                     </select>
@@ -102,8 +102,8 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Zapisz dane</button>
-                <a href="{{ route('me.profile') }}" class="btn btn-secondary">Anuluj</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{{ route('me.profile') }}" class="btn btn-secondary">Cncel</a>
             </form>
         </div>
     </div>

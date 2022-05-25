@@ -7,7 +7,7 @@
         <b> 2021-2022 NBA Regular Season Standings</b>
     </h5>
     <div class="row">
-        <div class="col-6">
+        <div class="col-xl-6 col-lg-6 col-12">
             <div class="card mt-3">
                 <div class="card">
                     <div class="card-header"><i class="fas fa-table mr-1"></i>NBA West Conference Standings</div>
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-xl-6 col-lg-6 col-12">
             <div class="card mt-3">
                 <div class="card">
                     <div class="card-header"><i class="fas fa-table mr-1"></i>NBA East Conference Standings</div>
@@ -91,9 +91,9 @@
         <b> 2021-2022 NBA Regular Season Leaders</b>
     </h5>
 
-    <div class="d-flex flex-row">
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card" >
                 <div class="card-header">
                     <b>Points </b> (per game)
                 </div>
@@ -116,8 +116,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card mt-xl-0 mt-lg-0 mt-3" >
                 <div class="card-header">
                     <b> Rebounds </b> (per game)
                 </div>
@@ -140,8 +140,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card mt-xl-0 mt-lg-3 mt-3">
                 <div class="card-header">
                     <b> Assists </b>(per game)
                 </div>
@@ -164,8 +164,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card mt-xl-0 mt-lg-3 mt-3">
                 <div class="card-header">
                     <b> Blocks </b>(per game)
                 </div>
