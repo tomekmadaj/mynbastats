@@ -1,6 +1,8 @@
 <?php
 
 use App\Providers\GameServiceProvider;
+use App\Providers\NbaNewsServiceProvider;
+use App\Providers\NbaServiceProvider;
 use App\Providers\UserServiceProvider;
 
 return [
@@ -180,7 +182,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         UserServiceProvider::class,
+        NbaServiceProvider::class,
         GameServiceProvider::class,
+        NbaNewsServiceProvider::class
 
     ],
 

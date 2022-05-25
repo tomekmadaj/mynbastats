@@ -2,9 +2,9 @@
 
 @section('content')
 <h5 class="mt-3">
-    <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+    <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png"
     class="mx-auto rounded">
-    <b> {{ $team->fullName }} latest games</b>
+    <b> {{ $user->teams->fullName }} latest games</b>
 </h5>
 <div class="row">
     @foreach ($latestUserTeamGames as $game)
@@ -81,9 +81,9 @@
 
      {{-- last games stats --}}
      <h5 class="mt-5 mb-4">
-        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png"
         class="mx-auto rounded">
-        <b>{{ $team->fullName }} latest games stats</b>
+        <b>{{ $user->teams->fullName }} latest games stats</b>
     </h5>
     @foreach ($latestUserTeamGames as $game)
         <div class="card mt-3">
@@ -166,9 +166,9 @@
 
     {{-- User Team Leaders --}}
     <h5 class="mt-5 mb-4">
-        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png"
             class="mx-auto rounded">
-        <b> 2021-2022 {{ $team->fullName }} Regular Season Leaders</b>
+        <b> 2021-2022 {{ $user->teams->fullName }} Regular Season Leaders</b>
     </h5>
 
     <div class="d-flex flex-row">
@@ -240,9 +240,9 @@
 
      {{-- Total team stats --}}
      <h5 class="mt-5 mb-4">
-        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png"
             class="mx-auto rounded">
-        <b> 2021-2022 {{ $team->fullName }} Team Stats</b>
+        <b> 2021-2022 {{ $user->teams->fullName }} Team Stats</b>
     </h5>
     <div class="card mt-3">
         <div class="card">
@@ -301,14 +301,14 @@
 
     {{-- team stats totals --}}
     <h5 class="mt-5 mb-4">
-        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $team->teamId }}.png"
+        <img style="height: 30px; padding-bottom:5px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png"
             class="mx-auto rounded">
-        <b> 2021-2022 {{ $team->fullName }} Regular Season Player Stats</b>
+        <b> 2021-2022 {{ $user->teams->fullName }} Regular Season Player Stats</b>
     </h5>
     <div class="card mt-3">
         <div class="card">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Players stats: <b>
-                    {{ $team->fullName }}
+                    {{ $user->teams->fullName }}
                 </b> (totals)
             </div>
             <div class="card-body">
@@ -365,7 +365,7 @@
     <div class="card mt-3">
         <div class="card">
             <div class="card-header"><i class="fas fa-table mr-1"></i>Players stats: <b>
-                    {{ $team->fullName }}
+                    {{ $user->teams->fullName }}
                 </b> (per game)
             </div>
             <div class="card-body">

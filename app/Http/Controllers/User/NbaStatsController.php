@@ -5,33 +5,28 @@ declare(strict_types=1);
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
-use App\Repository\NbaRepository;
-use App\Repository\User\UserRepository;
+use App\Repository\NbaRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class NbaStatsController extends Controller
 {
-    private NbaRepository $nbaRepository;
-    private UserRepository $userRepository;
+    private NbaRepositoryInterface $nbaRepository;
+    private UserRepositoryInterface $userRepository;
 
-    public function __construct(NbaRepository $nbaRepository, UserRepository $userRepository)
+    public function __construct(NbaRepositoryInterface $nbaRepository, UserRepositoryInterface $userRepository)
     {
         $this->nbaRepository = $nbaRepository;
         $this->userRepository = $userRepository;
     }
 
-    public function team(Request $request): View
+    public function team(): View
     {
         $user = Auth::user();
-        $personId = $user->personId;
+        $userData = $this->userRepository->getUserTeamAndPlayer($user);
         $teamId = $user->teamId;
-
-        $playerData = $this->nbaRepository->getUserPlayer($personId);
-        $teamData = $this->nbaRepository->getUserTeam($teamId);
 
         $teamStatsData = $this->nbaRepository->teamStats($teamId);
 
@@ -44,11 +39,8 @@ class NbaStatsController extends Controller
 
         $latestUserTeamGames = $this->nbaRepository->latestGames($teamId);
 
-
         return view('nbaStats.team', [
-            'user' => $user,
-            'player' => $playerData,
-            'team' => $teamData,
+            'user' => $userData,
             'teamStats' => $teamStatsData,
             'pointsLeaders' => $pointLeaders,
             'reboundsLeaders' => $reboundsLeaders,
@@ -63,20 +55,14 @@ class NbaStatsController extends Controller
     {
         $user = Auth::user();
         $personId = $user->personId;
-        $teamId = $user->teamId;
 
-        $playerSeasons = $this->nbaRepository->playerSeasons($personId);
+        $playerSeasons = $this->nbaRepository->playerSeasons($personId)->toArray();
+        $seasonsData = array_column($playerSeasons, 'seasonYear');
 
-        $seasonsData = $playerSeasons->map(function ($season) {
-            return $season->only('seasonYear');
-        })->toArray();
-        $seasonsData = array_column($seasonsData, 'seasonYear');
+        $defaultSeasonYear = $seasonsData[0];
 
-        $seasonYear = $seasonsData[0];
-
-        $seasonYear = $request->get('seasonYear') ?? $seasonYear;
-
-        in_array($seasonYear, $seasonsData) ?: $seasonYear = $seasonsData[0];
+        $seasonYear = $request->get('seasonYear') ?? $defaultSeasonYear;
+        in_array($seasonYear, $seasonsData) ?: $seasonYear = $defaultSeasonYear;
 
         $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
@@ -84,17 +70,17 @@ class NbaStatsController extends Controller
 
         $playerCareerStatsData = $this->nbaRepository->playerStats($personId, 'careerSummary');
 
-        $playerImageUrl = $this->nbaRepository->getPlayerImageUrl($personId);
+        $playerImageData = $this->nbaRepository->getPlayerImage($personId);
 
-        $latestPlayerStats = $this->nbaRepository->latestPlayerStats($personId);
+        $latestPlayerStatsData = $this->nbaRepository->latestPlayerStats($personId);
 
         return view('nbaStats.player', [
             'user' => $userData,
             'playerSeasonStats' => $playerSeasonStatsData,
             'playerCareerStats' => $playerCareerStatsData,
-            'playerSeasons' => $playerSeasons,
-            'playerImageUrl' => $playerImageUrl,
-            'latestPlayerStats' => $latestPlayerStats,
+            'playerSeasons' => $seasonsData,
+            'playerImageUrl' => $playerImageData,
+            'latestPlayerStats' => $latestPlayerStatsData,
         ]);
     }
 }

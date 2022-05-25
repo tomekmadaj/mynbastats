@@ -7,7 +7,7 @@ namespace App\Repository\User;
 use App\Model\Team;
 use App\Model\User;
 use App\Model\Player;
-use App\Repository\UserRepository as UserRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface
@@ -28,13 +28,13 @@ class UserRepository implements UserRepositoryInterface
         $user->email = $data['email'] ?? $user->email;
         $user->name = $data['name'] ?? $user->name;
         $user->avatar = $data['avatar'] ?? null;
-        $user->teamId = $data['team'] ?? null;
-        $user->personId = $data['player'] ?? null;
+        $user->teamId = $data['team'] ?? $user->teamId;
+        $user->personId = $data['player'] ?? $user->personId;
 
         $user->save();
     }
 
-    public function getUserTeamAndPlayer(User $user)
+    public function getUserTeamAndPlayer(User $user): User
     {
         $user->load('teams');
         $user->load('players');
@@ -59,6 +59,6 @@ class UserRepository implements UserRepositoryInterface
 
     public function get(int $id): User
     {
-        return $this->userModel->find($id);
+        return $this->userModel->with('teams')->with('players')->find($id);
     }
 }

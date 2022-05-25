@@ -2,20 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Nba;
 
+use App\Repository\NbaNewsRepositoryInterface;
 use DOMDocument;
 
-class NbaNewsRepository
+class NbaNewsRepository implements NbaNewsRepositoryInterface
 {
-    const ALL_NEWS = '';
-    const All_VIDEOS = '';
-    const YT_CHANNEL = 'UCMurFWpRhMHUAC-0nqrrfbg';
-    // Nba YT chanel - 'Game Recap' - blocking
-    // const YT_CHANNEL = 'UCLd4dSmXdrJykO_hgOzbfPw';
-    const VIDOS_TO_SHOW = 4;
-
-
     public function getTeamsNews($teamId = self::ALL_NEWS)
     {
         $teamNewsData = config('teamnews');
@@ -26,7 +19,6 @@ class NbaNewsRepository
 
         $dom = new DOMDocument();
         @$dom->loadHTMLfile($newsUrl);
-
 
         $xpath = new \DOMXPath($dom);
         $newsResults = $xpath->query("//*[@class='" . 'panel-heading' . "']");
@@ -88,7 +80,7 @@ class NbaNewsRepository
         if ($teamId != '') {
             $maxResults = 500;
         }
-
+        dd($apiKey);
         $apiData = @file_get_contents("https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=$chanelId&maxResults=$maxResults&key=$apiKey");
 
         $videoList = json_decode($apiData);

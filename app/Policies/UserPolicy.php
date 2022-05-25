@@ -30,12 +30,9 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        // $user - nasz zalogowany użytkownik
-        // jeśli jesteśmy zalogowani i próbujemy się dostać na stronę która wyświetlacz szczegóły
-        //to mamy dostę tylko wtedy kiedy nasze id jest zgodne z id, którym checmy wyswielic
-        return $user->id === $model->id
-        ? Response::allow()
-        : Response::deny('To nie Twoje konto');
+        // jeśli jesteśmy zalogowani i próbujemy się dostać na stronę która wyświetla szczegóły
+        //to mamy dostęp tylko wtedy kiedy nasze id jest zgodne z id, które checmy wyswielic
+        return $user->id === $model->id ? Response::allow() : Response::deny('This is not Your account');
     }
 
     /**

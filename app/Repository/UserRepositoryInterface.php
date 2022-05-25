@@ -7,11 +7,11 @@ namespace App\Repository;
 use App\Model\User;
 use Illuminate\Support\Collection;
 
-interface UserRepository
+interface UserRepositoryInterface
 {
     public function updateModel(User $user, array $data): void;
 
-    public function getUserTeamAndPlayer(User $user);
+    public function getUserTeamAndPlayer(User $user): User;
 
     public function getTeams(): Collection;
 

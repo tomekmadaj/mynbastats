@@ -39,10 +39,10 @@
         <div class="sb-nav-link-icon"><i class="fa fa-street-view"></i></div>
         My Player Stats
     </a>
-    <a class="nav-link" href="#">
+    {{-- <a class="nav-link" href="#">
         <div class="sb-nav-link-icon"><i class="fa fa-wrench"></i></div>
         Settings
-    </a>
+    </a> --}}
 @endauth
 
 

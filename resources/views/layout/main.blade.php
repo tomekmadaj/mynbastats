@@ -9,6 +9,9 @@
     <title>@yield('title', $applicationName)</title>
     <meta name="description" content="" />
 
+    {{-- <link rel="icon" href="{{ url('https://upload.wikimedia.org/wikipedia/commons/4/41/Basketball_%2881412%29_-_The_Noun_Project.svg') }}"> --}}
+
+
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 </head>
 

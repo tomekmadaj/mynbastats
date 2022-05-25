@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
-use Doctrine\DBAL\Schema\View;
 use App\Http\Controllers\Controller;
-use App\Model\User;
 use Illuminate\Support\Facades\Gate;
-use App\Repository\UserRepository as UserRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 
 class UserController extends Controller
 {
@@ -44,9 +43,17 @@ class UserController extends Controller
         return View('user.list', ['users' => $users]);
     }
 
-    public function show(Request $request, int $userId)
+    public function show(int $userId)
     {
+        $users = $this->userRepository->all()->toArray();
+        $users = array_column($users, 'id');
+        if (!in_array($userId, $users)) {
+            return redirect()->back();
+        }
+
         $userModel = $this->userRepository->get($userId);
+
+        Gate::authorize('view', $userModel);
 
         //możemy poprzez obiekt użytownika  sprawdzić autoryzację
         // $user = $request->user();
@@ -76,11 +83,11 @@ class UserController extends Controller
         // $this->authorize('admin-level');
         // $this->authorize('view', $userModel);
 
-       // Gate::authorize('admin-level');
+        // Gate::authorize('admin-level');
 
         //pierwszy parametr do nazwa akcji, drugi to nasz model
         //system rozpozna, któej polityki użyć do modelu User ponieważ jest ona powiązana z modelem User
-        Gate::authorize('view', $userModel);
+
 
         return view('user.show', [
             'user' => $userModel

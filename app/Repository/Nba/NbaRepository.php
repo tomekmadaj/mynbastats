@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Nba;
 
 use DOMDocument;
 use App\Model\Team;
@@ -15,15 +15,13 @@ use App\Model\Team_Leader;
 use App\Model\GameBoxscore;
 use App\Model\PlayerBoxscore;
 use App\Model\Teams_Stats_Ranking;
+use Illuminate\Support\Collection;
+use App\Repository\NbaRepositoryInterface;
 
-class NbaRepository
+class NbaRepository implements NbaRepositoryInterface
 {
-    const CURRENT_SEASON = '2021';
-    const LATEST_PLAYER_GAMES = 5;
-    const LATEST_TEAM_GAMES = 3;
-
-    private Team $teamModel;
     private Player $playerModel;
+    private Team $teamModel;
     private Standing $standingModel;
     private Player_stat $playerStatModel;
     private Teams_Stats_Ranking $teamStatsRankingModel;
@@ -31,8 +29,8 @@ class NbaRepository
     private PlayerBoxscore $playerBoxscoreModel;
 
     public function __construct(
-        Team $teamModel,
         Player $playerModel,
+        Team $teamModel,
         Player_Stat $playerStatModel,
         Standing $standingModel,
         Teams_Stats_Ranking $teamsStatsRankingModel,
@@ -42,8 +40,8 @@ class NbaRepository
         GameLeaders $gameLeadersModel,
         PlayerBoxscore $playerBoxscore
     ) {
-        $this->teamModel = $teamModel;
         $this->playerModel = $playerModel;
+        $this->teamModel = $teamModel;
         $this->playerStatModel = $playerStatModel;
         $this->standingModel = $standingModel;
         $this->teamStatsRankingModel = $teamsStatsRankingModel;
@@ -54,7 +52,7 @@ class NbaRepository
         $this->playerBoxscoreModel = $playerBoxscore;
     }
 
-    public function getUserPlayer($personId)
+    public function getPlayer($personId): Player
     {
         $userPlayer = $this->playerModel
             ->with('teams')
@@ -63,7 +61,7 @@ class NbaRepository
         return $userPlayer;
     }
 
-    public function getUserTeam($teamId)
+    public function getTeam($teamId): Team
     {
         $userTeam = $this->teamModel
             ->find($teamId);
@@ -71,7 +69,7 @@ class NbaRepository
         return $userTeam;
     }
 
-    public function standingsWest()
+    public function standingsWest(): Collection
     {
         $standings = $this->standingModel
             ->with('teams')
@@ -81,7 +79,7 @@ class NbaRepository
         return $standings;
     }
 
-    public function standingsEast()
+    public function standingsEast(): Collection
     {
         $standings = $this->standingModel
             ->with('teams')
@@ -113,7 +111,7 @@ class NbaRepository
         return $playerStats;
     }
 
-    public function playerSeasons($personId)
+    public function playerSeasons($personId): Collection
     {
         $playerSeasons = $this->playerStatModel
             ->where([
@@ -125,7 +123,7 @@ class NbaRepository
         return $playerSeasons;
     }
 
-    public function latestPlayerStats($personId)
+    public function latestPlayerStats($personId): Collection
     {
         $latestPlayerStats = $this->playerBoxscoreModel
             ->with('schedule.hTeams', 'schedule.vTeams')
@@ -137,7 +135,7 @@ class NbaRepository
         return $latestPlayerStats;
     }
 
-    public function teamPlayersStats($teamId, $seasonYear = self::CURRENT_SEASON)
+    public function teamPlayersStats($teamId, $seasonYear = self::CURRENT_SEASON): Collection
     {
         $teamPlayersStats = $this->playerStatModel
             ->with('players')
@@ -152,7 +150,7 @@ class NbaRepository
         return $teamPlayersStats;
     }
 
-    public function teamLeaders($stat, $seasonYear = self::CURRENT_SEASON, $teamId = null)
+    public function teamLeaders($stat, $seasonYear = self::CURRENT_SEASON, $teamId = null): Collection
     {
         $teamLeaders = $this->playerStatModel
             ->with(['players', 'teams'])
@@ -162,7 +160,7 @@ class NbaRepository
         return $teamLeaders;
     }
 
-    public function latestGames($teamId = null)
+    public function latestGames($teamId = null): Collection
     {
         if ($teamId) {
             $latestGames = $this->scheduleModel
@@ -183,12 +181,12 @@ class NbaRepository
         return $latestGames;
     }
 
-    public function getPlayerImageUrl($personId)
+    public function getPlayerImage($personId)
     {
-        $player = $this->getUserPlayer($personId);
+        $player = $this->getPlayer($personId);
+
         $playerFirstName = $player->firstName;
         $playerlastName = $player->lastName;
-
         // !str_contains($playerFirstName, '-') ?: $playerFirstName = substr($playerFirstName, 0, strpos($playerFirstName, '-'));
 
         $wikiPlayerUrl = 'https://pl.wikipedia.org/wiki/firstName_lastName';
@@ -198,7 +196,10 @@ class NbaRepository
         @$dom->loadHTMLFile($wikiPlayerUrl);
 
         if (empty($dom->documentURI)) {
-            return '/images/michael-jordan.jpg';
+            return [
+                'playerImgFileUrl' => '/images/michael-jordan.jpg',
+                'imgFileSrc' => null
+            ];
         }
 
         $playerImageUrl = [];
@@ -210,7 +211,10 @@ class NbaRepository
                 $playerImageUrl[] = $result->getAttribute('href');
             }
         } else {
-            return '/images/michael-jordan.jpg';
+            return [
+                'playerImgFileUrl' => '/images/michael-jordan.jpg',
+                'imgFileSrc' => null
+            ];
         }
 
         $playerImageUrl = $playerImageUrl[0];
@@ -228,7 +232,6 @@ class NbaRepository
         }
 
         $playerImgFileUrl = 'https:' . $playerImgFileUrl;
-
 
         $fileSrc = $dom->getElementById('fileinfotpl_src');
         $fileSrcTag = $fileSrc->nextElementSibling->getElementsByTagName('a');

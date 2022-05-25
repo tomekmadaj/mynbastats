@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Home;
 
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request as HttpRequest;
-use App\Repository\NbaRepository;
+use App\Repository\NbaRepositoryInterface;
 
 class MainController extends Controller
 {
-    private NbaRepository $nbaRepository;
+    private NbaRepositoryInterface $nbaRepository;
 
-    public function __construct(NbaRepository $nbaRepository)
+    public function __construct(NbaRepositoryInterface $nbaRepository)
     {
         $this->nbaRepository = $nbaRepository;
     }

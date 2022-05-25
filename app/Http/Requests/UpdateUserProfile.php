@@ -36,7 +36,7 @@ class UpdateUserProfile extends FormRequest
                 Rule::unique('users')->ignore($userId),
                 'email'
             ],
-            //unique:users - users to nazwa tabeli w którym ma szukać, 
+            //unique:users - users to nazwa tabeli w którym ma szukać,
             //kolejnym parametrem powinna być kolumna - jeżli nie ma podanej bieżę nazwę z klucza
             //email - sprawdza czy postać przesłana to rzeczywiście email
             'name' => [
@@ -53,8 +53,8 @@ class UpdateUserProfile extends FormRequest
             //'avatar' => 'nullable|file|image|dimensions:ratio=3/2',
             //podstawowa reguła na image - oczekujemy pliku - obrazku (conent type -roszerzenie)
             'avatar' => 'nullable|file|image',
-            'team' => 'nullable',
-            'player' => 'nullable'
+            'team' => 'required', 'string', 'not_in:0', 'unique:team,teamId',
+            'player' => 'required', 'string', 'not_in:0', 'unique:players,personId'
         ];
     }
 

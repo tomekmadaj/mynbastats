@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Validation\Rule;
-use App\Repository\UserRepository;
+use App\Repository\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateUserProfile;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Support\Facades\Session;
-use PHPUnit\Framework\MockObject\Rule\AnyParameters;
 
 class UserController extends Controller
 {
-    private UserRepository $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
@@ -26,11 +23,10 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
-
-        //$user = $this->userRepository->getUserTeamAndPlayer($user);
+        $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
         return view('me.profile', [
-            'user' => $user
+            'user' => $userData
         ]);
     }
 
@@ -69,7 +65,7 @@ class UserController extends Controller
         if (!empty($data['avatar'])) {
             //zapisujemy flik poprzez store('nazwa folderu', 'określamy dysk') na obiekcie UploadetFile
             $path = $data['avatar']->store('avatars', 'public');
-            //zapisanie pliku określając jego nazwę poprzez saveAa() - drugi parametr to nazwa pliku
+            //zapisanie pliku określając jego nazwę poprzez store() - drugi parametr to nazwa pliku
             //$path = $data['avatar']->storeAs('avatars', Auth::id() . '.jpg', 'public');
             if ($path) {
                 Storage::disk('public')->delete($user->avatar);
@@ -78,7 +74,6 @@ class UserController extends Controller
         } else {
             $data['avatar'] = $user->avatar;
         }
-
 
         $this->userRepository->updateModel(
             Auth::user(),

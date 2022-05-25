@@ -7,8 +7,10 @@
         <div class="card" style="width: 18rem;">
             <p class="text-center"><b>{{ $user->players->firstName . ' ' . $user->players->lastName }}</b></p>
             <img src="{{ $playerImageUrl['playerImgFileUrl'] }}" class="rounded mx-auto d-block user-avatar">
+            @if ($playerImageUrl['imgFileSrc'])
             <a href="{{ $playerImageUrl['imgFileSrc'] }}" target="_blank" class="text-center" style="font-size: 10px">
                 (img source)</a>
+            @endif
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Team: {{ $user->teams->fullName }}</li>
@@ -38,8 +40,8 @@
                         <form action="{{ route('nbaStats.playerDashboard') }}" class="mt-3 ms-4">
                             <select id="seasonYear" name="seasonYear">
                                 @foreach ($playerSeasons ?? [] as $season)
-                                <option {{ $playerSeasonStats->seasonYear == $season->seasonYear ? 'selected' : '' }} value="{{ $season->seasonYear }}">
-                                    {{ $season->seasonYear }}
+                                <option {{ $playerSeasonStats->seasonYear == $season ? 'selected' : '' }} value="{{ $season }}">
+                                    {{ $season }}
                                 </option>
                                 @endforeach
                             </select>

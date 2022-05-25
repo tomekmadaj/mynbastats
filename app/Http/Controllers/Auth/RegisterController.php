@@ -31,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::USER_HOME;
 
     /**
      * Create a new controller instance.
@@ -66,8 +66,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'team' => ['required', 'string', 'not_in:0'],
-            'player' => ['required', 'string', 'not_in:0']
+            'team' => ['required', 'string', 'not_in:0', 'unique:team,teamId'],
+            'player' => ['required', 'string', 'not_in:0', 'unique:players,personId']
         ]);
     }
 

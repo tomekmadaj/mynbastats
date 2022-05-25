@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
-use App\Repository\NbaNewsRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Repository\NbaNewsRepositoryInterface;
 
-class NbaNewsController extends Controller
+class NewsController extends Controller
 {
-    private NbaNewsRepository $nbaNewsRepository;
+    private NbaNewsRepositoryInterface $nbaNewsRepository;
 
-    public function __construct(NbaNewsRepository $nbaNewsRepository)
+    public function __construct(NbaNewsRepositoryInterface $nbaNewsRepository)
     {
         $this->nbaNewsRepository = $nbaNewsRepository;
     }
