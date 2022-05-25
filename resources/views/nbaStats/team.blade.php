@@ -8,8 +8,8 @@
 </h5>
 <div class="row">
     @foreach ($latestUserTeamGames as $game)
-        <div class="col-4">
-            <div class="card">
+        <div class="col-xl-4 col-md-6 col-12">
+            <div class="card mt-xl-0 mt-md-0 mt-5">
                 <div class="text-center pt-1" style="font-size: 12px;"> {{ $game->date }}</div>
                 <div class=" card-body py-3 px-0">
                     <div class="d-flex flex-row">
@@ -171,9 +171,9 @@
         <b> 2021-2022 {{ $user->teams->fullName }} Regular Season Leaders</b>
     </h5>
 
-    <div class="d-flex flex-row">
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card">
                 <div class="card-header">
                     <b> Points </b>(per game)
                 </div>
@@ -188,8 +188,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card mt-xl-0 mt-lg-0 mt-3">
                 <div class="card-header">
                     <b> Rebounds </b>(per game)
                 </div>
@@ -204,8 +204,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card mt-xl-0 mt-lg-3 mt-3">
                 <div class="card-header">
                     <b> Assists </b>(per game)
                 </div>
@@ -220,8 +220,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card mt-xl-0 mt-lg-3 mt-3">
                 <div class="card-header">
                     <b> Blocks </b> (per game)
                 </div>

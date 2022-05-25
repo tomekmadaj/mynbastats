@@ -1,10 +1,10 @@
 @extends('layout.main')
 
 @section('content')
-<div class="d-flex flex-row align-items-center mt-3">
-    <div class="col-3 ">
+<div class="row mt-3">
+    <div class="col-xl-3 col-12">
         {{-- User Player --}}
-        <div class="card" style="width: 18rem;">
+        <div class="card">
             <p class="text-center"><b>{{ $user->players->firstName . ' ' . $user->players->lastName }}</b></p>
             <img src="{{ $playerImageUrl['playerImgFileUrl'] }}" class="rounded mx-auto d-block user-avatar">
             @if ($playerImageUrl['imgFileSrc'])
@@ -23,31 +23,25 @@
             </div>
         </div>
     </div>
-    <div class="col-9">
-
+    <div class="col-xl-9 col-12 mt-xl-0 mt-3">
         {{-- Player Stats Season --}}
         @if (isset($playerSeasonStats->players))
-        <div class="card mt-3">
             <div class="card">
-                <div class="card-header container-fluid">
-                    <div class="d-flex d-flex align-items-center">
-                        <i class="fas fa-table mr-1"></i>
-                        Player stats:
-                        <b>
-                            {{ $playerSeasonStats->players->firstName . ' ' . $playerSeasonStats->players->lastName }}
-                        </b>
-                        - Season:
-                        <form action="{{ route('nbaStats.playerDashboard') }}" class="mt-3 ms-4">
-                            <select id="seasonYear" name="seasonYear">
-                                @foreach ($playerSeasons ?? [] as $season)
-                                <option {{ $playerSeasonStats->seasonYear == $season ? 'selected' : '' }} value="{{ $season }}">
-                                    {{ $season }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <button type="submit" class="btn-primary">Season change</button>
-                        </form>
-                    </div>
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>
+                    Player stats:
+                    <b> {{ $playerSeasonStats->players->firstName . ' ' . $playerSeasonStats->players->lastName }} </b>
+                    <form class="mt-2" action="{{ route('nbaStats.playerDashboard') }}">
+                        Season:
+                        <select id="seasonYear" name="seasonYear">
+                            @foreach ($playerSeasons ?? [] as $season)
+                            <option {{ $playerSeasonStats->seasonYear == $season ? 'selected' : '' }} value="{{ $season }}">
+                                {{ $season }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn-primary">Season change</button>
+                    </form>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -120,7 +114,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         @else
         <div>
             There's no season stats for player: {{ $player->firstName . ' ' . $player->lastName }}

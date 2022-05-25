@@ -8,7 +8,7 @@
     @if (!empty($videos))
         <div class="row">
             @foreach ($videos as $video)
-                <div class="col-6 mb-4 me-5">
+                <div class="col-xl-6 col-12 mb-4 me-5">
                     @if (isset($video->id->videoId))
                         <div class="embed-responsive embed-responsive-16by9">
                             <iframe class="embed-responsive-item"
