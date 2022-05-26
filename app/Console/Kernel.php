@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\Nba\UpdateNbaSchedule::class,
+        Commands\Nba\AddNewGamesBoxscore::class
     ];
 
     /**
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('nba:update-schedule')->dailyAt('04:00')->timezone('Europe/Warsaw');
+        $schedule->command('nba:update-boxscore')->dailyAt('04:10')->timezone('Europe/Warsaw');
     }
 
     /**
@@ -34,7 +36,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
