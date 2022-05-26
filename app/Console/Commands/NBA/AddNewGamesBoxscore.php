@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Client\Factory;
+use Illuminate\Support\Facades\Log;
 
 class AddNewGamesBoxscore extends Command
 {
@@ -63,8 +64,9 @@ class AddNewGamesBoxscore extends Command
 
     private function loadGamesBoxScore($gamesUrl)
     {
-        $this->info('Loading finished games boxscores');
+        $this->info('Loading finished games boxscores start');
         $progressbar = $this->output->createProgressBar(count($gamesUrl));
+        Log::channel('boxscore')->info('Loading finished games boxscores');
 
         foreach ($gamesUrl as $gameUrl) {
             $url = $gameUrl;
@@ -72,6 +74,7 @@ class AddNewGamesBoxscore extends Command
 
             if ($response->failed()) {
                 $this->error('Request failed. Status Code: ' . $response->status());
+                Log::channel('boxscore')->emergency('Request failed. Status Code: ' . $response->status());
             }
 
             $responseJson = $response->json();
@@ -83,9 +86,26 @@ class AddNewGamesBoxscore extends Command
                 $vTeamId = $responseJson['basicGameData']['vTeam']['teamId'];
                 $gameBoxscore = $responseJson['stats'];
 
-                $this->createGameBoxscore($gameBoxscore['hTeam'], $gameId, $gameDate, $hTeamId, true);
-                $this->createGameBoxscore($gameBoxscore['vTeam'], $gameId, $gameDate, $vTeamId, false);
-
+                try {
+                    $this->createGameBoxscore($gameBoxscore['hTeam'], $gameId, $gameDate, $hTeamId, true);
+                    Log::channel('boxscore')->info("Game: " . $gameId . ", hTeam: " . $hTeamId . "- boxscore update succesfull");
+                } catch (\Throwable $e) {
+                    dump($gameBoxscore['hTeam']);
+                    dump($e);
+                    Log::channel('boxscore')->emergency($gameBoxscore['hTeam']);
+                    Log::channel('boxscore')->emergency($e);
+                    continue;
+                }
+                try {
+                    $this->createGameBoxscore($gameBoxscore['vTeam'], $gameId, $gameDate, $vTeamId, false);
+                    Log::channel('boxscore')->info("Game: " . $gameId . ", vTeam: " . $vTeamId . "- boxscore update succesfull");
+                } catch (\Throwable $e) {
+                    dump($gameBoxscore['vTeam']);
+                    dump($e);
+                    Log::channel('boxscore')->emergency($gameBoxscore['vTeam']);
+                    Log::channel('boxscore')->emergency($e);
+                    continue;
+                }
                 $progressbar->advance();
             }
         }
@@ -94,12 +114,14 @@ class AddNewGamesBoxscore extends Command
         $this->newLine();
         $this->info('Finished games boxscores load succesfull');
         $this->newLine();
+        Log::channel('boxscore')->info('Finished games boxscores load end');
     }
 
     private function loadGamesLeaders($gamesUrl)
     {
-        $this->info('Loading finished games leaders');
+        $this->info('Loading finished games leaders start');
         $progressbar = $this->output->createProgressBar(count($gamesUrl));
+        Log::channel('boxscore')->info('Loading finished games leaders');
 
         foreach ($gamesUrl as $gameUrl) {
             $url = $gameUrl;
@@ -108,6 +130,7 @@ class AddNewGamesBoxscore extends Command
 
             if ($response->failed()) {
                 $this->error('Request failed. Status Code: ' . $response->status());
+                Log::channel('boxscore')->emergency('Request failed. Status Code: ' . $response->status());
             }
 
             $responseJson = $response->json();
@@ -120,21 +143,40 @@ class AddNewGamesBoxscore extends Command
                 $gameBoxscore = $responseJson['stats'];
 
                 $progressbar->advance();
-
-                $this->createGameLeader($gameBoxscore['hTeam']['leaders'], $gameId, $gameDate, $hTeamId);
-                $this->createGameLeader($gameBoxscore['vTeam']['leaders'], $gameId, $gameDate, $vTeamId);
+                try {
+                    $this->createGameLeader($gameBoxscore['hTeam']['leaders'], $gameId, $gameDate, $hTeamId);
+                    Log::channel('boxscore')->info("Game: " . $gameId . ", hTeam: " . $hTeamId . "- game leaders update succesfull");
+                } catch (\Throwable $e) {
+                    dump($gameBoxscore['hTeam']['leaders']);
+                    dump($e);
+                    Log::channel('boxscore')->emergency($gameBoxscore['hTeam']['leaders']);
+                    Log::channel('boxscore')->emergency($e);
+                    continue;
+                }
+                try {
+                    $this->createGameLeader($gameBoxscore['vTeam']['leaders'], $gameId, $gameDate, $vTeamId);
+                    Log::channel('boxscore')->info("Game: " . $gameId . ", vTeam: " . $vTeamId . "- game leaders update succesfull");
+                } catch (\Throwable $e) {
+                    dump($gameBoxscore['vTeam']['leaders']);
+                    dump($e);
+                    Log::channel('boxscore')->emergency($gameBoxscore['vTeam']['leaders']);
+                    Log::channel('boxscore')->emergency($e);
+                    continue;
+                }
             }
         }
         $progressbar->finish();
         $this->newLine();
         $this->info('Finished games leaders load succesfull');
         $this->newLine();
+        Log::channel('boxscore')->info('Finished games leaders load end');
     }
 
     private function loadPlayersBoxscore($gamesUrl)
     {
-        $this->info('Loading finished games players boxscores');
+        $this->info('Loading finished games players boxscores start');
         $progressbar = $this->output->createProgressBar(count($gamesUrl));
+        Log::channel('boxscore')->info('Loading finished games players boxscores');
 
         foreach ($gamesUrl as $gameUrl) {
             $url = $gameUrl;
@@ -143,6 +185,7 @@ class AddNewGamesBoxscore extends Command
 
             if ($response->failed()) {
                 $this->error('Request failed. Status Code: ' . $response->status());
+                Log::channel('boxscore')->emergency('Request failed. Status Code: ' . $response->status());
             }
 
             $responseJson = $response->json();
@@ -153,7 +196,16 @@ class AddNewGamesBoxscore extends Command
                 $gameBoxscore = $responseJson['stats'];
 
                 foreach ($gameBoxscore['activePlayers'] as $playerBoxscore) {
-                    $this->createPlayerBoxscore($playerBoxscore, $gameId, $gameDate);
+                    try {
+                        $this->createPlayerBoxscore($playerBoxscore, $gameId, $gameDate);
+                        Log::channel('boxscore')->info("Game: " . $gameId . " Player: " . $playerBoxscore['personId'] . "- boxscore update succesfull");
+                    } catch (\Throwable $e) {
+                        dump($playerBoxscore);
+                        dump($e);
+                        Log::channel('boxscore')->emergency($playerBoxscore);
+                        Log::channel('boxscore')->emergency($e);
+                        continue;
+                    }
                 }
 
                 $progressbar->advance();
@@ -162,6 +214,7 @@ class AddNewGamesBoxscore extends Command
         $progressbar->finish();
         $this->newLine();
         $this->info('Finished games players boxscores load succesfull');
+        Log::channel('boxscore')->info('Finished games players boxscores load end');
     }
 
     private function createGameBoxscore($boxScore, $gameId, $gameDate, $teamId, $isHTeam)

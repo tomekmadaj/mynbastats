@@ -99,6 +99,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'schedule' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/schedule.log'),
+            'level' => 'debug',
+        ],
+
+        'boxscore' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/boxscore.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];

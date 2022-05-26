@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Client\Factory;
+use Illuminate\Support\Facades\Log;
 
 class UpdateNbaSchedule extends Command
 {
@@ -51,6 +52,7 @@ class UpdateNbaSchedule extends Command
         $schedule = $responseJson['league']['standard'];
 
         $this->info('Loading NBA Schedule');
+        Log::channel('schedule')->info('Loading NBA Schedule');
 
         $scheduleToUpdate = array_slice($schedule, -count($gamesToUpdate));
 
@@ -58,14 +60,18 @@ class UpdateNbaSchedule extends Command
             if (!empty($game['gameId'])) {
                 try {
                     $this->update($game);
+                    Log::channel('schedule')->info("Game: " . $game['gameId'] . " - update succesfull");
                 } catch (\Throwable $e) {
                     dump($game);
                     dump($e);
+                    Log::channel('schedule')->emergency($game);
+                    Log::channel('schedule')->emergency($e);
                     continue;
                 }
             }
         }
         $this->info('NBA Schedule load succesfull');
+        Log::channel('schedule')->info('NBA Schedule load succesfull');
     }
 
     private function loadEmptyGames()
