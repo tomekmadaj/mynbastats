@@ -58,20 +58,13 @@ class NbaStatsController extends Controller
 
         $playerSeasons = $this->nbaRepository->playerSeasons($personId)->toArray();
         $seasonsData = array_column($playerSeasons, 'seasonYear');
-
-        $defaultSeasonYear = $seasonsData[0];
-
-        $seasonYear = $request->get('seasonYear') ?? $defaultSeasonYear;
-        in_array($seasonYear, $seasonsData) ?: $seasonYear = $defaultSeasonYear;
+        $seasonYear = $request->get('seasonYear') ?? $seasonsData[0];
+        in_array($seasonYear, $seasonsData) ?: $seasonYear = $seasonsData[0];
 
         $userData = $this->userRepository->getUserTeamAndPlayer($user);
-
         $playerSeasonStatsData = $this->nbaRepository->playerStats($personId, $seasonYear);
-
         $playerCareerStatsData = $this->nbaRepository->playerStats($personId, 'careerSummary');
-
         $playerImageData = $this->nbaRepository->getPlayerImage($personId);
-
         $latestPlayerStatsData = $this->nbaRepository->latestPlayerStats($personId);
 
         return view('nbaStats.player', [

@@ -47,7 +47,6 @@ class UserController extends Controller
 
     public function update(UpdateUserProfile $request)
     {
-        //logika zapisu
         $user = Auth::user();
         $data = $request->validated();
 
@@ -61,9 +60,8 @@ class UserController extends Controller
                 ->with('error', 'Please select your favourite team');
         }
 
-
         if (!empty($data['avatar'])) {
-            //zapisujemy flik poprzez store('nazwa folderu', 'określamy dysk') na obiekcie UploadetFile
+            //zapisujemy plik poprzez store('nazwa folderu', 'określamy dysk') na obiekcie UploadetFile
             $path = $data['avatar']->store('avatars', 'public');
             //zapisanie pliku określając jego nazwę poprzez store() - drugi parametr to nazwa pliku
             //$path = $data['avatar']->storeAs('avatars', Auth::id() . '.jpg', 'public');
@@ -83,33 +81,5 @@ class UserController extends Controller
         return redirect()
             ->route('me.profile')
             ->with('success', 'Profil zaktualizowany');
-    }
-
-    public function updateValidationRules(HttpRequest $request)
-    {
-        //dd($request->all());
-        //name
-        //email
-        //phone
-        //reguły walidacji są wbudowane w laravela - dokumentacja
-        $request->validate([
-            'email' => 'required|unique:users|email', //unique:users - users to nazwa tabeli w którym ma szukać,
-            //kolejnym parametrem powinna być kolumna - jeżli nie ma podanej bieżę nazwę z klucza
-            //email - sprawdza czy postać przesłana to rzeczywiście email
-            'name' => 'required|max:2',
-            'team' => 'required|not_in:0',
-            'player' => 'required|not_in:0',
-
-        ]);
-
-        //alternatywny zapis
-        // $request->validate([
-        //     'email' => ['requierd', 'unique:users', 'email'],
-        //     'name' => ['required', 'max:20']
-        // ]);
-
-        return redirect()
-            ->route('me.profile')
-            ->with('status', 'Profil zaktualizowany');
     }
 }

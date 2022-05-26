@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-// Route::middleware(['auth', 'second'])->group(function () {
-// });
 Route::group([
     'as' => 'home.',
     'namespace' => 'Home'
@@ -35,10 +32,6 @@ Route::group([
     Route::get('/highlights', 'NewsController@highlights')
         ->name('highlights');
 });
-
-
-// route::get('/nbaStats', 'NbaStatsController@dashboard')
-//     ->name('nbaStats.dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -58,12 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
-// route::get('/', [NbaStatsController::class, 'dashboard'])
-//     ->name('dashboard');
-
 Route::group(['middleware' => ['auth']], function () {
-
-    //USER - ME
     Route::group([
         'prefix' => 'me',
         'as' => 'me.',
@@ -73,146 +61,18 @@ Route::group(['middleware' => ['auth']], function () {
             ->name('profile');
         Route::get('edit', 'UserController@edit')
             ->name('edit');
-        //zmieniamy metodę na post przy update bo będziemy przesyłać dane przez formularz
+        //zmiana metody na post przy update -update danych przez formularz
         Route::post('update', 'UserController@update')
             ->name('update');
-
-        //dodanie routingu dla użytkonika dające możliwość działania na włąsnych grach
-        // listing, dodanie gry, usunięcie gry, ocena
-        // Route::get('games', 'GameController@list')
-        //     ->name('games.list');
-        // Route::post('games', 'GameController@add')
-        //     ->name('games.add');
-        // Route::delete('games', 'GameController@remove')
-        //     ->name('games.remove');
-        // Route::post('games/rate', 'GameController@rate')
-        //     ->name('games.rate');
     });
 
-    //USERS FAKER
-
-    // Route::get('faker/users', 'UserControllerFaker@list')
-    //     ->name('faker.get.users');
-
-    // Route::get('faker/users/{userId}', 'UserControllerFaker@show')
-    //     ->name('faker.get.user.show');
-
-    // //Route::get('users/{id}/profile', 'User\ProfilController@show')
-    // //    ->name('get.user.profile');
-
-    // Route::get('faker/users/{id}/address', 'User\ShowAddressFaker')
-    //     ->where(['id' => '[0-9]+'])
-    //     ->name('faker.users.address');
-
-
-    //USERS
+    //Admin
     Route::get('users', 'UserController@list')
         ->name('get.users');
 
     Route::get('users/{userId}', 'UserController@show')
         ->name('get.user.show')
         ->middleware('can:admin-level');
-
-    // Route::get('users/{id}/address', 'User\ShowAddress')
-    //     ->where(['id' => '[0-9]+'])
-    //     ->name('get.users.address');
-
-
-    //GAMES BUILDER
-    //sprefixowanie
-    // Route::prefix('b/games')->group(function () {
-    //     Route::get('/dashboard', 'GameController@dashboard')
-    //         ->name('games.dashboard');
-
-    //     Route::get('/', 'GameController@index')
-    //         ->name('games.list');
-
-    //     Route::get('/{game}', 'GameController@show')
-    //         ->name('games.show');
-    // });
-
-    //GAMES
-    // Route::group([
-    //     'prefix' => 'games',
-    //     'namespace' => 'Game',
-    //     'as' => 'games.'
-    // ], function () {
-    //     Route::get('/dashboard', 'GameController@dashboard')
-    //         ->name('dashboard');
-
-    //     Route::get('/', 'GameController@index')
-    //         ->name('list');
-
-    //     Route::get('/{game}', 'GameController@show')
-    //         ->name('show');
-    //     // Route::resource('games', 'GameController')
-    //     //     ->only([
-    //     //         'index', 'show'
-    //     //     ]);
-    // });
-
-    //GAMES Buider
-    // Route::group([
-    //     'prefix' => 'b/games',
-    //     'namespace' => 'Game',
-    //     'as' => 'games.b.'
-    // ], function () {
-    //     Route::get('/dashboard', 'BuilderController@dashboard')
-    //         ->name('dashboard');
-
-    //     Route::get('/', 'BuilderController@index')
-    //         ->name('list');
-
-    //     Route::get('/{game}', 'BuilderController@show')
-    //         ->name('show');
-    //     // Route::resource('games', 'GameController')
-    //     //     ->only([
-    //     //         'index', 'show'
-    //     //     ]);
-    // });
-
-
-
-    //GAMES ELOQUENT
-    // Route::group([
-    //     'prefix' => 'e/games',
-    //     'namespace' => 'Game',
-    //     'as' => 'games.e.',
-    //     // 'middleware' => ['profiling']
-    // ], function () {
-    //     Route::get('/dashboard', 'EloquentController@dashboard')
-    //         ->name('dashboard');
-    //     Route::get('/', 'EloquentController@index')
-    //         ->name('list');
-    //     Route::get('/{game}', 'EloquentController@show')
-    //         ->name('show')
-    //         ->middleware('profiling');
-    //     /*
-    // Route::middleware(['profiling']) //zamiast nazwy grupy, możemy podać nazwę konkretnego middleware'a
-    // ->group(function () {
-    //         Route::get('/dashboard', 'EloquentController@dashboard')
-    //         ->name('dashboard');
-
-    //     Route::get('/', 'EloquentController@index')
-    //         ->name('list');
-
-    //     Route::get('/{game}', 'EloquentController@show')
-    //         ->name('show');
-    //     }
-    // );
-    // */
-    // });
-
-    // Route::get('/dashboard', 'EloquentController@dashboard')
-    //     ->name('dashboard');
-
-    // Route::get('/', 'EloquentController@index')
-    //     ->name('list');
-
-    // Route::get('/{game}', 'EloquentController@show')
-    //     ->name('show');
 });
 
 Auth::routes();
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

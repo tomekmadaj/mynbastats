@@ -6,41 +6,40 @@
         <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> 2021-2022 NBA Regular Season Standings</b>
     </h5>
-    <div class="row">
+    <div id="standings" class="row">
         <div class="col-xl-6 col-lg-6 col-12">
             <div class="card mt-3">
-                <div class="card">
-                    <div class="card-header"><i class="fas fa-table mr-1"></i>NBA West Conference Standings</div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+                <div class="card-header"><i class="fas fa-table mr-1">
+                    </i>NBA West Conference Standings
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Team Name</th>
+                                    <th>Win</th>
+                                    <th>Loss</th>
+                                    <th>Win %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($standingsWest ?? [] as $standing)
                                     <tr>
-                                        <th>Rank</th>
-                                        <th>Team Name</th>
-                                        <th>Win</th>
-                                        <th>Loss</th>
-                                        <th>Win %</th>
+                                        <td>{{ $standing->confRank }}</td>
+                                        <td>
+                                            <img class="mx-auto rounded" style="height: 30px"
+                                            src="/images/NbaLogos/{{ $standing->teams->teamId }}.png">
+                                            {{ $standing->teams->fullName }}
+                                        </td>
+                                        <td>{{ $standing->win }}</td>
+                                        <td>{{ $standing->loss }}</td>
+                                        <td>{{ $standing->winPct }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($standingsWest ?? [] as $standing)
-                                        <tr>
-                                            <td>{{ $standing->confRank }}</td>
-                                            <td>
-                                                <img style="height: 30px"
-                                                    src="/images/NbaLogos/{{ $standing->teams->teamId }}.png"
-                                                    class="mx-auto rounded">
-                                                {{ $standing->teams->fullName }}
-                                            </td>
-                                            <td>{{ $standing->win }}</td>
-                                            <td>{{ $standing->loss }}</td>
-                                            <td>{{ $standing->winPct }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -48,37 +47,36 @@
 
         <div class="col-xl-6 col-lg-6 col-12">
             <div class="card mt-3">
-                <div class="card">
-                    <div class="card-header"><i class="fas fa-table mr-1"></i>NBA East Conference Standings</div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>NBA East Conference Standings
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Team Name</th>
+                                    <th>Win</th>
+                                    <th>Loss</th>
+                                    <th>Win %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($standingsEast ?? [] as $standing)
                                     <tr>
-                                        <th>Rank</th>
-                                        <th>Team Name</th>
-                                        <th>Win</th>
-                                        <th>Loss</th>
-                                        <th>Win %</th>
-
+                                        <td>{{ $standing->confRank }}</td>
+                                        <td> <img class="mx-auto rounded" style="height: 30px"
+                                                src="/images/NbaLogos/{{ $standing->teams->teamId }}.png">
+                                            {{ $standing->teams->fullName }}
+                                        </td>
+                                        <td>{{ $standing->win }}</td>
+                                        <td>{{ $standing->loss }}</td>
+                                        <td>{{ $standing->winPct }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($standingsEast ?? [] as $standing)
-                                        <tr>
-                                            <td>{{ $standing->confRank }}</td>
-                                            <td> <img style="height: 30px"
-                                                    src="/images/NbaLogos/{{ $standing->teams->teamId }}.png"
-                                                    class="mx-auto rounded">
-                                                {{ $standing->teams->fullName }}</td>
-                                            <td>{{ $standing->win }}</td>
-                                            <td>{{ $standing->loss }}</td>
-                                            <td>{{ $standing->winPct }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -90,12 +88,11 @@
         <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> 2021-2022 NBA Regular Season Leaders</b>
     </h5>
-
-    <div class="row">
+    <div id="leaders" class="row">
         <div class="col-xl-3 col-lg-6 col-12">
             <div class="card" >
                 <div class="card-header">
-                    <b>Points </b> (per game)
+                    <b>Points</b> (per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($pointsLeaders as $leader)
@@ -109,7 +106,7 @@
                                 </p>
                             </div>
                             <div>
-                                <p> {{ $leader->ppg }} </p>
+                                <p>{{ $leader->ppg }}</p>
                             </div>
                         </li>
                     @endforeach
@@ -119,7 +116,7 @@
         <div class="col-xl-3 col-lg-6 col-12">
             <div class="card mt-xl-0 mt-lg-0 mt-3" >
                 <div class="card-header">
-                    <b> Rebounds </b> (per game)
+                    <b>Rebounds</b> (per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($reboundsLeaders as $leader)
@@ -133,7 +130,7 @@
                                 </p>
                             </div>
                             <div>
-                                <p> {{ $leader->rpg }} </p>
+                                <p>{{ $leader->rpg }}</p>
                             </div>
                         </li>
                     @endforeach
@@ -143,7 +140,7 @@
         <div class="col-xl-3 col-lg-6 col-12">
             <div class="card mt-xl-0 mt-lg-3 mt-3">
                 <div class="card-header">
-                    <b> Assists </b>(per game)
+                    <b>Assists</b> (per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($assistsLeaders as $leader)
@@ -157,7 +154,7 @@
                                 </p>
                             </div>
                             <div>
-                                <p> {{ $leader->apg }} </p>
+                                <p>{{ $leader->apg }}</p>
                             </div>
                         </li>
                     @endforeach
@@ -167,7 +164,7 @@
         <div class="col-xl-3 col-lg-6 col-12">
             <div class="card mt-xl-0 mt-lg-3 mt-3">
                 <div class="card-header">
-                    <b> Blocks </b>(per game)
+                    <b>Blocks</b> (per game)
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach ($blocksLeaders as $leader)
@@ -181,7 +178,7 @@
                                 </p>
                             </div>
                             <div>
-                                <p> {{ $leader->bpg }} </p>
+                                <p>{{ $leader->bpg }}</p>
                             </div>
                         </li>
                     @endforeach

@@ -4,11 +4,11 @@
 <div class="row mt-3">
     <div class="col-xl-3 col-12">
         {{-- User Player --}}
-        <div class="card">
+        <div id="playerInfo" class="card">
             <p class="text-center"><b>{{ $user->players->firstName . ' ' . $user->players->lastName }}</b></p>
-            <img src="{{ $playerImageUrl['playerImgFileUrl'] }}" class="rounded mx-auto d-block user-avatar">
+            <img class="rounded mx-auto d-block user-avatar" src="{{ $playerImageUrl['playerImgFileUrl'] }}">
             @if ($playerImageUrl['imgFileSrc'])
-            <a href="{{ $playerImageUrl['imgFileSrc'] }}" target="_blank" class="text-center" style="font-size: 10px">
+            <a class="text-center" style="font-size: 10px" href="{{ $playerImageUrl['imgFileSrc'] }}" target="_blank">
                 (img source)</a>
             @endif
             <div class="card-body">
@@ -30,10 +30,10 @@
                 <div class="card-header">
                     <i class="fas fa-table mr-1"></i>
                     Player stats:
-                    <b> {{ $playerSeasonStats->players->firstName . ' ' . $playerSeasonStats->players->lastName }} </b>
+                    <b>{{ $playerSeasonStats->players->firstName . ' ' . $playerSeasonStats->players->lastName }}</b>
                     <form class="mt-2" action="{{ route('nbaStats.playerDashboard') }}">
                         Season:
-                        <select id="seasonYear" name="seasonYear">
+                        <select id="season" name="seasonYear">
                             @foreach ($playerSeasons ?? [] as $season)
                             <option {{ $playerSeasonStats->seasonYear == $season ? 'selected' : '' }} value="{{ $season }}">
                                 {{ $season }}
@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Team</th>
@@ -116,20 +116,21 @@
             </div>
         @else
         <div>
-            There's no season stats for player: {{ $player->firstName . ' ' . $player->lastName }}
+            There's no season stats for player: {{ $users->players->firstName . ' ' . $users->players->lastName }}
         </div>
         @endif
         {{-- Player Stats Career --}}
         @if (isset($playerCareerStats->players))
         <div class="card mt-3">
             <div class="card">
-                <div class="card-header"><i class="fas fa-table mr-1"></i>Player stats: <b>
-                        {{ $playerCareerStats->players->firstName . ' ' . $playerCareerStats->players->lastName }}
-                    </b>
-                    - Career summary </div>
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>Player stats:
+                    <b>{{ $playerCareerStats->players->firstName . ' ' . $playerCareerStats->players->lastName }}</b>
+                    - Career summary
+                </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Current Team</th>
@@ -210,13 +211,14 @@
 {{-- Latest 5 player games --}}
 <div class="card mt-5">
     <div class="card">
-        <div class="card-header"><i class="fas fa-table mr-1"></i><b>
-                {{ $user->players->firstName . ' ' . $user->players->lastName }}
-            </b> - latest games stats:
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            <b>{{ $user->players->firstName . ' ' . $user->players->lastName }}</b>
+            - latest games stats:
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th title='Game date'>date</th>
@@ -280,5 +282,4 @@
         </div>
     </div>
 </div>
-
 @endsection

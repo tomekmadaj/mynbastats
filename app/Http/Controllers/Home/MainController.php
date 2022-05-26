@@ -19,42 +19,7 @@ class MainController extends Controller
 
     public function home()
     {
-        //generowanie adresów url
-        //$gameId = 44;
-        //$url = url("games/$gameId");
-        //$url = url()->current();
-        //$url = url()->full();
-        //$url = url()->previous();
-
-        //$routeUrl = route('games.show', ['game' => $gameId]);
-        //$routeUrl = route(
-        //    'games.show',
-        //    ['game' => $gameId, 'foo' => 'bar', 'test' => 1]
-        //);
-
-        // $actionUrl = action([GameController::class, 'dashboard']);
-        // $actionUrl = action(
-        //     [GameController::class, 'show'],
-        //     ['game' => $gameId, 'foo' => 'bar']
-        // );
-
-        // dump($actionUrl);
-
-        // dd('end');
-
-
-
-        // $user = $request->user();
-
-        // $id = Auth::id();
-
-        // if (Auth::check()) {
-        // }
-
-        // Auth::logout();
-
         $user = Auth::user();
-
         $latestGames = $this->nbaRepository->latestGames();
 
         return view('home.main', [
@@ -68,7 +33,6 @@ class MainController extends Controller
         $user = Auth::user();
 
         $standingsWest = $this->nbaRepository->standingsWest();
-
         $standingsEast = $this->nbaRepository->standingsEast();
 
         $pointLeaders = $this->nbaRepository->teamLeaders('ppg');

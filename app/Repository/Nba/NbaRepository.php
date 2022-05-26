@@ -54,90 +54,74 @@ class NbaRepository implements NbaRepositoryInterface
 
     public function getPlayer($personId): Player
     {
-        $userPlayer = $this->playerModel
+        return $this->playerModel
             ->with('teams')
             ->find($personId);
-
-        return $userPlayer;
     }
 
     public function getTeam($teamId): Team
     {
-        $userTeam = $this->teamModel
+        return $this->teamModel
             ->find($teamId);
-
-        return $userTeam;
     }
 
     public function standingsWest(): Collection
     {
-        $standings = $this->standingModel
+        return $this->standingModel
             ->with('teams')
             ->west()
             ->get();
-
-        return $standings;
     }
 
     public function standingsEast(): Collection
     {
-        $standings = $this->standingModel
+        return $this->standingModel
             ->with('teams')
             ->east()
             ->get();
-
-        return $standings;
     }
 
     public function teamStats($teamId)
     {
-        $teamStats = $this->teamStatsRankingModel
+        return $this->teamStatsRankingModel
             ->with('teams')
             ->where('teamId', '=', $teamId)
             ->first();
-
-        return $teamStats;
     }
 
     public function playerStats($personId, $seasonYear = self::CURRENT_SEASON)
     {
-        $playerStats = $this->playerStatModel
+        return $this->playerStatModel
             ->with('players', 'teams')
             ->where([
                 ['personId', '=', $personId],
                 ['seasonYear', '=', $seasonYear]
             ])->first();
-
-        return $playerStats;
     }
 
     public function playerSeasons($personId): Collection
     {
-        $playerSeasons = $this->playerStatModel
+        return $this->playerStatModel
             ->where([
                 ['personId', '=', $personId],
                 ['seasonYear', '!=', 'careerSummary']
             ])
             ->get('seasonYear');
-
-        return $playerSeasons;
     }
 
     public function latestPlayerStats($personId): Collection
     {
-        $latestPlayerStats = $this->playerBoxscoreModel
+        return $this->playerBoxscoreModel
             ->with('schedule.hTeams', 'schedule.vTeams')
             ->where('personId', '=', $personId)
             ->limit(self::LATEST_PLAYER_GAMES)
             ->orderBy('date', 'DESC')
             ->get();
-
-        return $latestPlayerStats;
     }
 
     public function teamPlayersStats($teamId, $seasonYear = self::CURRENT_SEASON): Collection
     {
-        $teamPlayersStats = $this->playerStatModel
+        return $this->playerStatModel
             ->with('players')
             ->where([
                 ['teamId', '=', $teamId],
@@ -146,24 +130,20 @@ class NbaRepository implements NbaRepositoryInterface
             ->sortable()
             ->orderBy('ppg', 'DESC')
             ->get();
-
-        return $teamPlayersStats;
     }
 
     public function teamLeaders($stat, $seasonYear = self::CURRENT_SEASON, $teamId = null): Collection
     {
-        $teamLeaders = $this->playerStatModel
+        return $this->playerStatModel
             ->with(['players', 'teams'])
             ->bestStats($stat, $seasonYear, $teamId)
             ->get();
-
-        return $teamLeaders;
     }
 
     public function latestGames($teamId = null): Collection
     {
         if ($teamId) {
-            $latestGames = $this->scheduleModel
+            return $this->scheduleModel
                 ->teamSchedule($teamId)
                 ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
                 ->whereNotNull('hTeamScore')
@@ -171,26 +151,24 @@ class NbaRepository implements NbaRepositoryInterface
                 ->limit(self::LATEST_TEAM_GAMES)
                 ->get();
         } else {
-            $latestGames = $this->scheduleModel
+            return $this->scheduleModel
                 ->with('hTeams', 'vTeams', 'hTeamsLeaders', 'vTeamsLeaders', 'hTeamsBoxscore', 'vTeamsBoxscore')
                 ->whereNotNull('hTeamScore')
                 ->orderBy('date', 'DESC')
                 ->limit(self::LATEST_TEAM_GAMES)
                 ->get();
         }
-        return $latestGames;
     }
 
     public function getPlayerImage($personId)
     {
         $player = $this->getPlayer($personId);
 
-        $playerFirstName = $player->firstName;
-        $playerlastName = $player->lastName;
-        // !str_contains($playerFirstName, '-') ?: $playerFirstName = substr($playerFirstName, 0, strpos($playerFirstName, '-'));
-
-        $wikiPlayerUrl = 'https://pl.wikipedia.org/wiki/firstName_lastName';
-        $wikiPlayerUrl = str_replace(['firstName', 'lastName'], [$playerFirstName, $playerlastName], $wikiPlayerUrl);
+        $wikiPlayerUrl = str_replace(
+            ['firstName', 'lastName'],
+            [$player->firstName, $player->lastName],
+            'https://pl.wikipedia.org/wiki/firstName_lastName'
+        );
 
         $dom = new DOMDocument();
         @$dom->loadHTMLFile($wikiPlayerUrl);
@@ -202,10 +180,8 @@ class NbaRepository implements NbaRepositoryInterface
             ];
         }
 
-        $playerImageUrl = [];
-        $className = 'image';
         $xpath = new \DOMXPath($dom);
-        $results = $xpath->query("//*[@class='" . $className . "']");
+        $results = $xpath->query("//*[@class='" . 'image' . "']");
         if ($results->length > 0) {
             foreach ($results as $result) {
                 $playerImageUrl[] = $result->getAttribute('href');
@@ -216,27 +192,18 @@ class NbaRepository implements NbaRepositoryInterface
                 'imgFileSrc' => null
             ];
         }
-
-        $playerImageUrl = $playerImageUrl[0];
-        $playerImageUrl = 'https://pl.wikipedia.org' . $playerImageUrl;
+        $playerImageUrl = 'https://pl.wikipedia.org' . $playerImageUrl[0];
 
 
         @$dom->loadHTMLFile($playerImageUrl);
-
         $fileId = $dom->getElementById('file');
         $imagesTag = $fileId->getElementsByTagName('a');
-
-        $playerImgFileUrl = '';
         foreach ($imagesTag as $image) {
-            $playerImgFileUrl = $image->getAttribute('href');
+            $playerImgFileUrl = 'https:' . $image->getAttribute('href');
         }
-
-        $playerImgFileUrl = 'https:' . $playerImgFileUrl;
 
         $fileSrc = $dom->getElementById('fileinfotpl_src');
         $fileSrcTag = $fileSrc->nextElementSibling->getElementsByTagName('a');
-
-        $imgFileSrc = '';
         foreach ($fileSrcTag as $src) {
             $imgFileSrc = $src->getAttribute('href');
         }

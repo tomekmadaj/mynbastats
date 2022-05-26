@@ -21,31 +21,7 @@ class DashboardTest extends TestCase
     {
         $response = $this->get('/');
 
-        //chcemy żeby serwer zwrócił wartość 200 czyli wszystko ok
-        $response->assertStatus(200);
-    }
-
-    public function testDashboardShowing()
-    {
-        $user = factory(User::class)->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->get('/');
-
-        $response->assertStatus(200);
-    }
-
-    public function testDashboardShowingWithExtraData()
-    {
-        $user = factory(User::class)->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->withCookies(['best-game' => 'Duke Nuken 3D'])
-            ->withSession(['publisher' => '3D Realms'])
-            ->get('/');
-
+        //serwer ma zwrócić wartość 200 czyli  ok
         $response->assertStatus(200);
     }
 }

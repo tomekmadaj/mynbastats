@@ -17,10 +17,9 @@
 
             <form action="{{ route('me.update') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <!-- X-XSRF-TOKEN -->
                 @if ($user->avatar)
                     <img src="{{ Storage::url($user->avatar) }}" class="rounded mx-auto d-block user-avatar">
-                    <!-- <img src="{{ asset('storage/' . $user->avatar) }}" class="rounded mx-auto d-block user-avatar"> -->
+                    {{-- <img src="{{ asset('storage/' . $user->avatar) }}" class="rounded mx-auto d-block user-avatar"> --}}
                 @else
                     <img src="/images/avatar.png" class="rounded mx-auto d-block">
                 @endif
@@ -33,7 +32,6 @@
                             <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
-
                     <label for="name">Name</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
                         value="{{ old('name', $user->name) }}" />
@@ -49,16 +47,6 @@
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
-                {{-- <div class="form-group">
-                    <label for="phone">Telefon</label>
-                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone"
-                        value="{{ old('phone', $user->phone) }}">
-                    @error('phone')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                </div> --}}
-
-
                 <div class="div row mb-4">
                     <div class="div col-xl-6 col-sm-12">
                         <label for="favouriteTeam">Favourite Team</label>
@@ -103,7 +91,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{{ route('me.profile') }}" class="btn btn-secondary">Cncel</a>
+                <a href="{{ route('me.profile') }}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

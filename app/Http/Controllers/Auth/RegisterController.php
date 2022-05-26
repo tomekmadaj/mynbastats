@@ -66,8 +66,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'team' => ['required', 'string', 'not_in:0', 'unique:team,teamId'],
-            'player' => ['required', 'string', 'not_in:0', 'unique:players,personId']
+            'team' => ['required', 'string', 'not_in:0'],
+            'player' => ['required', 'string', 'not_in:0']
         ]);
     }
 

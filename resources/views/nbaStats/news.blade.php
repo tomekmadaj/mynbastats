@@ -3,10 +3,10 @@
 @section('content')
     <h5 class="mb-4">
         <img style="height: 30px" src="/images/NbaLogos/{{ $user->teams->teamId }}.png" class="mx-auto rounded">
-        <b> {{ $user->teams->fullName }} latest news</b>
+        <b> {{ $user->teams->fullName }} news</b>
     </h5>
     @foreach ($teamNews as $news)
-        <div class="card mb-5">
+        <div id="news" class="card mb-5">
             <div class="card-header d-flex flex-row justify-content-between">
                 <p class="mb-0"> <b> {{ $news['title'] }} </b> </p>
                 <p class="mb-0"> {{ $news['date'] }} </p>

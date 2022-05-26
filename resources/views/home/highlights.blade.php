@@ -3,10 +3,10 @@
 @section('content')
     <h5 class="mb-4">
         <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
-        <b>NBA latest highlights</b>
+        <b>NBA highlights</b>
     </h5>
     @if (!empty($videos))
-        <div class="row">
+        <div id="highlights" class="row">
             @foreach ($videos as $video)
                 <div class="col-xl-6 col-12 mb-4 me-5">
                     @if (isset($video->id->videoId))
@@ -21,6 +21,6 @@
             @endforeach
         </div>
     @else
-        <p>There's no recent highlights for {{ $team->fullName }} </p>
+        <p>There's no recent highlights</p>
     @endif
 @endsection

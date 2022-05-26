@@ -6,7 +6,7 @@
         <img style="height: 30px" src="/images/NbaLogos/NBA-logo.png" class="mx-auto rounded">
         <b> NBA latest games</b>
     </h5>
-    <div class="row">
+    <div id="scoreboard" class="row">
         @foreach ($latestGames as $game)
             <div class="col-xl-4 col-md-6 col-12">
                 <div class="card mt-xl-0 mt-md-0 mt-5">
@@ -31,12 +31,12 @@
                         <li class="list-group-item text-center">Point leaders</li>
                         <li class="list-group-item pb-0">
                             <div class="row mb-0 pb-0">
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="hTeamsLeadersP" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->hTeamsLeaders->pFirstName . ' ' . $game->hTeamsLeaders->pLastName }}
                                     </p>
                                     <p>{{ $game->hTeamsLeaders->points }}</p>
                                 </div>
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="vTeamsLeadersP" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->vTeamsLeaders->points }}</p>
                                     <p>{{ $game->vTeamsLeaders->pFirstName . ' ' . $game->vTeamsLeaders->pLastName }}
                                     </p>
@@ -46,12 +46,12 @@
                         <li class="list-group-item text-center">Assists leaders</li>
                         <li class="list-group-item pb-0">
                             <div class="row mb-0 pb-0">
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="hTeamsLeadersA" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->hTeamsLeaders->aFirstName . ' ' . $game->hTeamsLeaders->aLastName }}
                                     </p>
                                     <p>{{ $game->hTeamsLeaders->assists }}</p>
                                 </div>
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="vTeamsLeadersA" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->vTeamsLeaders->assists }}</p>
                                     <p>{{ $game->vTeamsLeaders->aFirstName . ' ' . $game->vTeamsLeaders->aLastName }}
                                     </p>
@@ -61,12 +61,12 @@
                         <li class="list-group-item text-center">Rebounds leaders</li>
                         <li class="list-group-item pb-0">
                             <div class="row mb-0 pb-0">
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="hTeamsLeadersR" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->hTeamsLeaders->rFirstName . ' ' . $game->hTeamsLeaders->rLastName }}
                                     </p>
                                     <p>{{ $game->hTeamsLeaders->rebounds }}</p>
                                 </div>
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="vTeamsLeadersR" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->vTeamsLeaders->rebounds }}</p>
                                     <p>{{ $game->vTeamsLeaders->rFirstName . ' ' . $game->vTeamsLeaders->rLastName }}
                                     </p>
@@ -85,7 +85,7 @@
         <b>NBA latest games stats</b>
     </h5>
     @foreach ($latestGames as $game)
-        <div class="card mt-3">
+        <div id="gamesStats" class="card mt-3">
             <div class="card">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>
                     <b> {{ $game->hTeams->fullName }} vs {{ $game->vTeams->fullName }} </b>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th title='Team'>Team</th>

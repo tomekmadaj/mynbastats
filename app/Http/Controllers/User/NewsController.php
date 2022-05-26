@@ -21,9 +21,7 @@ class NewsController extends Controller
     public function teamNews()
     {
         $user = Auth::user();
-        $teamId = $user->teamId;
-
-        $teamNewsData = $this->nbaNewsRepository->getTeamsNews($teamId);
+        $teamNewsData = $this->nbaNewsRepository->getTeamsNews($user->teamId);
         $userData = $this->userRepository->getUserTeamAndPlayer($user);
 
         return view('nbaStats.news', [
@@ -32,14 +30,11 @@ class NewsController extends Controller
         ]);
     }
 
-
     public function teamHighlights()
     {
         $user = Auth::user();
         $userData = $this->userRepository->getUserTeamAndPlayer($user);
-
-        $userTeamName = $userData->teams->fullName;
-        $highlightsVideos = $this->nbaNewsRepository->getVideos($userTeamName);
+        $highlightsVideos = $this->nbaNewsRepository->getVideos($userData->teams->fullName);
 
         return view('nbaStats.highlights', [
             'videos' => $highlightsVideos,

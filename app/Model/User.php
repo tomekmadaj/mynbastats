@@ -52,47 +52,6 @@ class User extends Authenticatable
         return $this->hasOne('App\Model\Team', 'teamId', 'teamId');
     }
 
-    public function games()
-    {
-        //argumenty: nazwa tabeli do której chcemy się dobrać, nazwa tabeli pośredniczącej
-        //withpivot() - definiujemy jaką kolumnę chcemy jeszcze wicągnąć
-        //za pomocą tej metody wyciąniemy dane z pivota
-        //domyślnie pivot służy to połaczenia użytkoników z grami i żadne dane nie są w ztego pivota wyciągane
-        return $this->belongsToMany(Game::class, 'userGames')
-            ->withPivot('rate')
-            ->with('genres');
-    }
-
-    public function addGame(Game $game): void
-    {
-        //dd($game);
-        $this->games()->save($game);
-    }
-
-    public function userHasGame(int $gameId): bool
-    {
-        $game = $this->games()
-            ->where('userGames.game_id', $gameId)
-            ->first();
-
-        // jak znajdzie gre to rzutujemey na bool true
-        return (bool) $game;
-    }
-
-    public function removeGame(Game $game)
-    {
-        //odpięcie gry od użytkownika podajemy identyfikator których chemy odpiąć
-        //
-        $this->games()->detach($game->id);
-    }
-
-    public function rateGame(Game $game, ?int $rate): void
-    {
-        //metoda Belongstomany udostepnia nam updateExistingPivot()
-        //dzięki temu zaktualizujemy wpis w tabeli pośredniej tzw. pivocie
-        $this->games()->updateExistingPivot($game, ['rate' => $rate]);
-    }
-
     public function isAdmin(): bool
     {
         return (bool) $this->admin;

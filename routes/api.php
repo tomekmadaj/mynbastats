@@ -18,14 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::apiResource('games', 'Api\GameController')
-    ->only([
-        'index', 'show'
-    ]);
-
-// na potrzeby testów API
-    // Route::get('/games', function (Request $request) {
-    //     $size = $request->get('size', 5);
-    //     return Game::paginate($size);
+    // Route::get('/teams', function (Request $request) {
+    //     return Team::paginate(5);
     // });

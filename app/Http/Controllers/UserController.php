@@ -19,28 +19,26 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function list(Request $request)
+    public function list()
     {
-        //autentykacja użytkownika
-        if (!Gate::allows('admin-level')) {
-            abort(403);
-        }
+        Gate::authorize('admin-level');
+
+        $users = $this->userRepository->all();
+
+        return View('user.list', ['users' => $users]);
+
+        // if (!Gate::allows('admin-level')) {
+        //     abort(403);
+        // }
 
         // if (Gate::denies('admin-level')) {
         //     abort(403);
         // }
 
-        //Gate::authorize zwróci 403 - to samo co z if powyżej -tylko znacznie prościej
-        //Gate::authorize('admin-level');
-
         // $response = Gate::inspect('admin=level');
         // if ($response->denied()) {
         //     echo $response->message();
         // }
-
-        $users = $this->userRepository->all();
-
-        return View('user.list', ['users' => $users]);
     }
 
     public function show(int $userId)
@@ -55,25 +53,29 @@ class UserController extends Controller
 
         Gate::authorize('view', $userModel);
 
-        //możemy poprzez obiekt użytownika  sprawdzić autoryzację
+        return view('user.show', [
+            'user' => $userModel
+        ]);
+
+        //sprawdzanie autoryzacji
         // $user = $request->user();
         // if (!$user->can('amin-level')) {
         //     abort(403);
         // }
 
-        //         $user = $request->user();
+        // $user = $request->user();
         // if ($user->cannot('admin-level')) {
         //     abort(403);
         // }
 
-        //alanlogicznie dla Policy
+        // Policy
         // $user = $request->user();
         // if (!$user->can('view', $userModel)) {
         //     abort(403);
         // }
 
         //dla metody create nie porzebujemy przekazać modelu
-        //oprzekazuemy w drugim argumencie model, który chcemy utworzyć
+        //przekazuemy w drugim argumencie model, który chcemy utworzyć
         // $user = $request->user();
         // if ($user->cannot('create', User::class)) {
         //     abort(403);
@@ -82,15 +84,5 @@ class UserController extends Controller
         //sam kontroller udostępnia nam możliwość sprawdzenia czy w danym miejscu mamy dostęp do danego zasobu
         // $this->authorize('admin-level');
         // $this->authorize('view', $userModel);
-
-        // Gate::authorize('admin-level');
-
-        //pierwszy parametr do nazwa akcji, drugi to nasz model
-        //system rozpozna, któej polityki użyć do modelu User ponieważ jest ona powiązana z modelem User
-
-
-        return view('user.show', [
-            'user' => $userModel
-        ]);
     }
 }

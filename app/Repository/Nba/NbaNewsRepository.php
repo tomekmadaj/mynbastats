@@ -19,12 +19,10 @@ class NbaNewsRepository implements NbaNewsRepositoryInterface
 
         $dom = new DOMDocument();
         @$dom->loadHTMLfile($newsUrl);
-
         $xpath = new \DOMXPath($dom);
         $newsResults = $xpath->query("//*[@class='" . 'panel-heading' . "']");
 
         $newsDate = [];
-
         foreach ($newsResults as $heading) {
             $spans = $heading->getElementsByTagName('span');
             foreach ($spans as $span) {
@@ -35,21 +33,18 @@ class NbaNewsRepository implements NbaNewsRepositoryInterface
 
         $newsTitle = [];
         $newsResults = $xpath->query("//*[@class='" . 'news-item-title' . "']");
-
         foreach ($newsResults as $titles) {
             $newsTitle[] = trim($titles->nodeValue, " \n\r\t\v\x00");
         }
 
         $newsContent = [];
         $newsResults = $xpath->query("//*[@class='" . 'news-item-content' . "']");
-
         foreach ($newsResults as $content) {
             $newsContent[] = trim($content->nodeValue, " \n\r\t\v\x00");
         }
 
         $newsSource = [];
         $newsResults = $xpath->query("//*[@class='" . 'meta' . "']");
-
         foreach ($newsResults as $sources) {
             $sources = $sources->getElementsByTagName('a');
             foreach ($sources as $source) {
@@ -58,7 +53,6 @@ class NbaNewsRepository implements NbaNewsRepositoryInterface
         }
 
         $newsFeed = [];
-
         for ($i = 0; $i < count($newsDate); $i++) {
             array_push($newsFeed, [
                 'date' => $newsDate[$i],
@@ -71,13 +65,13 @@ class NbaNewsRepository implements NbaNewsRepositoryInterface
         return $newsFeed;
     }
 
-    public function getVideos($teamId = self::All_VIDEOS)
+    public function getVideos($teamName = self::All_VIDEOS)
     {
         $apiKey = config('app.yt_api_key');
         $chanelId = self::YT_CHANNEL;
         $maxResults = 50;
 
-        if ($teamId != '') {
+        if (!$teamName != '') {
             $maxResults = 500;
         }
 
@@ -86,8 +80,8 @@ class NbaNewsRepository implements NbaNewsRepositoryInterface
         $videoList = json_decode($apiData);
 
         foreach ($videoList->items as $key => $video) {
-            if (!$teamId == '') {
-                if (!str_contains($video->snippet->title, $teamId)) {
+            if (!$teamName == '') {
+                if (!str_contains($video->snippet->title, $teamName)) {
                     unset($videoList->items[$key]);
                     continue;
                 }

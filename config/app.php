@@ -194,7 +194,6 @@ return [
 
         UserServiceProvider::class,
         NbaServiceProvider::class,
-        GameServiceProvider::class,
         NbaNewsServiceProvider::class
 
     ],
