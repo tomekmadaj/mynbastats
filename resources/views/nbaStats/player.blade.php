@@ -218,11 +218,11 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered table-sticky-mobile" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th title='Game date'>date</th>
                             <th title='Opposing team'>Opposing team</th>
+                            <th title='Game date'>date</th>
                             <th title='Points'>points</th>
                             <th title='Minutes'>min</th>
                             <th title='Field Goals made'>fgm</th>
@@ -248,12 +248,12 @@
                     <tbody>
                         @foreach ($latestPlayerStats ?? [] as $stat)
                         <tr>
-                            <td> {{ $stat->date }} </td>
                             @if ($stat->schedule->vTeams->teamId != $stat->teamId)
                             <td> {{ $stat->schedule->vTeams->fullName }} </td>
                             @elseif ($stat->schedule->hTeams->teamId != $stat->teamId)
                             <td> {{ $stat->schedule->hTeams->fullName }} </td>
                             @endif
+                            <td> {{ $stat->date }} </td>
                             <td> {{ $stat->points }} </td>
                             <td> {{ $stat->min }} </td>
                             <td> {{ $stat->fgm }} </td>

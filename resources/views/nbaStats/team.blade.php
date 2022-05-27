@@ -9,7 +9,7 @@
     <div id="scoreboard" class="row">
         @foreach ($latestGames as $game)
             <div class="col-xl-4 col-md-6 col-12">
-                <div class="card mt-xl-0 mt-md-0 mt-5">
+                <div class="card mt-xl-0 mt-md-3 mt-5">
                     <div class="text-center pt-1" style="font-size: 12px;"> {{ $game->date }}</div>
                     <div class=" card-body py-3 px-0">
                         <div class="d-flex flex-row">
@@ -104,7 +104,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-sticky-mobile" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th title='Team' style="width:230px">Team</th>
@@ -316,7 +316,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-sticky-mobile" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Player Name</th>
@@ -372,7 +372,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-sticky-mobile" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Player Name</th>
