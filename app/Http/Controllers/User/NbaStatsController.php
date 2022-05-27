@@ -47,7 +47,7 @@ class NbaStatsController extends Controller
             'assistsLeaders' => $assistsLeaders,
             'blocksLeaders' => $blocksLeaders,
             'teamPlayersStats' => $teamPlayersStats,
-            'latestUserTeamGames' => $latestUserTeamGames
+            'latestGames' => $latestUserTeamGames
         ]);
     }
 

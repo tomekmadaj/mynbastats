@@ -7,23 +7,33 @@
         <b> {{ $user->teams->fullName }} latest games</b>
     </h5>
     <div id="scoreboard" class="row">
-        @foreach ($latestUserTeamGames as $game)
+        @foreach ($latestGames as $game)
             <div class="col-xl-4 col-md-6 col-12">
                 <div class="card mt-xl-0 mt-md-0 mt-5">
                     <div class="text-center pt-1" style="font-size: 12px;"> {{ $game->date }}</div>
                     <div class=" card-body py-3 px-0">
                         <div class="d-flex flex-row">
-                            <div id="hTeam" class="col-6 d-flex justify-content-between">
-                                <h6 class="card-title"> <img style="height: 30px; padding-bottom:5px"
-                                        src="/images/NbaLogos/{{ $game->hTeams->teamId }}.png"
-                                        class="mx-auto rounded">{{ $game->hTeams->fullName }} </h6>
-                                <p>{{ $game->hTeamScore }}</p>
+                            <div id="hTeam" class="col-6 d-flex flex-row align-items-center justify-content-between">
+                                <div class="row pl-3">
+                                    <img style="height: 30px;" class="mx-auto rounded pr-2 mt-2"
+                                        src="/images/NbaLogos/{{ $game->hTeams->teamId }}.png">
+                                    <div>
+                                        <div>{{ $game->hTeams->altCityName }} </div>
+                                        <div>{{ $game->hTeams->nickname }} </div>
+                                    </div>
+                                </div>
+                                <div class="font-weight-bold">{{ $game->hTeamScore }}</div>
                             </div>
-                            <div id="vTeam" class="col-6 d-flex justify-content-between">
-                                <p>{{ $game->vTeamScore }}</p>
-                                <h6 class="card-title"> <img style="height: 30px; padding-bottom:5px"
-                                        src="/images/NbaLogos/{{ $game->vTeams->teamId }}.png" class="mx-auto rounded">
-                                    {{ $game->vTeams->fullName }}</h6>
+                            <div id="vTeam" class="col-6 d-flex flex-row align-items-center justify-content-between">
+                                <div class="font-weight-bold">{{ $game->vTeamScore }}</div>
+                                <div class="row pr-3">
+                                    <img style="height: 30px;" class="mx-auto rounded pr-2 mt-2"
+                                        src="/images/NbaLogos/{{ $game->vTeams->teamId }}.png">
+                                    <div>
+                                        <div>{{ $game->vTeams->altCityName }} </div>
+                                        <div>{{ $game->vTeams->nickname }} </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -31,12 +41,12 @@
                         <li class="list-group-item text-center">Point leaders</li>
                         <li class="list-group-item pb-0">
                             <div class="row mb-0 pb-0">
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="hTeamsLeadersP" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->hTeamsLeaders->pFirstName . ' ' . $game->hTeamsLeaders->pLastName }}
                                     </p>
                                     <p>{{ $game->hTeamsLeaders->points }}</p>
                                 </div>
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="vTeamsLeadersP" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->vTeamsLeaders->points }}</p>
                                     <p>{{ $game->vTeamsLeaders->pFirstName . ' ' . $game->vTeamsLeaders->pLastName }}
                                     </p>
@@ -46,12 +56,12 @@
                         <li class="list-group-item text-center">Assists leaders</li>
                         <li class="list-group-item pb-0">
                             <div class="row mb-0 pb-0">
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="hTeamsLeadersA" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->hTeamsLeaders->aFirstName . ' ' . $game->hTeamsLeaders->aLastName }}
                                     </p>
                                     <p>{{ $game->hTeamsLeaders->assists }}</p>
                                 </div>
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="vTeamsLeadersA" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->vTeamsLeaders->assists }}</p>
                                     <p>{{ $game->vTeamsLeaders->aFirstName . ' ' . $game->vTeamsLeaders->aLastName }}
                                     </p>
@@ -61,12 +71,12 @@
                         <li class="list-group-item text-center">Rebounds leaders</li>
                         <li class="list-group-item pb-0">
                             <div class="row mb-0 pb-0">
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="hTeamsLeadersR" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->hTeamsLeaders->rFirstName . ' ' . $game->hTeamsLeaders->rLastName }}
                                     </p>
                                     <p>{{ $game->hTeamsLeaders->rebounds }}</p>
                                 </div>
-                                <div class="col-6 d-flex justify-content-between">
+                                <div id="vTeamsLeadersR" class="col-6 d-flex justify-content-between">
                                     <p>{{ $game->vTeamsLeaders->rebounds }}</p>
                                     <p>{{ $game->vTeamsLeaders->rFirstName . ' ' . $game->vTeamsLeaders->rLastName }}
                                     </p>
@@ -85,7 +95,7 @@
         class="mx-auto rounded">
         <b>{{ $user->teams->fullName }} latest games stats</b>
     </h5>
-    @foreach ($latestUserTeamGames as $game)
+    @foreach ($latestGames as $game)
         <div id="gamesStats" class="card mt-3">
             <div class="card">
                 <div class="card-header"><i class="fas fa-table mr-1"></i>

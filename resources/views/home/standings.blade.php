@@ -21,7 +21,7 @@
                                     <th>Team Name</th>
                                     <th>Win</th>
                                     <th>Loss</th>
-                                    <th>Win %</th>
+                                    <th class="d-none d-xl-table-cell">Win %</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,7 +35,7 @@
                                         </td>
                                         <td>{{ $standing->win }}</td>
                                         <td>{{ $standing->loss }}</td>
-                                        <td>{{ $standing->winPct }}</td>
+                                        <td class="d-none d-xl-table-cell">{{ $standing->winPct }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -59,7 +59,7 @@
                                     <th>Team Name</th>
                                     <th>Win</th>
                                     <th>Loss</th>
-                                    <th>Win %</th>
+                                    <th class="d-none d-xl-table-cell">Win %</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,7 +72,7 @@
                                         </td>
                                         <td>{{ $standing->win }}</td>
                                         <td>{{ $standing->loss }}</td>
-                                        <td>{{ $standing->winPct }}</td>
+                                        <td class="d-none d-xl-table-cell">{{ $standing->winPct }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

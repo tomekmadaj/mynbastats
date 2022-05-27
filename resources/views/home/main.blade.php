@@ -13,17 +13,27 @@
                     <div class="text-center pt-1" style="font-size: 12px;"> {{ $game->date }}</div>
                     <div class=" card-body py-3 px-0">
                         <div class="d-flex flex-row">
-                            <div id="hTeam" class="col-6 d-flex justify-content-between">
-                                <h6 class="card-title"> <img style="height: 30px; padding-bottom:5px"
-                                        src="/images/NbaLogos/{{ $game->hTeams->teamId }}.png"
-                                        class="mx-auto rounded">{{ $game->hTeams->fullName }} </h6>
-                                <p>{{ $game->hTeamScore }}</p>
+                            <div id="hTeam" class="col-6 d-flex flex-row align-items-center justify-content-between">
+                                <div class="row pl-3">
+                                    <img style="height: 30px;" class="mx-auto rounded pr-2 mt-2"
+                                        src="/images/NbaLogos/{{ $game->hTeams->teamId }}.png">
+                                    <div>
+                                        <div>{{ $game->hTeams->altCityName }} </div>
+                                        <div>{{ $game->hTeams->nickname }} </div>
+                                    </div>
+                                </div>
+                                <div class="font-weight-bold">{{ $game->hTeamScore }}</div>
                             </div>
-                            <div id="vTeam" class="col-6 d-flex justify-content-between">
-                                <p>{{ $game->vTeamScore }}</p>
-                                <h6 class="card-title"> <img style="height: 30px; padding-bottom:5px"
-                                        src="/images/NbaLogos/{{ $game->vTeams->teamId }}.png" class="mx-auto rounded">
-                                    {{ $game->vTeams->fullName }}</h6>
+                            <div id="vTeam" class="col-6 d-flex flex-row align-items-center justify-content-between">
+                                <div class="font-weight-bold">{{ $game->vTeamScore }}</div>
+                                <div class="row pr-3">
+                                    <img style="height: 30px;" class="mx-auto rounded pr-2 mt-2"
+                                        src="/images/NbaLogos/{{ $game->vTeams->teamId }}.png">
+                                    <div>
+                                        <div>{{ $game->vTeams->altCityName }} </div>
+                                        <div>{{ $game->vTeams->nickname }} </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
