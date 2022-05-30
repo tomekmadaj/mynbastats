@@ -37,8 +37,6 @@ class LoadNbaSchedule extends Command
 
     public function loadNbaSchedule()
     {
-        $schedule = $this->loadCurrentSchedule()->toArray();
-
         $nbaScheduleUrl = config('nba.api.schedule');
 
         $response = $this->httpClient->get($nbaScheduleUrl);
@@ -70,14 +68,6 @@ class LoadNbaSchedule extends Command
         $preogressBar->finish();
         $this->newLine();
         $this->info('NBA Schedule load succesfull');
-    }
-
-
-    private function loadCurrentSchedule()
-    {
-        $schedule = DB::table('schedule')->get();
-
-        return $schedule;
     }
 
     private function create($gameData)
