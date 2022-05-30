@@ -38,8 +38,6 @@ class UpdateNbaSchedule extends Command
 
     public function updateNbaSchedul()
     {
-        $gamesToUpdate = $this->loadEmptyGames()->toArray();
-
         $nbaScheduleUrl = config('nba.api.schedule');
 
         $response = $this->httpClient->get($nbaScheduleUrl);
@@ -54,6 +52,39 @@ class UpdateNbaSchedule extends Command
         $this->info('Loading NBA Schedule');
         Log::channel('schedule')->info('Loading NBA Schedule');
 
+        $currentSchedule = array_column($this->loadCurrentSchedule()->toArray(), 'gameId');
+        foreach ($schedule as $game) {
+            if (!in_array($game['gameId'], $currentSchedule)) {
+                try {
+                    $this->create($game);
+                    Log::channel('schedule')->info("Game: " . $game['gameId'] . " - create succesfull");
+                } catch (\Throwable $e) {
+                    dump($game);
+                    dump($e);
+                    Log::channel('schedule')->emergency($game);
+                    Log::channel('schedule')->emergency($e);
+                    continue;
+                }
+            }
+        }
+        $currentSchedule = $this->loadCurrentSchedule();
+        $NewSchedule = array_column($schedule, 'gameId');
+        foreach ($currentSchedule as $game) {
+            if (!in_array($game->gameId, $NewSchedule)) {
+                try {
+                    $this->delete($game->gameId);
+                    Log::channel('schedule')->info("Game: " . $game->gameId . " - delete succesfull");
+                } catch (\Throwable $e) {
+                    dump($game);
+                    dump($e);
+                    Log::channel('schedule')->emergency($game);
+                    Log::channel('schedule')->emergency($e);
+                    continue;
+                }
+            }
+        }
+
+        $gamesToUpdate = $this->loadEmptyGames()->toArray();
         $scheduleToUpdate = array_slice($schedule, -count($gamesToUpdate));
 
         foreach ($scheduleToUpdate as $game) {
@@ -79,6 +110,39 @@ class UpdateNbaSchedule extends Command
         $schedule = DB::table('schedule')->whereNull(['hTeamScore', 'vTeamScore'])->get();
 
         return $schedule;
+    }
+
+    private function loadCurrentSchedule()
+    {
+        $currentSchedule = DB::table('schedule')->get();
+
+        return $currentSchedule;
+    }
+
+    private function create($gameData)
+    {
+        $result = DB::transaction(function () use ($gameData) {
+            $gameSchedule = [
+                'gameId' => $gameData['gameId'],
+                'date' => $gameData['startDateEastern'],
+                'gameUrlCode' => $gameData['gameUrlCode'] ?? null,
+                'startTimeEastern' => $gameData['startTimeEastern'] ?? null,
+                'hTeamId' => $gameData['hTeam']['teamId'] ?? null,
+                'hTeamScore' => $gameData['hTeam']['score'] != '' ? $gameData['hTeam']['score'] ?? null : null,
+                'vTeamId' => $gameData['vTeam']['teamId'] ?? null,
+                'vTeamScore' => $gameData['vTeam']['score'] != '' ? $gameData['vTeam']['score'] ?? null : null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
+            DB::table('schedule')->insert($gameSchedule);
+        });
+    }
+
+    private function delete($gameId)
+    {
+        $result = DB::transaction(function () use ($gameId) {
+            DB::table('schedule')->where('gameId', $gameId)->delete();
+        });
     }
 
     private function update($gameData)

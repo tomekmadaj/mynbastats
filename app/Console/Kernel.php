@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('nba:update-schedule')->dailyAt('04:00')->timezone('Europe/Warsaw');
-        $schedule->command('nba:update-boxscore')->dailyAt('04:10')->timezone('Europe/Warsaw');
+        $schedule->command('nba:update-schedule')->dailyAt('12:51')->timezone('Europe/Warsaw');
+        $schedule->command('nba:update-boxscore')->dailyAt('12:53')->timezone('Europe/Warsaw');
     }
 
     /**

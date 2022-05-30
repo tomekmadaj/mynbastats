@@ -37,6 +37,8 @@ class LoadNbaSchedule extends Command
 
     public function loadNbaSchedule()
     {
+        $schedule = $this->loadCurrentSchedule()->toArray();
+
         $nbaScheduleUrl = config('nba.api.schedule');
 
         $response = $this->httpClient->get($nbaScheduleUrl);
@@ -52,7 +54,6 @@ class LoadNbaSchedule extends Command
 
         $preogressBar = $this->output->createProgressBar(count($schedule));
 
-        // DB::table('schedule')->truncate();
 
         foreach ($schedule as $game) {
             if (!empty($game['gameId'])) {
@@ -71,7 +72,15 @@ class LoadNbaSchedule extends Command
         $this->info('NBA Schedule load succesfull');
     }
 
-    public function create($gameData)
+
+    private function loadCurrentSchedule()
+    {
+        $schedule = DB::table('schedule')->get();
+
+        return $schedule;
+    }
+
+    private function create($gameData)
     {
         $result = DB::transaction(function () use ($gameData) {
             $gameSchedule = [

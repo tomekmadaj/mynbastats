@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\NewController;
-use App\Http\controllers\User\NbaStatsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewController;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\GameController;
+use App\Http\controllers\User\NbaStatsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,5 +75,13 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('get.user.show')
         ->middleware('can:admin-level');
 });
+
+Route::get('/updateschedule', function () {
+    Artisan::call('nba:update-schedule');
+});
+Route::get('/updateboxscore', function () {
+    Artisan::call('nba:update-games-boxscore');
+});
+
 
 Auth::routes();
