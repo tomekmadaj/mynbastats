@@ -5,5 +5,5 @@ If You are a fan of any NBA Team or/and NBA Player, after registration You will 
 You can change You favourite NBA team and player at any time using "My Profile" section.
 Enjoy :)
 *to test application You can login as: 
-email: user@nbastats.com
+email: user@nbastats.com ,
 password: mynbastats
