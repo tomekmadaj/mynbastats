@@ -205,12 +205,12 @@ class NbaRepository implements NbaRepositoryInterface
         $fileSrc = $dom->getElementById('fileinfotpl_src');
         $fileSrcTag = $fileSrc->nextElementSibling->getElementsByTagName('a');
         foreach ($fileSrcTag as $src) {
-            $imgFileSrc = $src->getAttribute('href');
+            $imgFileSrc = $src->getAttribute('href') ?? '#';
         }
 
         return [
             'playerImgFileUrl' => $playerImgFileUrl,
-            'imgFileSrc' => $imgFileSrc
+            'imgFileSrc' => $imgFileSrc ?? '#'
         ];
     }
 }
